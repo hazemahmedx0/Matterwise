@@ -23,4 +23,8 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  .nav-list-item:hover {
+    @apply bg-ui-bg-field-hover transition-all;
+  }
 }

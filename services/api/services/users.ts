@@ -7,8 +7,10 @@ import { User } from '../types/user';
 import { Role } from '../types/role';
 // import { SortEnum } from "../types/sort-type";
 import { RequestConfigType } from './types/request-config';
+import { InfinityPaginationType } from '../types/infinity-pagination';
 
 export type UsersRequest = {
+  workspaceId: string;
   page: number;
   limit: number;
   filters?: {
@@ -20,31 +22,33 @@ export type UsersRequest = {
   }>;
 };
 
-// export type UsersResponse = InfinityPaginationType<User>;
+export type UsersResponse = InfinityPaginationType<User>;
 
-// export function useGetUsersService() {
-//   const fetch = useFetch();
+export function useGetWorksapceUsersService() {
+  const fetch = useFetch();
 
-//   return useCallback(
-//     (data: UsersRequest, requestConfig?: RequestConfigType) => {
-//       const requestUrl = new URL(`${API_URL}/v1/users`);
-//       requestUrl.searchParams.append("page", data.page.toString());
-//       requestUrl.searchParams.append("limit", data.limit.toString());
-//       if (data.filters) {
-//         requestUrl.searchParams.append("filters", JSON.stringify(data.filters));
-//       }
-//       if (data.sort) {
-//         requestUrl.searchParams.append("sort", JSON.stringify(data.sort));
-//       }
+  return useCallback(
+    (data: UsersRequest, requestConfig?: RequestConfigType) => {
+      const requestUrl = new URL(
+        `${API_URL}/v1/workspaces/${data.workspaceId}/users`,
+      );
+      requestUrl.searchParams.append('page', data.page.toString());
+      requestUrl.searchParams.append('limit', data.limit.toString());
+      if (data.filters) {
+        requestUrl.searchParams.append('filters', JSON.stringify(data.filters));
+      }
+      if (data.sort) {
+        requestUrl.searchParams.append('sort', JSON.stringify(data.sort));
+      }
 
-//       return fetch(requestUrl, {
-//         method: "GET",
-//         ...requestConfig,
-//       }).then(wrapperFetchJsonResponse<UsersResponse>);
-//     },
-//     [fetch]
-//   );
-// }
+      return fetch(requestUrl, {
+        method: 'GET',
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<UsersResponse>);
+    },
+    [fetch],
+  );
+}
 
 export type UserRequest = {
   id: User['id'];

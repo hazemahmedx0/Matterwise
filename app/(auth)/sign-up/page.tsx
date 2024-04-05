@@ -3,13 +3,16 @@ import {
   useAuthLoginService,
   useAuthSignUpService,
 } from '@/services/api/services/auth';
+
 import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
 import useAuthActions from '@/services/auth/use-auth-actions';
 import useAuthTokens from '@/services/auth/use-auth-tokens';
+
 import withPageRequiredGuest from '@/services/auth/with-page-required-guest';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Heading, Input, Label, Text } from '@medusajs/ui';
-import React, { useState } from 'react';
+import React from 'react';
+
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -25,6 +28,7 @@ type SignUpFormData = z.infer<typeof schema>;
 
 const signupErrors: { [key: string]: string } = {
   emailAlreadyExists: 'Email already exists',
+  usernameAlreadyExists: 'Username already exists',
 };
 
 const page = () => {

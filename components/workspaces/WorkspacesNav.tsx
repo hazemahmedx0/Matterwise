@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import {
   useWorkspacesListQuery,
   workspacesQueryKeys,
-} from './workspaces-queries';
+} from '../../lib/queries/workspaces-queries';
 import { Workspace, Workspaces } from '@/types/workspace-types';
 import removeDuplicatesFromArrayObjects from '@/services/helpers/remove-duplicates-from-array-of-objects';
 

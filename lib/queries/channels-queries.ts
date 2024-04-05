@@ -1,26 +1,31 @@
-import { useGetWorkspacesService } from '@/services/api/services/workspaces';
+import { useGetChannelsService } from '@/services/api/services/channels';
 import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
 import { createQueryKeys } from '@/services/react-query/query-key-factory';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { Workspace } from '@/types/workspace-types';
 
-export const workspacesQueryKeys = createQueryKeys(['workspaces'], {
+export const channelsQueryKeys = createQueryKeys(['channels'], {
   list: () => ({
-    key: [],
+    key: ['channels'],
   }),
 });
 
-export const useWorkspacesListQuery = () => {
-  const fetch = useGetWorkspacesService();
+export const useChannelListQuery = ({
+  workspaceId,
+}: {
+  workspaceId: string;
+}) => {
+  const fetch = useGetChannelsService();
 
   const query = useInfiniteQuery({
-    queryKey: workspacesQueryKeys.list().key,
+    queryKey: channelsQueryKeys.list().key,
     initialPageParam: 1,
     queryFn: async ({ pageParam, signal }) => {
       const { status, data } = await fetch({
+        workspaceId,
         page: pageParam,
         limit: 10,
       });
-
       if (status === HTTP_CODES_ENUM.OK) {
         return {
           data: data,

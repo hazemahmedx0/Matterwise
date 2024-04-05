@@ -4,7 +4,8 @@ import './globals.css';
 import AuthProvider from '@/services/auth/auth-provider';
 import QueryClientProvider from '@/services/react-query/query-client-provider';
 import queryClient from '@/services/react-query/query-client';
-import ReactQueryDevtools from '@/services/react-query/react-query-devtools';
+// import ReactQueryDevtools from '@/services/react-query/react-query-devtools';
+import ModalsProvider from '@/hooks/modals-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,9 +23,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
-
-          <AuthProvider> {children}</AuthProvider>
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+          <ModalsProvider>
+            <AuthProvider> {children}</AuthProvider>
+          </ModalsProvider>
         </QueryClientProvider>
       </body>
     </html>

@@ -128,5 +128,3 @@ const page = () => {
 };
 
 export default withPageRequiredGuest(page);
-
-// TODOs: Change to URLs

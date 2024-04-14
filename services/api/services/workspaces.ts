@@ -11,7 +11,7 @@ export type UsersRequest = {
   limit: number;
 };
 
-export type UsersResponse = InfinityPaginationType<Workspace>;
+export type WorkspacesResponse = InfinityPaginationType<Workspace>;
 
 export function useGetWorkspacesService() {
   const fetch = useFetch();
@@ -25,98 +25,92 @@ export function useGetWorkspacesService() {
       return fetch(requestUrl, {
         method: 'GET',
         ...requestConfig,
-      }).then(wrapperFetchJsonResponse<UsersResponse>);
+      }).then(wrapperFetchJsonResponse<WorkspacesResponse>);
     },
     [fetch],
   );
 }
 
-// export type UserRequest = {
-//   id: User["id"];
-// };
+export type WorksapceRequest = {
+  id: Workspace['id'];
+};
 
-// export type UserResponse = User;
+export type WorksapceResponse = Workspace;
 
-// export function useGetUserService() {
-//   const fetch = useFetch();
+export function useGetWorkspaceService() {
+  const fetch = useFetch();
 
-//   return useCallback(
-//     (data: UserRequest, requestConfig?: RequestConfigType) => {
-//       return fetch(`${API_URL}/v1/users/${data.id}`, {
-//         method: "GET",
-//         ...requestConfig,
-//       }).then(wrapperFetchJsonResponse<UserResponse>);
-//     },
-//     [fetch]
-//   );
-// }
+  return useCallback(
+    (data: WorksapceRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/v1/workspaces/${data.id}`, {
+        method: 'GET',
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<WorksapceResponse>);
+    },
+    [fetch],
+  );
+}
 
-// export type UserPostRequest = Pick<
-//   User,
-//   "email" | "firstName" | "lastName" | "photo" | "role"
-// > & {
-//   password: string;
-// };
+export type WorkspacesPostRequest = Pick<
+  Workspace,
+  'title' | 'description'
+> & {};
 
-// export type UserPostResponse = User;
+export type UserPostResponse = Workspace;
 
-// export function usePostUserService() {
-//   const fetch = useFetch();
+export function usePostWorkspacesService() {
+  const fetch = useFetch();
 
-//   return useCallback(
-//     (data: UserPostRequest, requestConfig?: RequestConfigType) => {
-//       return fetch(`${API_URL}/v1/users`, {
-//         method: "POST",
-//         body: JSON.stringify(data),
-//         ...requestConfig,
-//       }).then(wrapperFetchJsonResponse<UserPostResponse>);
-//     },
-//     [fetch]
-//   );
-// }
+  return useCallback(
+    (data: WorkspacesPostRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/v1/workspaces`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<UserPostResponse>);
+    },
+    [fetch],
+  );
+}
 
-// export type UserPatchRequest = {
-//   id: User["id"];
-//   data: Partial<
-//     Pick<User, "email" | "firstName" | "lastName" | "photo" | "role"> & {
-//       password: string;
-//     }
-//   >;
-// };
+export type WorkspacePatchRequest = {
+  id: Workspace['id'];
+  data: Partial<Pick<Workspace, 'title' | 'description'> & {}>;
+};
 
-// export type UserPatchResponse = User;
+export type WorkspacePatchResponse = Workspace;
 
-// export function usePatchUserService() {
-//   const fetch = useFetch();
+export function usePatchWorkspaceService() {
+  const fetch = useFetch();
 
-//   return useCallback(
-//     (data: UserPatchRequest, requestConfig?: RequestConfigType) => {
-//       return fetch(`${API_URL}/v1/users/${data.id}`, {
-//         method: "PATCH",
-//         body: JSON.stringify(data.data),
-//         ...requestConfig,
-//       }).then(wrapperFetchJsonResponse<UserPatchResponse>);
-//     },
-//     [fetch]
-//   );
-// }
+  return useCallback(
+    (data: WorkspacePatchRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/v1/workspaces/${data.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(data.data),
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<WorkspacePatchResponse>);
+    },
+    [fetch],
+  );
+}
 
-// export type UsersDeleteRequest = {
-//   id: User["id"];
-// };
+export type WorkspaceDeleteRequest = {
+  id: Workspace['id'];
+};
 
-// export type UsersDeleteResponse = undefined;
+export type WorkspaceDeleteResponse = undefined;
 
-// export function useDeleteUsersService() {
-//   const fetch = useFetch();
+export function useDeleteWorkspaceService() {
+  const fetch = useFetch();
 
-//   return useCallback(
-//     (data: UsersDeleteRequest, requestConfig?: RequestConfigType) => {
-//       return fetch(`${API_URL}/v1/users/${data.id}`, {
-//         method: "DELETE",
-//         ...requestConfig,
-//       }).then(wrapperFetchJsonResponse<UsersDeleteResponse>);
-//     },
-//     [fetch]
-//   );
-// }
+  return useCallback(
+    (data: WorkspaceDeleteRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/v1/workspaces/${data.id}`, {
+        method: 'DELETE',
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<WorkspaceDeleteResponse>);
+    },
+    [fetch],
+  );
+}

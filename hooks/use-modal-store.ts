@@ -1,18 +1,25 @@
+import { Workspace } from '@/types/workspace-types';
 import { PropsWithChildren, createContext, useContext, useState } from 'react';
 
-export type ModalType = 'createWorkspace';
+export type ModalType = 'createWorkspace' | 'workspaceSettings';
+
+export interface ModalData {
+  workspace?: Workspace;
+}
 
 interface ModalStore {
   type: ModalType | null;
   isOpen: boolean;
-  onOpen: (type: ModalType) => void;
+  onOpen: ({ type, data }: { type: ModalType; data: ModalData | null }) => void;
   onClose: () => void;
+  data?: ModalData;
 }
 
 export const ModalsContext = createContext<ModalStore>({
   type: null,
   isOpen: false,
-  onOpen: (type) => {},
+  data: {},
+  onOpen: () => {},
   onClose: () => {},
 });
 

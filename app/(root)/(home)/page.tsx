@@ -6,7 +6,7 @@ import removeDuplicatesFromArrayObjects from '@/services/helpers/remove-duplicat
 import { useCurrentWorkspace } from '@/store/currentworkspaceStore';
 import { Workspace } from '@/types/workspace-types';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 const Home = () => {
   const router = useRouter();
@@ -20,18 +20,26 @@ const Home = () => {
     const result =
       (data?.pages.flatMap((page) => page?.data) as unknown as Workspace[]) ??
       ([] as Workspace[]);
-
     setLoading(false);
-
     return removeDuplicatesFromArrayObjects(result, 'id');
   }, [data]);
 
+  const handleResultChange = useCallback(
+    (result: Workspace[]) => {
+      console.log('result', result);
+      if (result && result.length > 0) {
+        setCurrentWorkspace(result[0]);
+        router.push(`/workspaces/${result[0].id}`);
+      } else {
+        router.push(`/welcome/new-workspace`);
+      }
+    },
+    [router],
+  );
+
   useEffect(() => {
-    if (result && result.length > 0) {
-      setCurrentWorkspace(result[0]);
-      router.push(`/workspaces/${result[0].id}`);
-    }
-  }, [router, result]);
+    handleResultChange(result);
+  }, [result, handleResultChange]);
 
   if (isLoading || loading) {
     return <LoadingLogo />;

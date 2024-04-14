@@ -20,7 +20,9 @@ export function useGetChannelsService() {
 
   return useCallback(
     (data: UsersRequest, requestConfig?: RequestConfigType) => {
-      const requestUrl = new URL(`${API_URL}/v1/channels/${data.workspaceId}`);
+      const requestUrl = new URL(
+        `${API_URL}/v1/workspaces/${data.workspaceId}/channels`,
+      );
       requestUrl.searchParams.append('page', data.page.toString());
       requestUrl.searchParams.append('limit', data.limit.toString());
       console.log('requestUrl', requestUrl);
@@ -28,6 +30,55 @@ export function useGetChannelsService() {
         method: 'GET',
         ...requestConfig,
       }).then(wrapperFetchJsonResponse<UsersResponse>);
+    },
+    [fetch],
+  );
+}
+
+export type ChannelRequest = {
+  id: Channel['id'];
+};
+
+export type ChannelResponse = Channel;
+
+export function useGetChannelService() {
+  const fetch = useFetch();
+
+  return useCallback(
+    (data: ChannelRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/v1/channels/${data.id}`, {
+        method: 'GET',
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<ChannelResponse>);
+    },
+    [fetch],
+  );
+}
+
+export type ChannelsPostRequest = Pick<Channel, 'title' | 'description'> & {
+  type: {
+    id: number;
+  };
+  workspace: {
+    id: number;
+  };
+  members: Array<{
+    id: number;
+  }>;
+};
+
+export type UserPostResponse = Channel;
+
+export function usePostChannelsService() {
+  const fetch = useFetch();
+
+  return useCallback(
+    (data: ChannelsPostRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/v1/channels`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<UserPostResponse>);
     },
     [fetch],
   );

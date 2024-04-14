@@ -1,8 +1,8 @@
 'use client';
 
 import { PropsWithChildren, useEffect, useState } from 'react';
-import { ModalType, ModalsContext } from './use-modal-store';
-import { CreateWorkspaceModal } from './create-workspace-modal';
+import { ModalData, ModalType, ModalsContext } from './use-modal-store';
+import { CreateWorkspaceModal } from '../modals/create-workspace-modal';
 
 export default function ModalsProvider(props: PropsWithChildren<{}>) {
   const [isMounted, setIsMounted] = useState(false);
@@ -10,9 +10,18 @@ export default function ModalsProvider(props: PropsWithChildren<{}>) {
   const [type, setType] = useState<ModalType | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const onOpen = (type: ModalType) => {
+  const [data, setData] = useState<ModalData | null>(null);
+
+  const onOpen = ({
+    type,
+    data,
+  }: {
+    type: ModalType;
+    data: ModalData | null;
+  }) => {
     setType(type);
     setIsOpen(true);
+    setData(data);
   };
 
   const onClose = () => {

@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.tiptap > * + * {
+  @apply mt-[0.75em];
+}
+.tiptap ul,
+.tiptap ol {
+  @apply px-4 py-0;
+}
+.bubble-menu {
+  @apply flex rounded-lg bg-[#0d0d0d] p-[0.2rem];
+}
+.bubble-menu button {
+  @apply border-[none] px-[0.2rem] py-0 text-[0.85rem] font-medium text-white opacity-60;
+  background: none;
+}
+.bubble-menu button:hover,
+.bubble-menu button.is-active {
+  @apply opacity-100;
+}
+.floating-menu {
+  @apply flex rounded-lg bg-[#0d0d0d10] p-[0.2rem];
+}
+.floating-menu button {
+  @apply border-[none] px-[0.2rem] py-0 text-[0.85rem] font-medium opacity-60;
+  background: none;
+}
+.floating-menu button:hover,
+.floating-menu button.is-active {
+  @apply opacity-100;
+}

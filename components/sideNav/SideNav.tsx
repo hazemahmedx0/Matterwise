@@ -15,7 +15,6 @@ import {
 import { useChannelListQuery } from '@/lib/queries/channels-queries';
 import { Channel } from '@/types/channels-types';
 import removeDuplicatesFromArrayObjects from '@/services/helpers/remove-duplicates-from-array-of-objects';
-import user from 'hugeicons-react/dist/Users/user';
 import { useParams } from 'next/navigation';
 import { useUsersListQuery } from '@/lib/queries/users-queries';
 import { User } from '@/services/api/types/user';
@@ -43,30 +42,11 @@ const mainSections = [
   },
 ];
 
-const TempUsers = [
-  {
-    id: '3493xzx493',
-    name: 'John Doe',
-    avatar: 'https://avatars.githubusercontent.com/u/10656202?v=4',
-  },
-  {
-    id: '3493zx493',
-    name: 'John Doe',
-    avatar: 'https://avatars.githubusercontent.com/u/10656202?v=4',
-  },
-  {
-    id: '349349z3',
-    name: 'John Doe',
-    avatar: 'https://avatars.githubusercontent.com/u/10656202?v=4',
-  },
-];
-
 const SideNav = ({ workspaceId }: { workspaceId: string }) => {
   const activeStateCss = 'bg-ui-bg-switch-off text-ui-fg-base';
   const [showChannels, setShowChannels] = useState(true);
   const [showDirectMessages, setShowDirectMessages] = useState(true);
   const params = useParams();
-  console.log('params', params.workspaceId);
   const { data, isLoading } = useChannelListQuery({
     workspaceId: params.workspaceId.toString(),
   });
@@ -77,7 +57,6 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
     const result =
       (data?.pages.flatMap((page) => page?.data) as unknown as Channel[]) ??
       ([] as Channel[]);
-    console.log('result', result);
     if (result.at(0) !== undefined && result.length > 0) {
       console.log('result active');
       return removeDuplicatesFromArrayObjects(result, 'id');
@@ -135,8 +114,10 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
           {Channelsresult?.map((channel) => (
             <li key={channel.id} className="nav-list-item">
               <Link
+                replace={true}
+                prefetch={false}
                 href={`/workspaces/${params.workspaceId}/channels/${channel.id.toString()}`}
-                className={`flex h-7 items-center px-5 ${params.channelId && params.channelId === channel.id.toString() && activeStateCss} `}
+                className={`nav-list-item flex h-7 items-center px-5 ${params.channelId && params.channelId === channel.id.toString() && activeStateCss} `}
               >
                 <RiHashtag size={16} />
                 <Text
@@ -172,6 +153,8 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
           {usersresult?.map((user) => (
             <li key={user.id} className="nav-list-item">
               <Link
+                replace={true}
+                prefetch={false}
                 href={`/workspaces/${params.workspaceId}/conversation/${user.id.toString()}`}
                 className={`flex h-7 items-center px-5 ${params.conversationId && params.conversationId === user.id.toString() && activeStateCss} `}
               >
@@ -203,3 +186,4 @@ export default SideNav;
 // Refactor redundant code
 // Add hover states
 // Add "ADD CHANNEL" and "ADD DIRECT MESSAGE" buttons
+// Update img src

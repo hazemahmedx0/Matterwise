@@ -7,12 +7,13 @@ export enum UserProviderEnum {
 }
 
 export type User = {
-  id: number | string;
+  id: number;
   email: string;
   username: string;
   firstName?: string;
   lastName?: string;
   photo?: FileEntity;
+  avatarUrl?: string;
   provider?: UserProviderEnum;
   socialId?: string;
   role?: Role;

@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { Button, FocusModal, Heading, Input, Label, Text } from '@medusajs/ui';
-import useModals from './use-modal-store';
+import useModals from '@/hooks/use-modal-store';
 
 export function CreateWorkspaceModal() {
   const { isOpen, onClose, type } = useModals();

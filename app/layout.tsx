@@ -6,6 +6,7 @@ import QueryClientProvider from '@/services/react-query/query-client-provider';
 import queryClient from '@/services/react-query/query-client';
 // import ReactQueryDevtools from '@/services/react-query/react-query-devtools';
 import ModalsProvider from '@/hooks/modals-provider';
+import { Toaster } from '@medusajs/ui';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,6 +26,8 @@ export default function RootLayout({
         <QueryClientProvider client={queryClient}>
           {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           <ModalsProvider>
+            <Toaster />
+
             <AuthProvider> {children}</AuthProvider>
           </ModalsProvider>
         </QueryClientProvider>

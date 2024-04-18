@@ -6,40 +6,34 @@ import removeDuplicatesFromArrayObjects from '@/services/helpers/remove-duplicat
 import { useCurrentWorkspace } from '@/store/currentworkspaceStore';
 import { Workspace } from '@/types/workspace-types';
 import { useRouter } from 'next/navigation';
+import router from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 const Home = () => {
   const router = useRouter();
   const { data, isLoading } = useWorkspacesListQuery();
   const [loading, setLoading] = useState(false);
-  const setCurrentWorkspace = useCurrentWorkspace(
-    (state) => state.setWorkspace,
-  );
+  // const setCurrentWorkspace = useCurrentWorkspace(
+  //   (state) => state.setWorkspace,
+  // );
   const result = useMemo(() => {
     setLoading(true);
     const result =
       (data?.pages.flatMap((page) => page?.data) as unknown as Workspace[]) ??
       ([] as Workspace[]);
     setLoading(false);
+    console.log('result', result);
+    if (result && result.length > 0 && !isLoading) {
+      router.push(`/workspaces/${result[0].id}`);
+    } else if (!isLoading) {
+      router.push(`/welcome/new-workspace`);
+    }
     return removeDuplicatesFromArrayObjects(result, 'id');
   }, [data]);
 
-  const handleResultChange = useCallback(
-    (result: Workspace[]) => {
-      console.log('result', result);
-      if (result && result.length > 0) {
-        setCurrentWorkspace(result[0]);
-        router.push(`/workspaces/${result[0].id}`);
-      } else {
-        router.push(`/welcome/new-workspace`);
-      }
-    },
-    [router],
-  );
-
-  useEffect(() => {
-    handleResultChange(result);
-  }, [result, handleResultChange]);
+  // useEffect(() => {
+  //   handleResultChange(result);
+  // }, [result, handleResultChange]);
 
   if (isLoading || loading) {
     return <LoadingLogo />;

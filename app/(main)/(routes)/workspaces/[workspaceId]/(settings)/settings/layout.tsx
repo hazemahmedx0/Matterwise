@@ -30,9 +30,9 @@ const MainLayout = ({
           <RiDraggable className="h-2.5 w-2.5" />
         </div>
       </PanelResizeHandle>
-      <Panel order={2} className="flex justify-center">
-        <div className="min-h-sreen  mt-5  flex w-full max-w-2xl justify-center ">
-          {children}
+      <Panel order={2} className="flex h-screen justify-center overflow-auto">
+        <div className="   flex  w-full   justify-center overflow-auto">
+          <div className="mt-5 w-full max-w-2xl ">{children}</div>
         </div>
       </Panel>
     </PanelGroup>

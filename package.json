@@ -11,6 +11,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@medusajs/ui": "^2.4.1",
+    "@react-hooks-library/core": "^0.6.2",
     "@remixicon/react": "^4.2.0",
     "@tanstack/react-query": "^5.25.0",
     "@tanstack/react-query-devtools": "^5.25.0",
@@ -19,6 +20,7 @@
     "@tiptap/pm": "^2.2.5",
     "@tiptap/react": "^2.2.5",
     "@tiptap/starter-kit": "^2.2.5",
+    "@uidotdev/usehooks": "^2.4.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-tailwindcss": "^3.14.3",
@@ -29,6 +31,7 @@
     "react-hook-form": "^7.51.0",
     "react-loading-skeleton": "^3.4.0",
     "react-resizable-panels": "^0.0.63",
+    "react-use-infinite-loader": "^1.0.0",
     "socket.io-client": "^4.7.5",
     "zod": "^3.22.4",
     "zustand": "^4.5.2"

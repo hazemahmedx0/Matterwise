@@ -75,7 +75,7 @@ export function usePostWorkspacesService() {
 
 export type WorkspacePatchRequest = {
   id: Workspace['id'];
-  data: Partial<Pick<Workspace, 'title' | 'description'> & {}>;
+  data: Partial<Pick<Workspace, 'title' | 'description' | 'photo'> & {}>;
 };
 
 export type WorkspacePatchResponse = Workspace;

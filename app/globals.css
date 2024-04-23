@@ -57,3 +57,9 @@ body {
   height: fit-content;
   /* max-height: 85vh; */
 }
+
+.loaderRef {
+  width: 1px;
+  height: 1px;
+  position: absolute;
+}

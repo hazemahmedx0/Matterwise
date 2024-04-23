@@ -14,9 +14,9 @@ import {
 import React, { useEffect, useState } from 'react';
 
 import { z } from 'zod';
-import { SubmitHandler, set, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import withPageRequiredAuth from '@/services/auth/with-page-required-auth';

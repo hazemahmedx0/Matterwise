@@ -1,66 +1,78 @@
 'use client';
-import SectionHeader from '@/components/settings/SectionHeader';
-import { Button, Input, Label, Text, Textarea, Prompt } from '@medusajs/ui';
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 
-import { z } from 'zod';
-import { SubmitHandler, set, useForm } from 'react-hook-form';
+// Components
+import { Button, Input, Label, Text, Textarea, Prompt } from '@medusajs/ui';
+import SectionHeader from '@/components/settings/SectionHeader';
+import FormAvatarInput from '@/components/form/form-avatar-input';
+
+// Hooks
 import {
   useDeleteWorkspaceService,
   useGetWorkspaceService,
   usePatchWorkspaceService,
 } from '@/services/api/services/workspaces';
-import { useParams, useSearchParams } from 'next/navigation';
-import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
-import { zodResolver } from '@hookform/resolvers/zod';
-import withPageRequiredAuth from '@/services/auth/with-page-required-auth';
-import { RiLoader2Line } from '@remixicon/react';
-import { useRouter } from 'next/navigation';
 
-const signupErrors: { [key: string]: string } = {
-  notFound: 'Email not found',
-  incorrectPassword: 'Incorrect password',
-};
+// Fetch
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
+
+import withPageRequiredAuth from '@/services/auth/with-page-required-auth';
+import ComponentsLoading from '@/components/ComponentsLoading';
+
+const PhotoSchema = z.object({
+  id: z.string(),
+  path: z.string().optional(),
+});
 
 const schema = z.object({
   title: z.string(),
   description: z.string(),
+  photo: PhotoSchema.nullable(),
 });
 
-type SignInFormData = z.infer<typeof schema>;
+type WorkspaceFormData = z.infer<typeof schema>;
 
 const page = () => {
   const fetchGetWorkspace = useGetWorkspaceService();
   const fetchPatchWorkspace = usePatchWorkspaceService();
+
   const searchParams = useParams();
   const workspaceId = Number(searchParams.workspaceId);
 
   const [fething, setFething] = useState(false);
 
-  console.log('wowowowow', workspaceId);
+  const method = useForm<WorkspaceFormData>({
+    resolver: zodResolver(schema),
+  });
+
   const {
     register,
     handleSubmit,
     setError,
     reset,
     formState: { errors, isSubmitting, isLoading },
-  } = useForm<SignInFormData>({
-    resolver: zodResolver(schema),
-  });
+    getValues,
+  } = method;
 
-  const onSubmit: SubmitHandler<SignInFormData> = async (formData) => {
+  const onSubmit: SubmitHandler<WorkspaceFormData> = async (formData) => {
+    console.log('submitting', formData);
     const { data, status } = await fetchPatchWorkspace({
       id: workspaceId,
       data: {
         title: formData.title,
         description: formData.description,
+        photo: formData.photo,
       },
     });
 
     if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (Object.keys(data.errors) as Array<keyof SignInFormData>).forEach(
+      (Object.keys(data.errors) as Array<keyof WorkspaceFormData>).forEach(
         (key) => {
-          setError(key, { message: signupErrors[data.errors[key]] });
+          setError(key, { message: data.errors[key] });
         },
       );
       return;
@@ -80,9 +92,11 @@ const page = () => {
       });
       console.log('wowowowow', workspace);
       if (status === HTTP_CODES_ENUM.OK) {
+        console.log('vals', workspace);
         reset({
           title: workspace?.title ?? '',
           description: workspace?.description ?? '',
+          photo: workspace?.photo ?? undefined,
         });
       }
       setFething(false);
@@ -92,9 +106,7 @@ const page = () => {
   }, [workspaceId, fetchGetWorkspace]);
 
   if (fething) {
-    return (
-      <RiLoader2Line size={24} className="mt-8 animate-spin text-ui-fg-muted" />
-    );
+    return <ComponentsLoading />;
   }
 
   return (
@@ -103,58 +115,61 @@ const page = () => {
         title="General"
         subtitle="Manage your workspace settings"
       ></SectionHeader>
-
       <div>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-stretch gap-6"
-        >
-          <div>
-            <Label className=" text-ui-fg-on-color" htmlFor="title">
-              Title
-            </Label>
-            <Input
-              type="title"
-              placeholder="Enter your title"
-              id="title"
-              className="my-1"
-              {...register('title')}
-              aria-invalid={errors.title ? 'true' : 'false'}
-            />
-            <Text
-              as="p"
-              size="small"
-              leading="compact"
-              className="text-ui-fg-error"
-            >
-              {errors.title?.message}
-            </Text>
-          </div>
+        <FormProvider {...method}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col items-stretch gap-6"
+          >
+            <FormAvatarInput {...register('photo')} />
 
-          <div>
-            <Label className=" text-ui-fg-on-color" htmlFor="description">
-              Description
-            </Label>
-            <Textarea
-              placeholder="Enter your company description..."
-              id="description"
-              className="my-1 rounded-lg "
-              {...register('description')}
-              aria-invalid={errors.description ? 'true' : 'false'}
-            />
-            <Text
-              as="p"
-              size="small"
-              leading="compact"
-              className="text-ui-fg-error"
-            >
-              {errors.description?.message}
-            </Text>
-          </div>
-          <Button className="" type="submit" isLoading={isSubmitting}>
-            Update
-          </Button>
-        </form>
+            <div>
+              <Label className=" text-ui-fg-on-color" htmlFor="title">
+                Title
+              </Label>
+              <Input
+                type="title"
+                placeholder="Enter your title"
+                id="title"
+                className="my-1"
+                {...register('title')}
+                aria-invalid={errors.title ? 'true' : 'false'}
+              />
+              <Text
+                as="p"
+                size="small"
+                leading="compact"
+                className="text-ui-fg-error"
+              >
+                {errors.title?.message}
+              </Text>
+            </div>
+
+            <div>
+              <Label className=" text-ui-fg-on-color" htmlFor="description">
+                Description
+              </Label>
+              <Textarea
+                placeholder="Enter your company description..."
+                id="description"
+                className="my-1 rounded-lg "
+                {...register('description')}
+                aria-invalid={errors.description ? 'true' : 'false'}
+              />
+              <Text
+                as="p"
+                size="small"
+                leading="compact"
+                className="text-ui-fg-error"
+              >
+                {errors.description?.message}
+              </Text>
+            </div>
+            <Button className="" type="submit" isLoading={isSubmitting}>
+              Update
+            </Button>
+          </form>
+        </FormProvider>
       </div>
       <div className="h-1 w-full border-b border-ui-border-base"></div>
       <DeleteWorkspace />
@@ -166,7 +181,6 @@ export default withPageRequiredAuth(page);
 
 const DeleteWorkspace = () => {
   const searchParams = useParams();
-  const router = useRouter();
   const workspaceId = Number(searchParams.workspaceId);
   const [open, setOpen] = useState(false);
   const [slugInput, setSlugInput] = useState('');

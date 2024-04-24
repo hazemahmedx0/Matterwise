@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
 
 // Components
 import withPageRequiredAuth from '@/services/auth/with-page-required-auth';

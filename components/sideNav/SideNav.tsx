@@ -18,6 +18,7 @@ import removeDuplicatesFromArrayObjects from '@/services/helpers/remove-duplicat
 import { useParams } from 'next/navigation';
 import { useUsersListQuery } from '@/lib/queries/users-queries';
 import { User } from '@/services/api/types/user';
+import NewChannelModal from '../modals/NewChannelModal';
 
 const mainSections = [
   {
@@ -131,6 +132,7 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
             </li>
           ))}
         </ul>
+        <NewChannelModal />
 
         {/* Users */}
 

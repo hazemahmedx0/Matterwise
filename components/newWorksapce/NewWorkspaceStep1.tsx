@@ -16,21 +16,28 @@ import { RiUpload2Line } from '@remixicon/react';
 //
 import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, set, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, set, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { usePostWorkspacesService } from '@/services/api/services/workspaces';
 import useAuth from '@/services/auth/use-auth';
 import { useRouter, useSearchParams } from 'next/navigation';
+import WorkspaceAvatarInput from '../form/workspace-form-avatar-input';
 
 const signupErrors: { [key: string]: string } = {
   'title should not be empty': 'title should not be empty',
   usernameAlreadyExists: 'Username already exists',
 };
+
+const PhotoSchema = z.object({
+  id: z.string(),
+});
+
 const schema = z.object({
   title: z.string().min(1, {
     message: "Can't be empty!",
   }),
   description: z.string(),
+  photo: PhotoSchema.nullable(),
 });
 type NewWorspaceFormData = z.infer<typeof schema>;
 
@@ -42,14 +49,16 @@ const NewWorkspaceStep1 = ({ setStep }: { setStep: (arg: number) => void }) => {
   const router = useRouter();
 
   const fetchPostWorkspaces = usePostWorkspacesService();
+  const method = useForm<NewWorspaceFormData>({
+    resolver: zodResolver(schema),
+  });
+
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<NewWorspaceFormData>({
-    resolver: zodResolver(schema),
-  });
+  } = method;
 
   const searchParams = useSearchParams();
 
@@ -94,98 +103,72 @@ const NewWorkspaceStep1 = ({ setStep }: { setStep: (arg: number) => void }) => {
   };
 
   return (
-    <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-      <NewWorkspaceHeader
-        title="Create your workspace"
-        stepNumber="1"
-        goBack={() => window.history.back()}
-      />
-
-      <div className="flex gap-4">
-        <Avatar
-          src="https://avatars.githubusercontent.com/u/47269261?s=400&u="
-          fallback="x"
-          variant="squared"
-          size="xlarge"
+    <FormProvider {...method}>
+      <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
+        <NewWorkspaceHeader
+          title="Create your workspace"
+          stepNumber="1"
+          goBack={() => window.history.back()}
         />
 
-        {/* img  */}
+        <WorkspaceAvatarInput {...register('photo')} />
 
-        <div className="flex flex-col gap-3">
-          <Text as="span" weight="plus" className="text-ui-fg-base">
-            Company logo
-          </Text>
-          <div className=" flex gap-2 align-middle">
-            <Button variant="secondary" type="button">
-              <RiUpload2Line size={20} /> Upload image
-            </Button>
-            <Button variant="danger" disabled>
-              Remove
-            </Button>
+        <div className="flex flex-col gap-4">
+          <div>
+            <Label className=" text-ui-fg-on-color" htmlFor="title">
+              Company name
+            </Label>
+            <Input
+              type="text"
+              placeholder="Enter your company name..."
+              id="title"
+              className="my-1"
+              {...register('title')}
+              aria-invalid={errors.title ? 'true' : 'false'}
+            />
+            <Text
+              as="p"
+              size="small"
+              leading="compact"
+              className="text-ui-fg-error"
+            >
+              {errors.title?.message}
+            </Text>
           </div>
-          <Text size="small" className="text-ui-fg-muted">
-            *.png, *.jpeg files up to 10MB at least 400px by 400px{' '}
-          </Text>
-        </div>
-      </div>
+          <div>
+            <Label className=" text-ui-fg-on-color" htmlFor="description">
+              Description
+            </Label>
+            <Textarea
+              placeholder="Enter your company description..."
+              id="description"
+              className="my-1 rounded-lg "
+              {...register('description')}
+              aria-invalid={errors.description ? 'true' : 'false'}
+            />
+            <Text
+              as="p"
+              size="small"
+              leading="compact"
+              className="text-ui-fg-error"
+            >
+              {errors.description?.message}
+            </Text>
+          </div>
 
-      {/* Inputs */}
-
-      <div className="flex flex-col gap-4">
-        <div>
-          <Label className=" text-ui-fg-on-color" htmlFor="title">
-            Company name
-          </Label>
-          <Input
-            type="text"
-            placeholder="Enter your company name..."
-            id="title"
-            className="my-1"
-            {...register('title')}
-            aria-invalid={errors.title ? 'true' : 'false'}
-          />
-          <Text
-            as="p"
-            size="small"
-            leading="compact"
-            className="text-ui-fg-error"
-          >
-            {errors.title?.message}
-          </Text>
+          <div className="flex items-start space-x-2 text-ui-fg-subtle">
+            <Checkbox id="billing-shipping" /> {/* TODO */}
+            <Label htmlFor="billing-shipping">
+              let anyone with an <span className=" font-bold">{domain}</span>{' '}
+              email join this workspace
+            </Label>
+          </div>
+          <Button className="w-full" type="submit" isLoading={isSubmitting}>
+            Next
+          </Button>
         </div>
-        <div>
-          <Label className=" text-ui-fg-on-color" htmlFor="description">
-            Description
-          </Label>
-          <Textarea
-            placeholder="Enter your company description..."
-            id="description"
-            className="my-1 rounded-lg "
-            {...register('description')}
-            aria-invalid={errors.description ? 'true' : 'false'}
-          />
-          <Text
-            as="p"
-            size="small"
-            leading="compact"
-            className="text-ui-fg-error"
-          >
-            {errors.description?.message}
-          </Text>
-        </div>
-
-        <div className="flex items-start space-x-2 text-ui-fg-subtle">
-          <Checkbox id="billing-shipping" /> {/* TODO */}
-          <Label htmlFor="billing-shipping">
-            let anyone with an <span className=" font-bold">{domain}</span>{' '}
-            email join this workspace
-          </Label>
-        </div>
-        <Button className="w-full" type="submit" isLoading={isSubmitting}>
-          Next
-        </Button>
-      </div>
-    </form>
+      </form>
+    </FormProvider>
   );
 };
 

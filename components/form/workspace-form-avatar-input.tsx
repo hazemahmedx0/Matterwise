@@ -2,6 +2,7 @@ import { useFileUploadService } from '@/services/api/services/files';
 import { FileEntity } from '@/services/api/types/file-entity';
 import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
 import { Avatar, Button, Container, Text } from '@medusajs/ui';
+import { RiUpload2Line } from '@remixicon/react';
 import Image from 'next/image';
 
 import React, { useCallback, useState } from 'react';
@@ -57,35 +58,50 @@ function AvatarInput(props: AvatarInputProps) {
   };
 
   return (
-    <Container {...getRootProps()} className="relative flex gap-4">
+    <div {...getRootProps()} className="relative flex gap-4">
       {isDragActive && (
         <div className="absolute bottom-0 left-0 right-0 top-0 flex h-full w-full content-center items-center justify-center  bg-black/20">
           Drop the image here
         </div>
       )}
-      {props?.value ? (
-        <>
-          <Image
-            // fallback="x"
-            alt={props?.spaceName ? props?.spaceName : 'Avatar'}
-            src={props?.value?.path || ''}
-            width={60}
-            height={60}
-            className=" overflow-hidden rounded-lg object-cover"
-          />
-        </>
-      ) : null}
+      <div className="flex gap-4">
+        <Avatar
+          src={props?.value?.path || ''}
+          fallback="x"
+          variant="squared"
+          size="xlarge"
+        />
+
+        <div className="flex flex-col gap-3">
+          <Text as="span" weight="plus" className="text-ui-fg-base">
+            Company logo
+          </Text>
+          <div className=" flex gap-2 align-middle">
+            <Button variant="secondary" type="button">
+              <RiUpload2Line size={20} /> Upload image
+            </Button>
+            <Button
+              variant="danger"
+              onClick={removeAvatarHandle}
+              disabled={!props?.value?.path}
+            >
+              Remove
+            </Button>
+          </div>
+          <Text size="small" className="text-ui-fg-muted">
+            *.png, *.jpeg files up to 10MB at least 400px by 400px{' '}
+          </Text>
+        </div>
+      </div>{' '}
       <div>
-        <Text className="mb-2">{props?.spaceName}</Text>
-        <Button isLoading={isDragActive}>Uplaod image </Button>
         <input {...getInputProps()} />
       </div>
       {props.error && <div>dsadsad </div>}
-    </Container>
+    </div>
   );
 }
 
-function FormAvatarInput<
+function WorkspaceAvatarInput<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >(
@@ -112,4 +128,4 @@ function FormAvatarInput<
   );
 }
 
-export default FormAvatarInput;
+export default WorkspaceAvatarInput;

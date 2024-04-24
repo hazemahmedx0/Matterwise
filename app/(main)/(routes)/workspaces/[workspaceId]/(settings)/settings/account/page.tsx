@@ -1,64 +1,68 @@
 'use client';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+
+// Components
+import withPageRequiredAuth from '@/services/auth/with-page-required-auth';
 import SectionHeader from '@/components/settings/SectionHeader';
 import {
   Button,
   Input,
   Label,
   Text,
-  Textarea,
-  Prompt,
   Alert,
   FocusModal,
   useToast,
 } from '@medusajs/ui';
-import React, { useEffect, useState } from 'react';
+import ComponentsLoading from '@/components/ComponentsLoading';
+import FormAvatarInput from '@/components/form/form-avatar-input';
 
-import { z } from 'zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
-
-import { useParams } from 'next/navigation';
-import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
-import { zodResolver } from '@hookform/resolvers/zod';
-import withPageRequiredAuth from '@/services/auth/with-page-required-auth';
-import { RiLoader2Line } from '@remixicon/react';
+// Hooks
 import useAuth from '@/services/auth/use-auth';
 import { useAuthPatchMeService } from '@/services/api/services/auth';
+
+// Fetch
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm, FormProvider } from 'react-hook-form';
+import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
+
+const PhotoSchema = z.object({
+  id: z.string(),
+  path: z.string().optional(),
+});
 
 const schema = z.object({
   firstName: z.string().min(1, { message: 'First name is too short' }),
   lastName: z.string().min(1, { message: 'Last name is too short' }),
-  password: z.string(),
-  oldPassword: z.string().min(8, { message: 'Password is too short' }),
+  photo: PhotoSchema.nullable(),
 });
 
 type ProfileData = z.infer<typeof schema>;
 
 const page = () => {
   const userData = useAuth();
-  console.log(userData);
   const fetchAuthPatchMe = useAuthPatchMeService();
 
-  const searchParams = useParams();
-
   const [fething, setFething] = useState(false);
+
+  const method = useForm<ProfileData>({
+    resolver: zodResolver(schema),
+  });
 
   const {
     register,
     handleSubmit,
     setError,
     reset,
-
     formState: { errors, isSubmitting, isLoading, isDirty },
-  } = useForm<ProfileData>({
-    resolver: zodResolver(schema),
-  });
+  } = method;
 
   const onSubmit: SubmitHandler<ProfileData> = async (formData) => {
     const { data, status } = await fetchAuthPatchMe({
       firstName: formData.firstName,
       lastName: formData.lastName,
-      password: formData.password,
-      oldPassword: formData.oldPassword,
+      photo: formData.photo,
     });
 
     if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
@@ -80,6 +84,7 @@ const page = () => {
         reset({
           firstName: userData?.user?.firstName,
           lastName: userData?.user?.lastName,
+          photo: userData?.user?.photo || null,
         });
       }
       setFething(false);
@@ -89,9 +94,7 @@ const page = () => {
   }, [userData]);
 
   if (fething) {
-    return (
-      <RiLoader2Line size={24} className="mt-8 animate-spin text-ui-fg-muted" />
-    );
+    return <ComponentsLoading />;
   }
 
   return (
@@ -103,64 +106,71 @@ const page = () => {
       </SectionHeader>
 
       <div>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-stretch gap-6"
-        >
-          <div className="flex w-full gap-3">
-            <div className="w-full">
-              <Label className="text-ui-fg-on-color" htmlFor="firstName">
-                First name
-              </Label>
-              <Input
-                type="firstName"
-                placeholder="Enter your First name"
-                id="firstName"
-                className="my-1"
-                {...register('firstName')}
-                aria-invalid={errors.firstName ? 'true' : 'false'}
-              />
-              <Text
-                as="p"
-                size="small"
-                leading="compact"
-                className="text-ui-fg-error"
-              >
-                {errors.firstName?.message}
-              </Text>
-            </div>
-            <div className="w-full">
-              <Label className="text-ui-fg-on-color" htmlFor="lastName">
-                Last name
-              </Label>
-              <Input
-                type="lastName"
-                placeholder="Enter your Last name"
-                id="lastName"
-                className="my-1"
-                {...register('lastName')}
-                aria-invalid={errors.lastName ? 'true' : 'false'}
-              />
-              <Text
-                as="p"
-                size="small"
-                leading="compact"
-                className="text-ui-fg-error"
-              >
-                {errors.lastName?.message}
-              </Text>
-            </div>
-          </div>
-
-          <Button
-            className=""
-            type="submit"
-            isLoading={isSubmitting}
-            disabled={!isDirty}
+        <FormProvider {...method}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col items-stretch gap-6"
           >
-            Update
-          </Button>
-        </form>
+            <FormAvatarInput
+              {...register('photo')}
+              spaceName={'Proifle image'}
+            />
+
+            <div className="flex w-full gap-3">
+              <div className="w-full">
+                <Label className="text-ui-fg-on-color" htmlFor="firstName">
+                  First name
+                </Label>
+                <Input
+                  type="firstName"
+                  placeholder="Enter your First name"
+                  id="firstName"
+                  className="my-1"
+                  {...register('firstName')}
+                  aria-invalid={errors.firstName ? 'true' : 'false'}
+                />
+                <Text
+                  as="p"
+                  size="small"
+                  leading="compact"
+                  className="text-ui-fg-error"
+                >
+                  {errors.firstName?.message}
+                </Text>
+              </div>
+              <div className="w-full">
+                <Label className="text-ui-fg-on-color" htmlFor="lastName">
+                  Last name
+                </Label>
+                <Input
+                  type="lastName"
+                  placeholder="Enter your Last name"
+                  id="lastName"
+                  className="my-1"
+                  {...register('lastName')}
+                  aria-invalid={errors.lastName ? 'true' : 'false'}
+                />
+                <Text
+                  as="p"
+                  size="small"
+                  leading="compact"
+                  className="text-ui-fg-error"
+                >
+                  {errors.lastName?.message}
+                </Text>
+              </div>
+            </div>
+
+            <Button
+              className=""
+              type="submit"
+              isLoading={isSubmitting}
+              disabled={!isDirty}
+            >
+              Update
+            </Button>
+          </form>
+        </FormProvider>
       </div>
       <div className="h-1 w-full border-b border-ui-border-base"></div>
       <ChangePaswword />

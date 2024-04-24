@@ -83,3 +83,25 @@ export function usePostChannelsService() {
     [fetch],
   );
 }
+
+export type ChannelPatchRequest = {
+  id: Channel['id'];
+  data: Partial<Pick<Channel, 'title' | 'description'> & {}>;
+};
+
+export type ChannelPatchResponse = Channel;
+
+export function usePatchChannelService() {
+  const fetch = useFetch();
+
+  return useCallback(
+    (data: ChannelPatchRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/v1/channels/${data.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(data.data),
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<ChannelPatchResponse>);
+    },
+    [fetch],
+  );
+}

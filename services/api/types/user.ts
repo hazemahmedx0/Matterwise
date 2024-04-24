@@ -12,7 +12,7 @@ export type User = {
   username: string;
   firstName?: string;
   lastName?: string;
-  photo?: FileEntity;
+  photo?: FileEntity | null;
   avatarUrl?: string;
   provider?: UserProviderEnum;
   socialId?: string;

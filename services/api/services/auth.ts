@@ -162,7 +162,7 @@ export function useAuthResetPasswordService() {
 }
 
 export type AuthPatchMeRequest =
-  | Partial<Pick<User, 'firstName' | 'lastName'>>
+  | Partial<Pick<User, 'firstName' | 'lastName' | 'photo'>>
   | { password: string; oldPassword: string };
 
 export type AuthPatchMeResponse = User;

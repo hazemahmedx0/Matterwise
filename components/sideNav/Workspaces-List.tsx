@@ -63,8 +63,8 @@ const WorkspacesList = () => {
           >
             <Avatar
               variant="squared"
-              fallback="o"
-              src="https://avatars.githubusercontent.com/u/10656202?v=4"
+              fallback={currentWorkspaceData?.title[0] || 'o'}
+              src={currentWorkspaceData?.photo?.path || ''}
               className="mr-3"
               size="small"
             />
@@ -93,8 +93,8 @@ const WorkspacesList = () => {
               <DropdownMenu.Item key={workspace.id}>
                 <Avatar
                   variant="squared"
-                  fallback="o"
-                  src="https://avatars.githubusercontent.com/u/10656202?v=4"
+                  fallback={workspace.title[0] || 'o'}
+                  src={workspace.photo?.path || ''}
                   className="mr-2"
                   size="xsmall"
                 />

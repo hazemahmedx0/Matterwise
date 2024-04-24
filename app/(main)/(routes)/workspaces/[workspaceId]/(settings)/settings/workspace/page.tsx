@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { Button, Input, Label, Text, Textarea, Prompt } from '@medusajs/ui';
 import SectionHeader from '@/components/settings/SectionHeader';
 import FormAvatarInput from '@/components/form/form-avatar-input';
+import ComponentsLoading from '@/components/ComponentsLoading';
 
 // Hooks
 import {
@@ -21,7 +22,6 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
 
 import withPageRequiredAuth from '@/services/auth/with-page-required-auth';
-import ComponentsLoading from '@/components/ComponentsLoading';
 
 const PhotoSchema = z.object({
   id: z.string(),
@@ -54,8 +54,7 @@ const page = () => {
     handleSubmit,
     setError,
     reset,
-    formState: { errors, isSubmitting, isLoading },
-    getValues,
+    formState: { errors, isSubmitting },
   } = method;
 
   const onSubmit: SubmitHandler<WorkspaceFormData> = async (formData) => {
@@ -96,7 +95,7 @@ const page = () => {
         reset({
           title: workspace?.title ?? '',
           description: workspace?.description ?? '',
-          photo: workspace?.photo ?? undefined,
+          photo: workspace?.photo ?? null,
         });
       }
       setFething(false);

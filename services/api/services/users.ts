@@ -9,47 +9,6 @@ import { Role } from '../types/role';
 import { RequestConfigType } from './types/request-config';
 import { InfinityPaginationType } from '../types/infinity-pagination';
 
-export type UsersRequest = {
-  workspaceId: string;
-  page: number;
-  limit: number;
-  filters?: {
-    roles?: Role[];
-  };
-  sort?: Array<{
-    orderBy: keyof User;
-    // order: SortEnum;
-  }>;
-};
-
-export type UsersResponse = InfinityPaginationType<User>;
-
-export function useGetWorksapceUsersService() {
-  const fetch = useFetch();
-
-  return useCallback(
-    (data: UsersRequest, requestConfig?: RequestConfigType) => {
-      const requestUrl = new URL(
-        `${API_URL}/v1/workspaces/${data.workspaceId}/users`,
-      );
-      requestUrl.searchParams.append('page', data.page.toString());
-      requestUrl.searchParams.append('limit', data.limit.toString());
-      if (data.filters) {
-        requestUrl.searchParams.append('filters', JSON.stringify(data.filters));
-      }
-      if (data.sort) {
-        requestUrl.searchParams.append('sort', JSON.stringify(data.sort));
-      }
-
-      return fetch(requestUrl, {
-        method: 'GET',
-        ...requestConfig,
-      }).then(wrapperFetchJsonResponse<UsersResponse>);
-    },
-    [fetch],
-  );
-}
-
 export type UserRequest = {
   id: User['id'];
 };
@@ -135,6 +94,78 @@ export function useDeleteUsersService() {
         method: 'DELETE',
         ...requestConfig,
       }).then(wrapperFetchJsonResponse<UsersDeleteResponse>);
+    },
+    [fetch],
+  );
+}
+
+// Worokspace & Users
+
+export type UsersRequest = {
+  workspaceId?: string;
+  channelId?: string;
+  page: number;
+  limit: number;
+  filters?: {
+    roles?: Role[];
+  };
+  sort?: Array<{
+    orderBy: keyof User;
+    // order: SortEnum;
+  }>;
+};
+
+export type UsersResponse = InfinityPaginationType<User>;
+
+export function useGetWorksapceUsersService() {
+  const fetch = useFetch();
+
+  return useCallback(
+    (data: UsersRequest, requestConfig?: RequestConfigType) => {
+      const requestUrl = new URL(
+        `${API_URL}/v1/workspaces/${data.workspaceId}/users`,
+      );
+      requestUrl.searchParams.append('page', data.page.toString());
+      requestUrl.searchParams.append('limit', data.limit.toString());
+      if (data.filters) {
+        requestUrl.searchParams.append('filters', JSON.stringify(data.filters));
+      }
+      if (data.sort) {
+        requestUrl.searchParams.append('sort', JSON.stringify(data.sort));
+      }
+
+      return fetch(requestUrl, {
+        method: 'GET',
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<UsersResponse>);
+    },
+    [fetch],
+  );
+}
+
+// Channels and Users
+
+export function useGetChannelUsersService() {
+  const fetch = useFetch();
+
+  return useCallback(
+    (data: UsersRequest, requestConfig?: RequestConfigType) => {
+      const requestUrl = new URL(
+        `${API_URL}/v1/Channels/${data.channelId}/users`,
+      );
+      requestUrl.searchParams.append('page', data.page.toString());
+      requestUrl.searchParams.append('limit', data.limit.toString());
+      if (data.filters) {
+        requestUrl.searchParams.append('filters', JSON.stringify(data.filters));
+      }
+      if (data.sort) {
+        requestUrl.searchParams.append('sort', JSON.stringify(data.sort));
+      }
+
+      return fetch(requestUrl, {
+        method: 'GET',
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<UsersResponse>);
     },
     [fetch],
   );

@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Channel } from '@/types/channels-types';
 import ChannelAboutTab from '../conversations/channels/ChannelAboutTab';
 import ChannelMembersTab from '../conversations/channels/ChannelMembersTab';
+import ChannelSettingsTab from '../conversations/channels/ChannelSettingsTab';
 
 type ChannelDataSettingsProps = {
   children?: React.ReactNode;
@@ -18,8 +19,8 @@ const ChannelDataSettingsModal = ({
   const [open, setOpen] = useState(false);
 
   return (
-    <FocusModal open={true} onOpenChange={setOpen}>
-      <FocusModal.Trigger className="w-full">{children}</FocusModal.Trigger>
+    <FocusModal open={open} onOpenChange={setOpen}>
+      <FocusModal.Trigger className="">{children}</FocusModal.Trigger>
       <FocusModal.Content className="def-modal max-w-[580px]">
         <FocusModal.Header className=" flex-row-reverse">
           <Text
@@ -56,7 +57,12 @@ const ChannelDataSettingsModal = ({
                 channelData={channelData}
               />
             </Tabs.Content>
-            <Tabs.Content value="3">Panel 3</Tabs.Content>
+            <Tabs.Content value="3">
+              <ChannelSettingsTab
+                channelData={channelData}
+                key="ChannelSettingsTab"
+              />
+            </Tabs.Content>
           </Tabs>
         </FocusModal.Body>
       </FocusModal.Content>

@@ -27,15 +27,15 @@ const page = () => {
 
   return (
     <div className=" flex min-h-screen flex-col justify-between">
-      <ChannelDataSettingsModal channelData={channel}>
-        <ChatHeader>
+      <ChatHeader>
+        <ChannelDataSettingsModal channelData={channel}>
           <ChatHeader.Title>
             <ChatHeader.Icon />
             {channel?.title}
           </ChatHeader.Title>
-          <ChatHeader.Actions workspaceMembers={channel?.members} />
-        </ChatHeader>
-      </ChannelDataSettingsModal>
+        </ChannelDataSettingsModal>
+        <ChatHeader.Actions workspaceMembers={channel?.members} />
+      </ChatHeader>
       <div className=" h-full flex-1 ">
         <Message />
       </div>

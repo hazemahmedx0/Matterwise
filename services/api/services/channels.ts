@@ -105,3 +105,23 @@ export function usePatchChannelService() {
     [fetch],
   );
 }
+
+export type ChannelDeleteRequest = {
+  id: Channel['id'];
+};
+
+export type ChannelDeleteResponse = undefined;
+
+export function useDeleteChannelService() {
+  const fetch = useFetch();
+
+  return useCallback(
+    (data: ChannelDeleteRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/v1/Channels/${data.id}`, {
+        method: 'DELETE',
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<ChannelDeleteResponse>);
+    },
+    [fetch],
+  );
+}

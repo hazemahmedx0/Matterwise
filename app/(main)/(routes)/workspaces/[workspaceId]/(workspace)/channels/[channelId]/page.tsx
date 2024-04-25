@@ -20,10 +20,11 @@ const page = () => {
     console.log('data', data);
     if (status === HTTP_CODES_ENUM.OK) {
       setChannel(data);
+    } else {
+      window.location.replace('/');
+      // TODO : Add 'You do not have access to this channel' message
     }
   }, [channelId]);
-
-  console.log('channel', channel);
 
   return (
     <div className=" flex min-h-screen flex-col justify-between">

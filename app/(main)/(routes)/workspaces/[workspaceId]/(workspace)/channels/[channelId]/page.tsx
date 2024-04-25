@@ -1,6 +1,7 @@
 'use client';
 import ChatHeader from '@/components/chat/ChatHeader';
 import Message from '@/components/chat/Message';
+import ChannelDataSettingsModal from '@/components/modals/ChannelDataSettingsModal';
 import Tiptap from '@/components/tiptap/Tiptap';
 import { useGetChannelService } from '@/services/api/services/channels';
 import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
@@ -19,16 +20,21 @@ const page = () => {
     console.log('data', data);
     if (status === HTTP_CODES_ENUM.OK) {
       setChannel(data);
+    } else {
+      window.location.replace('/');
+      // TODO : Add 'You do not have access to this channel' message
     }
   }, [channelId]);
 
   return (
     <div className=" flex min-h-screen flex-col justify-between">
       <ChatHeader>
-        <ChatHeader.Title>
-          <ChatHeader.Icon />
-          {channel?.title}
-        </ChatHeader.Title>
+        <ChannelDataSettingsModal channelData={channel}>
+          <ChatHeader.Title>
+            <ChatHeader.Icon />
+            {channel?.title}
+          </ChatHeader.Title>
+        </ChannelDataSettingsModal>
         <ChatHeader.Actions workspaceMembers={channel?.members} />
       </ChatHeader>
       <div className=" h-full flex-1 ">

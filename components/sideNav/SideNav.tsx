@@ -63,7 +63,7 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
       return removeDuplicatesFromArrayObjects(result, 'id');
     }
   }, [data]);
-
+  console.log('channels', Channelsresult);
   const usersresult = useMemo(() => {
     const result =
       (usersdata?.pages.flatMap((page) => page?.data) as unknown as User[]) ??

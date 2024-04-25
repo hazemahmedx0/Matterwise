@@ -35,7 +35,6 @@ import removeDuplicatesFromArrayObjects from '@/services/helpers/remove-duplicat
 const page = () => {
   const searchParams = useParams();
   const workspaceId = Number(searchParams.workspaceId);
-  const listRef = useRef<ElementRef<'div'>>(null);
   const {
     data: usersdata,
     hasNextPage,
@@ -63,7 +62,7 @@ const page = () => {
 
   console.log('usersresult');
 
-  const [refxxx, entry] = useIntersectionObserver({
+  const [loadMoreRef, entry] = useIntersectionObserver({
     threshold: 0,
     root: null,
     rootMargin: '0px',
@@ -126,7 +125,10 @@ const page = () => {
           })}
         </Table.Body>
       </Table>
-      <div ref={refxxx} className={`h-4 ${!hasNextPage ? 'hidden' : null}`} />
+      <div
+        ref={loadMoreRef}
+        className={`h-4 ${!hasNextPage ? 'hidden' : null}`}
+      />
     </div>
   );
 };

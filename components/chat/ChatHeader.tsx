@@ -6,7 +6,7 @@ import React, { Children, ReactNode } from 'react';
 
 const ChatHeader = ({ children }: { children?: ReactNode }) => {
   return (
-    <div className="flex h-12 items-center justify-between border-b border-ui-border-base px-5">
+    <div className="flex h-12 items-center justify-between border-b border-ui-border-base px-5 ">
       {children}
     </div>
   );
@@ -20,7 +20,9 @@ ChatHeader.Icon = ({ children }: { children?: ReactNode }) => {
 
 ChatHeader.Title = ({ children }: { children?: ReactNode }) => {
   return (
-    <div className="flex items-center  gap-1 text-ui-fg-base">{children}</div>
+    <div className="-ml-2 flex  items-center gap-1 rounded-md px-2 py-1 text-ui-fg-base hover:bg-ui-bg-switch-off">
+      {children}
+    </div>
   );
 };
 

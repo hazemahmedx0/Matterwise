@@ -14,11 +14,8 @@ const useIsAdmin = (workspaceId: string | undefined): boolean => {
           const { data, status } = await fetchGetWorkspace({
             id: Number(workspaceId),
           });
-          console.log('wowowowow', data);
-          setIsAdmin(data?.owner.id === userData?.user?.id);
-        } catch (error) {
-          console.error('Error checking admin status:', error);
-        }
+          setIsAdmin(data?.owner?.id === userData?.user?.id);
+        } catch (error) {}
       }
     };
 

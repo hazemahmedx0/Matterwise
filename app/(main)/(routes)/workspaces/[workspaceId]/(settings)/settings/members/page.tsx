@@ -60,8 +60,6 @@ const page = () => {
 
   const [fething, setFething] = useState(false);
 
-  console.log('usersresult');
-
   const [loadMoreRef, entry] = useIntersectionObserver({
     threshold: 0,
     root: null,
@@ -69,7 +67,6 @@ const page = () => {
   });
 
   if (entry?.isIntersecting && hasNextPage) {
-    console.log('entry', entry);
     handleScroll();
   }
 

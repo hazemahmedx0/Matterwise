@@ -18,9 +18,7 @@ const page = () => {
   const router = useRouter();
   const getChannel = useMemo(async () => {
     const { status, data } = await fetchGetChannel({ id: Number(channelId) });
-    console.log('data', data);
     if (status) {
-      console.log('status', status);
       if (status === HTTP_CODES_ENUM.OK) {
         setChannel(data);
         return;

@@ -40,9 +40,6 @@ const WorkspacesList = () => {
     id: Number(workspaceId),
   });
 
-  console.log('Loading', isFetching);
-  console.log('currentWorkspace', currentWorkspaceData);
-
   const workspacesList = useMemo(() => {
     const result =
       (workspacesListData?.pages.flatMap(

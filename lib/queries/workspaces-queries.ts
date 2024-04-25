@@ -49,7 +49,6 @@ export const useWorkspaceQuery = ({ id }: { id: number }) => {
       const { status, data } = await fetch({
         id,
       });
-      console.log('data555', data);
       if (status === HTTP_CODES_ENUM.OK) {
         return data;
       }

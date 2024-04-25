@@ -22,9 +22,7 @@ const Home = () => {
       (data?.pages.flatMap((page) => page?.data) as unknown as Workspace[]) ??
       ([] as Workspace[]);
     setLoading(false);
-    console.log('result', result);
     if (result && result.length > 0 && !isLoading) {
-      console.log('result', result);
       router.push(`/workspaces/${result[0]?.id}`);
     } else if (!isLoading) {
       router.push(`/welcome/new-workspace`);

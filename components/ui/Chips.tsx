@@ -41,7 +41,6 @@ const Chips = () => {
     }
     const chipsx = chips.filter((chip) => chip.key !== removedChip.key);
     setChips(chipsx);
-    console.log('inside func', chipsx);
     return true;
   };
 

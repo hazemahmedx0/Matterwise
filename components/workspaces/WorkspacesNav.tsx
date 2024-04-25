@@ -22,7 +22,6 @@ const WorkspacesNav = () => {
   //   const result =
   //     (data?.pages.flatMap((page) => page?.data) as unknown as Workspace[]) ??
   //     ([] as Workspace[]);
-  console.log(result);
   return <div>WorkspacesNav</div>;
 };
 

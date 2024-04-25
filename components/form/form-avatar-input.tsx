@@ -28,7 +28,6 @@ function AvatarInput(props: AvatarInputProps) {
   const fetchFileUpload = useFileUploadService();
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
-      console.log('accre___', acceptedFiles);
       setIsLoading(true);
       const { status, data } = await fetchFileUpload(acceptedFiles[0]);
       if (status === HTTP_CODES_ENUM.CREATED) {

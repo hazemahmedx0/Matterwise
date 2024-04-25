@@ -8,7 +8,6 @@ export function CreateWorkspaceModal() {
   const isModalOpen = isOpen && type === 'createWorkspace';
   const handleColse = () => {
     onClose();
-    console.log('closed');
   };
   return (
     <FocusModal open={isModalOpen} onOpenChange={handleColse}>

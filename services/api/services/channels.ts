@@ -25,7 +25,6 @@ export function useGetChannelsService() {
       );
       requestUrl.searchParams.append('page', data.page.toString());
       requestUrl.searchParams.append('limit', data.limit.toString());
-      console.log('requestUrl', requestUrl);
       return fetch(requestUrl, {
         method: 'GET',
         ...requestConfig,

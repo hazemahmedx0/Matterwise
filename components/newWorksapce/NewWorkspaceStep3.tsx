@@ -52,7 +52,6 @@ export const NewWorkspaceStep3 = ({
   setStep: (arg: number) => void;
 }) => {
   const searchParams = useSearchParams();
-  console.log('dsdsds', searchParams.get('workspace'));
 
   if (!searchParams.has('workspace')) {
     // window.history.back();
@@ -86,14 +85,9 @@ export const NewWorkspaceStep3 = ({
   });
 
   const onSubmit: SubmitHandler<NewChannelFormData> = async (formData) => {
-    console.log(userId);
     setValue('members', [{ id: userId || 3433 }]);
-    console.log('formDatasdsad33df');
-    console.log('formData', formData);
     const { data: dataWorkspace, status: statusWorkspace } =
       await fetchPostChannels(formData);
-
-    console.log(dataWorkspace, statusWorkspace);
 
     if (statusWorkspace === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
       (
@@ -105,8 +99,6 @@ export const NewWorkspaceStep3 = ({
     }
 
     if (statusWorkspace === HTTP_CODES_ENUM.CREATED) {
-      console.log('Workspace created');
-      console.log(dataWorkspace);
       // setStep(3);
     }
   };

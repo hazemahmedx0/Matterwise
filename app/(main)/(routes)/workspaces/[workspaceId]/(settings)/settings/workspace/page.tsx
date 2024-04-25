@@ -3,7 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 
 // Components
-import { Button, Input, Label, Text, Textarea, Prompt } from '@medusajs/ui';
+import {
+  Button,
+  Input,
+  Label,
+  Text,
+  Textarea,
+  Prompt,
+  FocusModal,
+} from '@medusajs/ui';
 import SectionHeader from '@/components/settings/SectionHeader';
 import FormAvatarInput from '@/components/form/form-avatar-input';
 import ComponentsLoading from '@/components/ComponentsLoading';
@@ -58,7 +66,6 @@ const page = () => {
   } = method;
 
   const onSubmit: SubmitHandler<WorkspaceFormData> = async (formData) => {
-    console.log('submitting', formData);
     const { data, status } = await fetchPatchWorkspace({
       id: workspaceId,
       data: {
@@ -78,8 +85,7 @@ const page = () => {
     }
 
     if (status === HTTP_CODES_ENUM.OK) {
-      console.log('success');
-      console.log(data);
+      // TODO
     }
   };
 
@@ -89,9 +95,7 @@ const page = () => {
       const { status, data: workspace } = await fetchGetWorkspace({
         id: workspaceId,
       });
-      console.log('wowowowow', workspace);
       if (status === HTTP_CODES_ENUM.OK) {
-        console.log('vals', workspace);
         reset({
           title: workspace?.title ?? '',
           description: workspace?.description ?? '',
@@ -197,7 +201,6 @@ const DeleteWorkspace = () => {
         setOpen(false);
       }
     } else {
-      console.log('slug does not match');
       setSlugInputError('Slug does not match');
     }
   };
@@ -213,49 +216,64 @@ const DeleteWorkspace = () => {
         below.
       </Text>
 
-      <Prompt open={open}>
-        <Prompt.Trigger asChild>
+      <FocusModal open={open} onOpenChange={setOpen}>
+        <FocusModal.Trigger className=" text-left">
           <Button onClick={() => setOpen(true)} variant="danger">
             Permanently delete workspace
           </Button>
-        </Prompt.Trigger>
-        <Prompt.Content className="max-w-[600px]">
-          <Prompt.Header>
-            <Prompt.Title>Are you sure?</Prompt.Title>
-            <Prompt.Description>
-              By deleting your workspace you and your team will lose access to
-              this Attio workspace and all data will be lost. This is a
-              permanent action and cannot be undone.
-              <div className="mt-3">
-                <Label className=" text-ui-fg-on-color" htmlFor="slug">
-                  Please type your workspace slug '{workspaceId}' below to
-                  confirm deletion.
-                </Label>
-                <Input
-                  type="slug"
-                  placeholder="Enter your slug"
-                  id="slug"
-                  className="my-1"
-                  value={slugInput}
-                  onChange={(e) => setSlugInput(e.target.value)}
-                />
-                <Text
-                  as="p"
-                  size="small"
-                  leading="compact"
-                  className="text-ui-fg-error"
-                >
-                  {slugInputError}
-                </Text>
-              </div>
-            </Prompt.Description>
-          </Prompt.Header>
-          <Prompt.Footer>
-            <Prompt.Cancel onClick={() => setOpen(false)}>Cancel</Prompt.Cancel>
-            <Prompt.Action onClick={() => handleDelete()}>Delete</Prompt.Action>
-          </Prompt.Footer>
-        </Prompt.Content>
-      </Prompt>
+        </FocusModal.Trigger>
+        <FocusModal.Content className="def-modal">
+          <FocusModal.Header className=" flex-row-reverse">
+            <Text
+              as="p"
+              size="base"
+              leading="compact"
+              className="text-ui-fg-base"
+            >
+              Permanently delete workspace
+            </Text>
+          </FocusModal.Header>
+          <FocusModal.Body className=" px-6 py-5">
+            <Text
+              as="p"
+              size="base"
+              leading="compact"
+              className="text-ui-fg-base"
+            >
+              Are you sure you want to delete this workspace? This action cannot
+              be undone.
+            </Text>
+            <div className="mt-3">
+              <Label className=" text-ui-fg-on-color" htmlFor="slug">
+                Please type your workspace slug '{workspaceId}' below to confirm
+                deletion.
+              </Label>
+              <Input
+                type="slug"
+                placeholder="Enter your slug"
+                id="slug"
+                className="my-1 mb-4"
+                value={slugInput}
+                onChange={(e) => setSlugInput(e.target.value)}
+              />
+              <Text
+                as="p"
+                size="small"
+                leading="compact"
+                className="text-ui-fg-error"
+              >
+                {slugInputError}
+              </Text>
+            </div>
+            <Button className=" mr-2" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={() => handleDelete()}>
+              Delete
+            </Button>
+          </FocusModal.Body>
+        </FocusModal.Content>
+      </FocusModal>
     </div>
   );
 };

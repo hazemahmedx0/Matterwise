@@ -23,7 +23,6 @@ interface SettingItem {
 
 const SettingsSideNav = ({ workspaceId }: { workspaceId: string }) => {
   const path = usePathname();
-  console.log(path);
   const isAdmin = useIsAdmin(workspaceId);
 
   const basePath = `/workspaces/${workspaceId}/settings`;
@@ -90,8 +89,6 @@ const SetingsListItems = ({
   sectionTitle: string;
 }) => {
   const path = usePathname();
-  console.log('pathh', path);
-  console.log('pathh', path);
   return (
     <>
       <Text

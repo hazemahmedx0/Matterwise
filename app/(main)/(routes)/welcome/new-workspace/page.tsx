@@ -8,7 +8,6 @@ import NewWorkspaceStep3 from '@/components/newWorksapce/NewWorkspaceStep3';
 
 const NewWorkspace = () => {
   const [step, setStep] = useState<number>(1);
-  console.log(step);
 
   return (
     <>

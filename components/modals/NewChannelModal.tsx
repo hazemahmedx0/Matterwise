@@ -47,7 +47,6 @@ const NewChannelModal = () => {
 
   const searchParams = useParams();
   const workspaceId = Number(searchParams.workspaceId);
-  console.log('workspaceId', workspaceId);
   const UserData = useAuth();
   const userId = UserData.user?.id;
 
@@ -102,7 +101,6 @@ const NewChannelModal = () => {
   };
 
   const TypeValueChanged = (e: string) => {
-    console.log(e);
     setValue('type.id', Number(e));
   };
 

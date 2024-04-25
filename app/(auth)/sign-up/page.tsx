@@ -50,8 +50,6 @@ const page = () => {
     const { data: dataSignUp, status: statusSignUp } =
       await fetchAuthSignUp(formData);
 
-    console.log(dataSignUp, statusSignUp);
-
     if (statusSignUp === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
       (Object.keys(dataSignUp.errors) as Array<keyof SignUpFormData>).forEach(
         (key) => {
@@ -65,9 +63,6 @@ const page = () => {
       email: formData.email,
       password: formData.password,
     });
-
-    console.log(errors);
-    console.log(dataSignIn, statusSignIn);
 
     if (statusSignIn === HTTP_CODES_ENUM.OK) {
       setTokensInfo({

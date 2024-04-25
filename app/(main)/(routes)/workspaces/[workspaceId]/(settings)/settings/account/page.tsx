@@ -72,8 +72,6 @@ const page = () => {
     }
 
     if (status === HTTP_CODES_ENUM.OK) {
-      console.log('success');
-      console.log(data);
     }
   };
 
@@ -203,9 +201,7 @@ const ChangePaswword = () => {
   });
 
   const onSubmit: SubmitHandler<PasswordData> = async (formData) => {
-    console.log(formData);
     if (!formData.password) {
-      console.log('password is required');
       setError('password', { message: 'Password is required' });
       return;
     }
@@ -215,7 +211,6 @@ const ChangePaswword = () => {
     });
 
     if (status === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      console.log('error');
       (Object.keys(data.errors) as Array<keyof PasswordData>).forEach((key) => {
         setError(key, { message: data.errors[key] });
       });
@@ -223,8 +218,6 @@ const ChangePaswword = () => {
     }
 
     if (status === HTTP_CODES_ENUM.OK) {
-      console.log('success');
-      console.log(data);
       toast({
         title: 'Success',
         description: 'Password updated successfully',

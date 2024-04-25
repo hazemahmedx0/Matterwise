@@ -59,11 +59,9 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
       (data?.pages.flatMap((page) => page?.data) as unknown as Channel[]) ??
       ([] as Channel[]);
     if (result.at(0) !== undefined && result.length > 0) {
-      console.log('result active');
       return removeDuplicatesFromArrayObjects(result, 'id');
     }
   }, [data]);
-  console.log('channels', Channelsresult);
   const usersresult = useMemo(() => {
     const result =
       (usersdata?.pages.flatMap((page) => page?.data) as unknown as User[]) ??
@@ -72,7 +70,6 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
       return removeDuplicatesFromArrayObjects(result, 'id');
     }
   }, [usersdata]);
-  console.log('users', usersresult);
   return (
     <nav className="relative min-h-screen bg-ui-bg-subtle">
       <WorkspacesList />

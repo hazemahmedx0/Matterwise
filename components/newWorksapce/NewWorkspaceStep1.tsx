@@ -37,7 +37,7 @@ const schema = z.object({
     message: "Can't be empty!",
   }),
   description: z.string(),
-  photo: PhotoSchema.nullable(),
+  photo: PhotoSchema.nullable().optional(),
 });
 type NewWorspaceFormData = z.infer<typeof schema>;
 
@@ -76,8 +76,6 @@ const NewWorkspaceStep1 = ({ setStep }: { setStep: (arg: number) => void }) => {
     const { data: dataWorkspace, status: statusWorkspace } =
       await fetchPostWorkspaces(formData);
 
-    console.log(dataWorkspace, statusWorkspace);
-
     if (statusWorkspace === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
       (
         Object.keys(dataWorkspace.errors) as Array<keyof NewWorspaceFormData>
@@ -88,9 +86,6 @@ const NewWorkspaceStep1 = ({ setStep }: { setStep: (arg: number) => void }) => {
     }
 
     if (statusWorkspace === HTTP_CODES_ENUM.CREATED) {
-      console.log('Workspace created');
-      console.log(dataWorkspace.id);
-
       router.push(
         '?' +
           createQueryString('step', 2 as any) +

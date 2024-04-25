@@ -53,7 +53,6 @@ const ChannelMembersTab = ({
   });
 
   if (entry?.isIntersecting && hasNextPage) {
-    console.log('entry', entry);
     handleScroll();
   }
 

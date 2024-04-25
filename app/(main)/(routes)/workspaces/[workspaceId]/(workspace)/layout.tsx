@@ -13,8 +13,6 @@ const MainLayout = ({
   children: React.ReactNode;
   params: { workspaceId: string };
 }) => {
-  console.log('paramslayout', params.workspaceId);
-
   return (
     <PanelGroup
       className="h-screen min-h-full bg-ui-bg-base text-ui-fg-base"

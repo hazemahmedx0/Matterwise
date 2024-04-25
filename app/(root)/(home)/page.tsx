@@ -24,7 +24,8 @@ const Home = () => {
     setLoading(false);
     console.log('result', result);
     if (result && result.length > 0 && !isLoading) {
-      router.push(`/workspaces/${result[0].id}`);
+      console.log('result', result);
+      router.push(`/workspaces/${result[0]?.id}`);
     } else if (!isLoading) {
       router.push(`/welcome/new-workspace`);
     }

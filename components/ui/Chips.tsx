@@ -10,7 +10,6 @@ interface Chip {
 const Chips = () => {
   const [chips, setChips] = useState<Chip[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -47,7 +46,7 @@ const Chips = () => {
   };
 
   return (
-    <div className=" txt-compact-small relative flex w-full appearance-none flex-wrap gap-2 rounded-md bg-ui-bg-field px-2 py-1.5 text-ui-fg-base placeholder-ui-fg-muted caret-ui-fg-base shadow-borders-base outline-none transition-fg invalid:!shadow-borders-error hover:bg-ui-bg-field-hover focus-visible:shadow-borders-interactive-with-active disabled:cursor-not-allowed disabled:!bg-ui-bg-disabled disabled:text-ui-fg-disabled disabled:placeholder-ui-fg-disabled aria-[invalid=true]:!shadow-borders-error [&::--webkit-search-cancel-button]:hidden [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden">
+    <div className=" txt-compact-small relative flex h-52 w-full appearance-none flex-wrap gap-2 rounded-md bg-ui-bg-field px-2 py-1.5 text-ui-fg-base placeholder-ui-fg-muted caret-ui-fg-base shadow-borders-base outline-none transition-fg invalid:!shadow-borders-error hover:bg-ui-bg-field-hover focus-visible:shadow-borders-interactive-with-active disabled:cursor-not-allowed disabled:!bg-ui-bg-disabled disabled:text-ui-fg-disabled disabled:placeholder-ui-fg-disabled aria-[invalid=true]:!shadow-borders-error [&::--webkit-search-cancel-button]:hidden [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden">
       <ChipsList
         chipsList={chips}
         onChipClick={(event, chip) => {
@@ -61,7 +60,7 @@ const Chips = () => {
         value={inputValue}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        className=" h-8 border-none bg-transparent text-ui-fg-base placeholder-ui-fg-muted outline-none"
+        className=" h-8 grow border-none bg-transparent text-ui-fg-base placeholder-ui-fg-muted outline-none"
       />
     </div>
   );
@@ -83,7 +82,7 @@ export const ChipsList: React.FC<ChipsListProps> = ({
       {chipsList.map((chip) => (
         <span
           key={chip.key}
-          className={`  flex gap-1.5 rounded-md border px-2 py-1 text-ui-fg-on-color ${chip.valid ? 'bg-ui-bg-switch-off' : 'border border-dotted border-ui-border-error bg-ui-tag-red-bg'} `}
+          className={` flex  h-fit gap-1.5 rounded-md border px-2 py-1 text-ui-fg-on-color ${chip.valid ? 'bg-ui-bg-switch-off' : 'border border-dotted border-ui-border-error bg-ui-tag-red-bg'} `}
         >
           <span className="chip-value">{chip.email}</span>
           <button

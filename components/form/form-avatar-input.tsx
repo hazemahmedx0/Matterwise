@@ -80,7 +80,7 @@ function AvatarInput(props: AvatarInputProps) {
         <Button isLoading={isDragActive}>Uplaod image </Button>
         <input {...getInputProps()} />
       </div>
-      {props.error && <div>dsadsad </div>}
+      {props.error && <div>error </div>}
     </Container>
   );
 }

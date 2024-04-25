@@ -37,7 +37,7 @@ const schema = z.object({
     message: "Can't be empty!",
   }),
   description: z.string(),
-  photo: PhotoSchema.nullable(),
+  photo: PhotoSchema.nullable().optional(),
 });
 type NewWorspaceFormData = z.infer<typeof schema>;
 

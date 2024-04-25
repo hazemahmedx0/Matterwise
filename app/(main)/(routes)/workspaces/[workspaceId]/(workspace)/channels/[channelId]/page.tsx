@@ -8,21 +8,28 @@ import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
 import withPageRequiredAuth from '@/services/auth/with-page-required-auth';
 import { Channel } from '@/types/channels-types';
 import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 const page = () => {
   const { channelId } = useParams();
   const fetchGetChannel = useGetChannelService();
   const [channel, setChannel] = useState<Channel>();
-
+  const router = useRouter();
   const getChannel = useMemo(async () => {
     const { status, data } = await fetchGetChannel({ id: Number(channelId) });
     console.log('data', data);
-    if (status === HTTP_CODES_ENUM.OK) {
-      setChannel(data);
-    } else {
-      window.location.replace('/');
-      // TODO : Add 'You do not have access to this channel' message
+    if (status) {
+      console.log('status', status);
+      if (status === HTTP_CODES_ENUM.OK) {
+        setChannel(data);
+        return;
+      } else if (status === HTTP_CODES_ENUM.INTERNAL_SERVER_ERROR) {
+        router.push('/');
+      } else {
+        router.push('/');
+      }
+      return;
     }
   }, [channelId]);
 

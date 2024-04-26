@@ -13,8 +13,12 @@ const NewWorkspace = () => {
     <>
       <div className=" w-1/2">
         <div className="flex h-full w-full px-24 py-14 align-middle">
-          {step === 1 && <NewWorkspaceStep1 key={1} setStep={setStep} />}
-          {step === 2 && <NewWorkspaceStep2 key={2} setStep={setStep} />}
+          {step === 1 && (
+            <NewWorkspaceStep1 key={`step-1-${step}`} setStep={setStep} />
+          )}
+          {step === 2 && (
+            <NewWorkspaceStep2 key={`step-2-${step}`} setStep={setStep} />
+          )}
           {/* {step === 3 && <NewWorkspaceStep3 key={2} setStep={setStep} />}  */}
 
           {/* <NewWorkspaceStep1 /> */}

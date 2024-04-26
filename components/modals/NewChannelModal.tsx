@@ -69,7 +69,7 @@ const NewChannelModal = () => {
       },
       members: [
         {
-          id: userId || 565,
+          id: userId,
         },
       ],
     },

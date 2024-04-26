@@ -130,7 +130,7 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
             </li>
           ))}
         </ul>
-        <NewChannelModal />
+        <NewChannelModal key={'channelmodal'} />
 
         {/* Users */}
 

@@ -7,6 +7,7 @@ import {
   Text,
   Textarea,
   Select,
+  useToast,
 } from '@medusajs/ui';
 import React, { useState } from 'react';
 
@@ -22,87 +23,83 @@ import { useRouter } from 'next/navigation';
 import { RiAddBoxFill, RiAddLine } from '@remixicon/react';
 import { useQueryClient } from '@tanstack/react-query';
 import Chips from '../ui/Chips';
+import { usePostInviteUserService } from '@/services/api/services/workspaces';
 
-export const schema = z.object({
-  title: z.string(),
-  description: z.string(),
-  workspace: z.object({
-    id: z.number(),
-  }),
-  type: z.object({
-    id: z.number(),
-  }),
-  members: z.array(
-    z.object({
-      id: z.number(),
-    }),
-  ),
-});
-
-type NewChannelFormData = z.infer<typeof schema>;
+interface Chip {
+  key: string;
+  email: string;
+  valid?: boolean;
+}
 
 const InviteUsersModal = () => {
   const [open, setOpen] = useState(false);
-  const queryClient = useQueryClient();
-  const router = useRouter();
+  const { toast } = useToast();
+  const [chips, setChips] = useState<Chip[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const searchParams = useParams();
   const workspaceId = Number(searchParams.workspaceId);
-  const UserData = useAuth();
-  const userId = UserData.user?.id;
 
-  const fetchPostChannels = usePostChannelsService();
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors, isSubmitting },
-    setValue,
-    reset,
-  } = useForm<NewChannelFormData>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      workspace: {
-        id: Number(searchParams.workspaceId),
-      },
-      type: {
-        id: 1,
-      },
-      members: [
-        {
-          id: userId || 565,
-        },
-      ],
-    },
-  });
+  function getEmails(arr: Chip[]): { emails: string[] } {
+    const emails: string[] = arr.map((item) => item.email);
+    return { emails };
+  }
 
-  const onSubmit: SubmitHandler<NewChannelFormData> = async (formData) => {
-    setValue('members', [{ id: userId || 1 }]);
-    setValue('workspace.id', workspaceId);
+  function hasInvalid(arr: Chip[]): boolean {
+    return arr.some((item) => !item.valid);
+  }
 
-    const { data: dataChannel, status: statusChannel } =
-      await fetchPostChannels(formData);
+  const fetchPostUserInvite = usePostInviteUserService();
 
-    if (statusChannel === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      (
-        Object.keys(dataChannel.errors) as Array<keyof NewChannelFormData>
-      ).forEach((key) => {
-        setError(key, { message: dataChannel.errors[key] });
+  const onSubmit = async (formData: Chip[]) => {
+    setLoading(true);
+    console.log('fsdfds');
+    console.log('fsdfds', formData);
+
+    const hasInvalidResult = hasInvalid(formData);
+
+    if (hasInvalidResult) {
+      toast({
+        title: 'Error',
+        description: 'Please enter a valid email(s) address',
+        variant: 'error',
+        duration: 5000,
+      });
+
+      return;
+    }
+    const EmailsList = getEmails(formData);
+
+    console.log(EmailsList);
+    const { data: invitationData, status: statusInvite } =
+      await fetchPostUserInvite({
+        id: workspaceId,
+        data: EmailsList,
+      });
+
+    if (statusInvite === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
+      toast({
+        title: 'Error',
+        description: `${invitationData?.errors.emails}`,
+        variant: 'error',
+        duration: 5000,
       });
       return;
     }
 
-    if (statusChannel === HTTP_CODES_ENUM.CREATED) {
-      router.push(`/workspaces/${workspaceId}/channels/${dataChannel.id}`);
-      queryClient.invalidateQueries({ queryKey: ['channels'] });
-      reset();
-      setOpen(false);
-      // setStep(3);
-    }
-  };
+    if (statusInvite && statusInvite === HTTP_CODES_ENUM.ACCEPTED) {
+      toast({
+        title: 'Success',
+        description: `you have invited ${EmailsList.emails.length} people to the workspace`,
+        variant: 'success',
+        duration: 5000,
+      });
 
-  const TypeValueChanged = (e: string) => {
-    setValue('type.id', Number(e));
+      console.log(invitationData);
+      setChips([]);
+      setLoading(false);
+      setOpen(false);
+    }
   };
 
   return (
@@ -127,12 +124,30 @@ const InviteUsersModal = () => {
           </Text>
         </FocusModal.Header>
         <FocusModal.Body className=" flex flex-col gap-1 px-6 py-5 ">
+          <Text
+            size="small"
+            leading="compact"
+            className="mb-1 text-ui-fg-subtle"
+          >
+            Enter the email address of the people you want to invite
+          </Text>
           <Chips
             save={(chips) => {
-              console.log(chips);
+              setChips(chips);
             }}
           />
-          <Button className=" self-end ">Invite</Button>
+          <div className="flex justify-between">
+            <Text size="small" leading="compact" className="text-ui-fg-subtle">
+              Click enter to add the email
+            </Text>
+            <Button
+              className="self-end"
+              onClick={() => onSubmit(chips)}
+              isLoading={loading}
+            >
+              Invite
+            </Button>
+          </div>
         </FocusModal.Body>
       </FocusModal.Content>
     </FocusModal>

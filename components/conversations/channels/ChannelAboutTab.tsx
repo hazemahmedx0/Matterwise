@@ -58,8 +58,8 @@ const ChannelAboutTab = ({
       return;
     }
 
-    if (statusChannel === HTTP_CODES_ENUM.CREATED) {
-      queryClient.invalidateQueries({ queryKey: ['channel'] });
+    if (statusChannel === HTTP_CODES_ENUM.OK) {
+      queryClient.invalidateQueries({ queryKey: ['channels'] });
     }
   };
 

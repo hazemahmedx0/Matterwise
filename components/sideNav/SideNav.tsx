@@ -19,6 +19,7 @@ import { useParams } from 'next/navigation';
 import { useUsersListQuery } from '@/lib/queries/users-queries';
 import { User } from '@/services/api/types/user';
 import NewChannelModal from '../modals/NewChannelModal';
+import InviteUsersModal from '../modals/InviteUsersModal';
 
 const mainSections = [
   {
@@ -174,6 +175,7 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
             </li>
           ))}
         </ul>
+        <InviteUsersModal />
       </div>
     </nav>
   );

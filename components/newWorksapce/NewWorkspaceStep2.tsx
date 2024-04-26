@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NewWorkspaceHeader from './NewWorkspaceHeader';
 import { Button, Input, Label, Text, Textarea } from '@medusajs/ui';
 
@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, set, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import useAuth from '@/services/auth/use-auth';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { usePostChannelsService } from '@/services/api/services/channels';
 import { useRouter } from 'next/navigation';
 
@@ -42,14 +42,11 @@ export const NewWorkspaceStep2 = ({
 }: {
   setStep: (arg: number) => void;
 }) => {
+  const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const workspaceId = Number(searchParams.get('workspace'));
-
-  if (!searchParams.has('workspace')) {
-    // window.history.back();
-  }
-
+  let workspaceId = Number(searchParams.get('workspace'));
+  console.log('workspaceId', workspaceId);
   const UserData = useAuth();
   const userId = UserData.user?.id;
 
@@ -62,24 +59,31 @@ export const NewWorkspaceStep2 = ({
     setValue,
   } = useForm<NewChannelFormData>({
     resolver: zodResolver(schema),
+    shouldUnregister: false,
     defaultValues: {
       workspace: {
-        id: Number(searchParams.get('workspace')),
+        id: workspaceId,
       },
       type: {
         id: 1,
       },
       members: [
         {
-          id: userId || 565,
+          id: userId,
         },
       ],
     },
   });
 
-  const onSubmit: SubmitHandler<NewChannelFormData> = async (formData) => {
-    setValue('members', [{ id: userId || 3433 }]);
+  useEffect(() => {
+    workspaceId = Number(searchParams.get('workspace'));
     setValue('workspace.id', workspaceId);
+  }, [searchParams, router, pathname]);
+
+  const onSubmit: SubmitHandler<NewChannelFormData> = async (formData) => {
+    setValue('workspace.id', workspaceId);
+
+    setValue('members', [{ id: userId || 1 }]);
     const { data: dataChannel, status: statusChannel } =
       await fetchPostChannels(formData);
 
@@ -94,7 +98,6 @@ export const NewWorkspaceStep2 = ({
 
     if (statusChannel === HTTP_CODES_ENUM.CREATED) {
       router.push(`/workspaces/${workspaceId}/channels/${dataChannel.id}`);
-      // setStep(3);
     }
   };
 

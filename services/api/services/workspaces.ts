@@ -114,3 +114,53 @@ export function useDeleteWorkspaceService() {
     [fetch],
   );
 }
+
+// invites users to workspace
+
+type Emails = {
+  emails: string[];
+};
+
+type Invitation = {
+  invites: Invite[];
+  invitedEmails: string[];
+  duplicateEmails: string[];
+};
+
+type Invite = {
+  id: number;
+  sender: {
+    id: number;
+  };
+  invitee_email: string;
+  workspace: {
+    id: number;
+  };
+  status: {
+    id: number;
+  };
+  createdAt: string; // assuming this is an ISO string date
+  updatedAt: string; // assuming this is an ISO string date
+};
+
+export type UserInvitePostRequest = {
+  id: number;
+  data: Emails;
+};
+
+export type UserInvitePostResponse = Invitation;
+
+export function usePostInviteUserService() {
+  const fetch = useFetch();
+
+  return useCallback(
+    (data: UserInvitePostRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${API_URL}/v1/workspaces/${data.id}/invite`, {
+        method: 'POST',
+        body: JSON.stringify(data.data),
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<UserInvitePostResponse>);
+    },
+    [fetch],
+  );
+}

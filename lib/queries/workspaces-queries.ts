@@ -21,10 +21,11 @@ export const useWorkspacesListQuery = () => {
     queryFn: async ({ pageParam, signal }) => {
       const { status, data } = await fetch({
         page: pageParam,
-        limit: 2,
+        limit: 6,
       });
 
       if (status === HTTP_CODES_ENUM.OK) {
+        console.log(data, data.hasNextPage);
         return {
           data: data,
           nextPage: data.hasNextPage ? pageParam + 1 : undefined,

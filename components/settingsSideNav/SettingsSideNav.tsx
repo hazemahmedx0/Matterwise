@@ -13,7 +13,7 @@ import {
   RiUser2Line,
 } from '@remixicon/react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface SettingItem {
   title: string;
@@ -24,6 +24,7 @@ interface SettingItem {
 const SettingsSideNav = ({ workspaceId }: { workspaceId: string }) => {
   const path = usePathname();
   const isAdmin = useIsAdmin(workspaceId);
+  const router = useRouter();
 
   const basePath = `/workspaces/${workspaceId}/settings`;
   const workspaceSettingsList: SettingItem[] = [
@@ -58,7 +59,7 @@ const SettingsSideNav = ({ workspaceId }: { workspaceId: string }) => {
         <RiArrowLeftSLine
           tabIndex={0}
           className=" transform cursor-pointer rounded-md text-ui-fg-muted hover:bg-ui-bg-base-pressed"
-          onClick={() => window.history.back()}
+          onClick={() => router.push(`/workspaces/${workspaceId}`)}
         />
         <Text size="large" className="text-ui-fg-subtle">
           Settings

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import React, { useMemo, useState } from 'react';
 import WorkspacesList from './Workspaces-List';
 import {
+  RiAddLine,
   RiArrowDownSFill,
   RiAtLine,
   RiChatThreadLine,
@@ -75,7 +76,10 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
     <nav className="relative min-h-screen bg-ui-bg-subtle">
       <WorkspacesList />
 
-      <div id="style-1" className=" h-[calc(100vh-48px)] overflow-y-auto">
+      <div
+        id="style-1"
+        className=" h-[calc(100vh-48px)] w-full overflow-y-auto"
+      >
         <ul className=" mt-3 text-ui-fg-subtle">
           {mainSections.map((section) => (
             <li key={section.title} className="nav-list-item">
@@ -175,7 +179,14 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
             </li>
           ))}
         </ul>
-        <InviteUsersModal />
+        <InviteUsersModal className="w-full">
+          <div className={`nav-list-item flex h-7 w-full items-center  px-5`}>
+            <RiAddLine size={16} />
+            <Text leading="compact" size="small" className=" ml-1.5 truncate">
+              Add People{' '}
+            </Text>
+          </div>
+        </InviteUsersModal>
       </div>
     </nav>
   );

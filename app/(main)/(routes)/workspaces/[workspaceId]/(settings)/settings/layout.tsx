@@ -1,6 +1,5 @@
 'use client';
 import SettingsSideNav from '@/components/settingsSideNav/SettingsSideNav';
-import SideNav from '@/components/sideNav/SideNav';
 
 import { RiDraggable } from '@remixicon/react';
 

@@ -24,11 +24,18 @@ import Link from 'next/link';
 import useAuthActions from '@/services/auth/use-auth-actions';
 import { useGetWorkspaceService } from '@/services/api/services/workspaces';
 import Skeleton from 'react-loading-skeleton';
+import { useIntersectionObserver } from '@uidotdev/usehooks';
 
 const WorkspacesList = () => {
   const { logOut } = useAuthActions();
 
-  const { data: workspacesListData, isLoading } = useWorkspacesListQuery();
+  const {
+    data: workspacesListData,
+    isLoading,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useWorkspacesListQuery();
   const params = useParams<{ workspaceId: string }>();
   const workspaceId = parseInt(params.workspaceId);
 
@@ -48,6 +55,21 @@ const WorkspacesList = () => {
 
     return removeDuplicatesFromArrayObjects(result, 'id');
   }, [workspacesListData]);
+
+  const handleScroll = useCallback(() => {
+    if (!hasNextPage || isFetchingNextPage) return;
+    fetchNextPage();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const [loadMoreRef, entry] = useIntersectionObserver({
+    threshold: 0,
+    root: null,
+    rootMargin: '0px',
+  });
+
+  if (entry?.isIntersecting && hasNextPage) {
+    handleScroll();
+  }
 
   return (
     <>
@@ -80,25 +102,30 @@ const WorkspacesList = () => {
           <Link href={`/workspaces/${workspaceId}/settings`}>
             <DropdownMenu.Item className=" gap-x-2">
               <RiSettings2Line className="text-ui-fg-subtle" size={20} />
-              Workspace Settings
+              Settings
             </DropdownMenu.Item>
           </Link>
           <DropdownMenu.Separator />
-
-          {workspacesList.map((workspace) => (
-            <Link href={`/workspaces/${workspace.id}`} key={workspace.id}>
-              <DropdownMenu.Item key={workspace.id}>
-                <Avatar
-                  variant="squared"
-                  fallback={workspace.title[0] || 'o'}
-                  src={workspace.photo?.path || ''}
-                  className="mr-2"
-                  size="xsmall"
-                />
-                {workspace.title}
-              </DropdownMenu.Item>
-            </Link>
-          ))}
+          <div id="style-1" className=" max-h-48 overflow-auto">
+            {workspacesList.map((workspace) => (
+              <Link href={`/workspaces/${workspace.id}`} key={workspace.id}>
+                <DropdownMenu.Item key={workspace.id}>
+                  <Avatar
+                    variant="squared"
+                    fallback={workspace.title[0] || 'o'}
+                    src={workspace.photo?.path || ''}
+                    className="mr-2"
+                    size="xsmall"
+                  />
+                  {workspace.title}
+                </DropdownMenu.Item>
+              </Link>
+            ))}
+            <div
+              ref={loadMoreRef}
+              className={`h-4 ${!hasNextPage ? 'hidden' : null}`}
+            />
+          </div>
           <DropdownMenu.Separator />
           <Link href="/welcome/new-workspace">
             <DropdownMenu.Item className=" gap-x-2">
@@ -122,19 +149,3 @@ const WorkspacesList = () => {
 };
 
 export default WorkspacesList;
-
-// {result.map((workspace) => (
-//     <div
-//       key={workspace.id}
-//       className="flex h-12 flex-row  items-center border-b  px-3 align-middle"
-//     >
-//       <Avatar
-//         variant="squared"
-//         fallback="o"
-//         src="https://avatars.githubusercontent.com/u/10656202?v=4"
-//         className="mr-3"
-//         size="small"
-//       />
-//       <p>{workspace.title}</p>
-//     </div>
-//   ))}

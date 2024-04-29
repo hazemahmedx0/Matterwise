@@ -31,6 +31,7 @@ import { RiLoader2Line, RiUserAddLine } from '@remixicon/react';
 import { useUsersListQuery } from '@/lib/queries/users-queries';
 import { User } from '@/services/api/types/user';
 import removeDuplicatesFromArrayObjects from '@/services/helpers/remove-duplicates-from-array-of-objects';
+import InviteUsersModal from '@/components/modals/InviteUsersModal';
 
 const page = () => {
   const searchParams = useParams();
@@ -88,10 +89,13 @@ const page = () => {
           <div className="w-full">
             <Input placeholder="Search" id="search-input" type="search" />
           </div>
-          <Button className=" min-w-max">
-            <RiUserAddLine size={16} className=" !h-4 !w-4" />
-            Add
-          </Button>
+
+          <InviteUsersModal>
+            <Button className=" min-w-max">
+              <RiUserAddLine size={16} className=" !h-4 !w-4" />
+              Add
+            </Button>
+          </InviteUsersModal>
         </div>
       </div>
 

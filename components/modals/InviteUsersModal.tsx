@@ -1,27 +1,10 @@
 'use client';
-import {
-  Button,
-  FocusModal,
-  Input,
-  Label,
-  Text,
-  Textarea,
-  Select,
-  useToast,
-} from '@medusajs/ui';
+import { Button, FocusModal, Text, useToast } from '@medusajs/ui';
 import React, { useState } from 'react';
 
 //
 import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, set, useForm } from 'react-hook-form';
-import { z } from 'zod';
-import useAuth from '@/services/auth/use-auth';
-import { useParams, useSearchParams } from 'next/navigation';
-import { usePostChannelsService } from '@/services/api/services/channels';
-import { useRouter } from 'next/navigation';
-import { RiAddBoxFill, RiAddLine } from '@remixicon/react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import Chips from '../ui/Chips';
 import { usePostInviteUserService } from '@/services/api/services/workspaces';
 
@@ -31,7 +14,13 @@ interface Chip {
   valid?: boolean;
 }
 
-const InviteUsersModal = () => {
+const InviteUsersModal = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
   const [chips, setChips] = useState<Chip[]>([]);
@@ -66,6 +55,7 @@ const InviteUsersModal = () => {
         duration: 5000,
       });
 
+      setLoading(false);
       return;
     }
     const EmailsList = getEmails(formData);
@@ -84,6 +74,7 @@ const InviteUsersModal = () => {
         variant: 'error',
         duration: 5000,
       });
+      setLoading(false);
       return;
     }
 
@@ -104,13 +95,8 @@ const InviteUsersModal = () => {
 
   return (
     <FocusModal open={open} onOpenChange={setOpen}>
-      <FocusModal.Trigger className="w-full">
-        <div className={`nav-list-item flex h-7 w-full items-center  px-5`}>
-          <RiAddLine size={16} />
-          <Text leading="compact" size="small" className=" ml-1.5 truncate">
-            Add People{' '}
-          </Text>
-        </div>
+      <FocusModal.Trigger className={`${className}`}>
+        {children}
       </FocusModal.Trigger>
       <FocusModal.Content className="def-modal ">
         <FocusModal.Header className=" flex-row-reverse">

@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+.textarea-sizing {
+  field-sizing: content;
+}
 .tiptap > * + * {
   @apply mt-[0.75em];
 }
@@ -10,7 +12,7 @@
   @apply px-4 py-0;
 }
 .bubble-menu {
-  @apply flex rounded-lg bg-[#0d0d0d] p-[0.2rem];
+  @apply flex rounded-lg  pb-2;
 }
 .bubble-menu button {
   @apply border-[none] px-[0.2rem] py-0 text-[0.85rem] font-medium text-white opacity-60;
@@ -18,7 +20,7 @@
 }
 .bubble-menu button:hover,
 .bubble-menu button.is-active {
-  @apply opacity-100;
+  @apply bg-ui-bg-overlay opacity-100;
 }
 .floating-menu {
   @apply flex rounded-lg bg-[#0d0d0d10] p-[0.2rem];
@@ -30,4 +32,12 @@
 .floating-menu button:hover,
 .floating-menu button.is-active {
   @apply opacity-100;
+}
+
+.ProseMirror:focus {
+  @apply !outline-none;
+}
+
+.tiptap code {
+  @apply rounded-[0.25em] bg-ui-bg-switch-off box-decoration-clone p-1 text-[0.9rem] text-ui-fg-base;
 }

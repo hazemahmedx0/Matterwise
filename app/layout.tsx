@@ -7,6 +7,7 @@ import queryClient from '@/services/react-query/query-client';
 // import ReactQueryDevtools from '@/services/react-query/react-query-devtools';
 import ModalsProvider from '@/hooks/modals-provider';
 import { Toaster } from '@medusajs/ui';
+import { SocketProvider } from '@/providers/socket-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,14 +24,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <QueryClientProvider client={queryClient}>
-          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          <ModalsProvider>
-            <Toaster />
-
-            <AuthProvider> {children}</AuthProvider>
-          </ModalsProvider>
-        </QueryClientProvider>
+        <AuthProvider>
+          <QueryClientProvider client={queryClient}>
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            <ModalsProvider>
+              <Toaster />
+              <SocketProvider>{children}</SocketProvider>
+            </ModalsProvider>
+          </QueryClientProvider>
+        </AuthProvider>
       </body>
     </html>
   );

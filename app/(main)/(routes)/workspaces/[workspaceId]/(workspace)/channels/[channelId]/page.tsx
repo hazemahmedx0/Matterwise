@@ -1,15 +1,21 @@
 'use client';
+import React, { useMemo, useState } from 'react';
+
+// TYEPS
+import { Channel } from '@/types/channels-types';
+import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
+
+// COMPONENTS
 import ChatHeader from '@/components/chat/ChatHeader';
 import Message from '@/components/chat/Message';
 import ChannelDataSettingsModal from '@/components/modals/ChannelDataSettingsModal';
 import Tiptap from '@/components/tiptap/Tiptap';
+
+// HOOKS
 import { useGetChannelService } from '@/services/api/services/channels';
-import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
+import { useParams, useRouter } from 'next/navigation';
+
 import withPageRequiredAuth from '@/services/auth/with-page-required-auth';
-import { Channel } from '@/types/channels-types';
-import { useParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 const page = () => {
   const { channelId } = useParams();

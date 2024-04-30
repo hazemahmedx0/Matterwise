@@ -27,7 +27,7 @@ export const useWorkspacesListQuery = () => {
       if (status === HTTP_CODES_ENUM.OK) {
         console.log(data, data.hasNextPage);
         return {
-          data: data,
+          data: data.data,
           nextPage: data.hasNextPage ? pageParam + 1 : undefined,
         };
       }

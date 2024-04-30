@@ -64,6 +64,7 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
       return removeDuplicatesFromArrayObjects(result, 'id');
     }
   }, [data]);
+
   const usersresult = useMemo(() => {
     const result =
       (usersdata?.pages.flatMap((page) => page?.data) as unknown as User[]) ??
@@ -119,7 +120,7 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
               <Link
                 replace={true}
                 prefetch={false}
-                href={`/workspaces/${params.workspaceId}/channels/${channel.id.toString()}`}
+                href={`/workspaces/${params.workspaceId}/channels/${channel?.id.toString()}`}
                 className={`nav-list-item flex h-7 items-center px-5 ${params.channelId && params.channelId === channel.id.toString() && activeStateCss} `}
               >
                 <RiHashtag size={16} />

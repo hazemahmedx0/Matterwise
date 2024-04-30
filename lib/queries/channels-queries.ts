@@ -28,7 +28,7 @@ export const useChannelListQuery = ({
       });
       if (status === HTTP_CODES_ENUM.OK) {
         return {
-          data: data,
+          data: data.data,
           nextPage: data.hasNextPage ? pageParam + 1 : undefined,
         };
       }

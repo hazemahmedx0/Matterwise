@@ -1,7 +1,6 @@
 'use client';
 import {
   RiBold,
-  RiCodeBlock,
   RiCodeView,
   RiItalic,
   RiSendPlane2Line,

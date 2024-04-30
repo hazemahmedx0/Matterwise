@@ -45,8 +45,10 @@ const page = () => {
       <div className=" h-full flex-1 ">
         <Message />
       </div>
-      <div>
-        <Tiptap />
+      <div className="  px-5 py-2">
+        <div className=" rounded-xl border border-ui-border-base bg-ui-bg-field p-1.5">
+          <Tiptap />
+        </div>
       </div>
     </div>
   );

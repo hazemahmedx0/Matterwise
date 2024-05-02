@@ -53,7 +53,9 @@ const WorkspacesList = () => {
         (page) => page?.data,
       ) as unknown as Workspace[]) ?? ([] as Workspace[]);
 
-    return removeDuplicatesFromArrayObjects(result, 'id');
+    if (result && currentWorkspaceData) {
+      return removeDuplicatesFromArrayObjects(result, 'id');
+    }
   }, [workspacesListData]);
 
   const handleScroll = useCallback(() => {
@@ -107,7 +109,7 @@ const WorkspacesList = () => {
           </Link>
           <DropdownMenu.Separator />
           <div id="style-1" className=" max-h-48 overflow-auto">
-            {workspacesList.map((workspace) => (
+            {workspacesList?.map((workspace) => (
               <Link href={`/workspaces/${workspace.id}`} key={workspace.id}>
                 <DropdownMenu.Item key={workspace.id}>
                   <Avatar

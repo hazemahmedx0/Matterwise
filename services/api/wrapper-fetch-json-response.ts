@@ -5,6 +5,8 @@ async function wrapperFetchJsonResponse<T>(
   response: Response,
 ): Promise<FetchJsonResponse<T>> {
   const status = response.status as FetchJsonResponse<T>['status'];
+  console.log('status', status);
+  console.log('response', response);
   return {
     status,
     data: [
@@ -13,7 +15,7 @@ async function wrapperFetchJsonResponse<T>(
       HTTP_CODES_ENUM.INTERNAL_SERVER_ERROR,
     ].includes(status)
       ? undefined
-      : await response.json(),
+      : await response?.json(),
   };
 }
 

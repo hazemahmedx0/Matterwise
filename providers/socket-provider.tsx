@@ -43,6 +43,10 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
     setSocket(socketInstance);
 
+    socketInstance.on('exception', (data) => {
+      console.log(data);
+    });
+
     return () => {
       socketInstance.disconnect();
     };

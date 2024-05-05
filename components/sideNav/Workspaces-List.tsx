@@ -58,7 +58,6 @@ const WorkspacesList = () => {
     }
   }, [workspacesListData]);
 
-  console.log('workspacesList', workspacesList);
   const handleScroll = useCallback(() => {
     if (!hasNextPage || isFetchingNextPage) return;
     fetchNextPage();

@@ -1,11 +1,10 @@
+import { User } from '@/services/api/types/user';
+
 export type Message = {
   id: number;
   content: string;
   createdAt: string;
-  sender: {
-    id: number;
-    firstName: string;
-  };
+  sender: User;
   channel: {
     id: number;
   };

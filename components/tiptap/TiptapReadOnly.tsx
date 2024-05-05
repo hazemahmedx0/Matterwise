@@ -27,7 +27,7 @@ export default ({ content }: { content?: string }) => {
         editor={editoxr}
         id="style-1"
         placeholder="Start typing..."
-        className=" overflow-auto px-1.5 pb-3 text-base !font-light  leading-snug focus:outline-none "
+        className=" w-full overflow-auto text-wrap break-words pb-3 text-base !font-light leading-snug *:max-w-full *:break-words focus:outline-none [&_*]:break-words"
         contentEditable={false}
       />
     </>

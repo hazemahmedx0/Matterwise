@@ -13,7 +13,7 @@ async function wrapperFetchJsonResponse<T>(
       HTTP_CODES_ENUM.INTERNAL_SERVER_ERROR,
     ].includes(status)
       ? undefined
-      : await response.json(),
+      : await response?.json(),
   };
 }
 

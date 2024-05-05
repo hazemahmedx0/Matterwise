@@ -1,4 +1,7 @@
-import { useGetChannelsService } from '@/services/api/services/channels';
+import {
+  useGetChannelMessagesService,
+  useGetChannelsService,
+} from '@/services/api/services/channels';
 import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
 import { createQueryKeys } from '@/services/react-query/query-key-factory';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -35,6 +38,51 @@ export const useChannelListQuery = ({
     },
     getNextPageParam: (lastPage) => {
       return lastPage?.nextPage;
+    },
+    gcTime: 0,
+  });
+
+  return query;
+};
+
+// Channel Messages
+
+export const channelMessagesQueryKeys = createQueryKeys(['channelMessages'], {
+  list: () => ({
+    key: ['channels'],
+  }),
+});
+
+export const useChannelMessagesListQuery = ({
+  channelId,
+  sort,
+  filter,
+}: {
+  channelId: string;
+  sort?: string;
+  filter?: string;
+}) => {
+  const fetch = useGetChannelMessagesService();
+
+  const query = useInfiniteQuery({
+    queryKey: channelMessagesQueryKeys.list().key,
+    initialPageParam: { cursor: null }, // Start with a cursor set to null
+    queryFn: async ({ pageParam, signal }) => {
+      const { status, data } = await fetch({
+        channelId,
+        cursor: pageParam.cursor, // Use cursor from pageParam
+        limit: 40,
+      });
+      if (status === HTTP_CODES_ENUM.OK) {
+        console.log('data', data);
+        return {
+          data: data.messages,
+          nextPageParam: data.nextCursor ? { cursor: data.nextCursor } : null, // Prepare the next cursor
+        };
+      }
+    },
+    getNextPageParam: (lastPage) => {
+      return lastPage?.nextPageParam; // Pass the next cursor for the next page fetch
     },
     gcTime: 0,
   });

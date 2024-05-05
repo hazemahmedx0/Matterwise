@@ -4,22 +4,23 @@ import { API_URL } from '../config';
 import wrapperFetchJsonResponse from '../wrapper-fetch-json-response';
 import { InfinityPaginationType } from '../types/infinity-pagination';
 import { RequestConfigType } from './types/request-config';
-import { Channels, Channel } from '@/types/channels-types';
-import { Workspace } from '@/types/workspace-types';
+import { Channel } from '@/types/channels-types';
+import { Role } from '../types/role';
+import { Message } from '@/types/message-types';
 
-export type UsersRequest = {
+export type ChannelGetRequest = {
   workspaceId: string;
   page: number;
   limit: number;
 };
 
-export type UsersResponse = InfinityPaginationType<Channel>;
+export type ChannelGetsResponse = InfinityPaginationType<Channel>;
 
 export function useGetChannelsService() {
   const fetch = useFetch();
 
   return useCallback(
-    (data: UsersRequest, requestConfig?: RequestConfigType) => {
+    (data: ChannelGetRequest, requestConfig?: RequestConfigType) => {
       const requestUrl = new URL(
         `${API_URL}/v1/workspaces/${data.workspaceId}/channels`,
       );
@@ -28,7 +29,7 @@ export function useGetChannelsService() {
       return fetch(requestUrl, {
         method: 'GET',
         ...requestConfig,
-      }).then(wrapperFetchJsonResponse<UsersResponse>);
+      }).then(wrapperFetchJsonResponse<ChannelGetsResponse>);
     },
     [fetch],
   );
@@ -120,6 +121,52 @@ export function useDeleteChannelService() {
         method: 'DELETE',
         ...requestConfig,
       }).then(wrapperFetchJsonResponse<ChannelDeleteResponse>);
+    },
+    [fetch],
+  );
+}
+
+// MESSAGEs
+
+export type ChannelMessagesRequest = {
+  channelId: string;
+  cursor: number | null | undefined | string;
+  limit: number;
+  filters?: {
+    draft?: boolean;
+    parentMessageId?: number | null;
+  };
+  sort?: Array<{
+    orderBy: keyof Message;
+    // order: SortEn;
+  }>;
+};
+
+export type ChannelMessagesResponse = InfinityPaginationType<Message>;
+
+export function useGetChannelMessagesService() {
+  const fetch = useFetch();
+
+  return useCallback(
+    (data: ChannelMessagesRequest, requestConfig?: RequestConfigType) => {
+      const requestUrl = new URL(
+        `${API_URL}/v1/channels/${data.channelId}/messages`,
+      );
+      if (data.cursor) {
+        requestUrl.searchParams.append('cursor', data.cursor?.toString() ?? '');
+      }
+      requestUrl.searchParams.append('limit', data.limit.toString());
+      if (data.filters) {
+        requestUrl.searchParams.append('filters', JSON.stringify(data.filters));
+      }
+      if (data.sort) {
+        requestUrl.searchParams.append('sort', JSON.stringify(data.sort));
+      }
+
+      return fetch(requestUrl, {
+        method: 'GET',
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<ChannelMessagesResponse>);
     },
     [fetch],
   );

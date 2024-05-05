@@ -50,8 +50,6 @@ const page = () => {
         setSocketMsg([response.data.message, ...tempmsg]);
       },
     );
-
-    console.log('send');
   };
 
   const getChannel = useMemo(async () => {
@@ -70,7 +68,6 @@ const page = () => {
   }, [channelId]);
 
   useEffect(() => {
-    console.log('useEffect');
     socket.emit('subscribe', {
       seq: 3,
       event: 'subscribe',
@@ -82,13 +79,12 @@ const page = () => {
   }, []);
 
   socket.on('message_sent', (data: any) => {
-    console.log('message_sent', data);
     const tempmsg = socketMsg;
     setSocketMsg([data, ...tempmsg]);
   });
 
   return (
-    <div className=" flex max-h-screen flex-col justify-between">
+    <div className=" flex max-h-screen min-h-screen flex-col justify-between">
       <ChatHeader>
         <ChannelDataSettingsModal channelData={channel}>
           <ChatHeader.Title>
@@ -98,7 +94,7 @@ const page = () => {
         </ChannelDataSettingsModal>
         <ChatHeader.Actions workspaceMembers={channel?.members} />
       </ChatHeader>
-      <div id="style-1" className=" flex-1 overflow-auto ">
+      <div id="style-1" className="  flex-1 grow overflow-auto ">
         <Message socketMsg={socketMsg} />
       </div>
       <div className="  px-5 py-2">

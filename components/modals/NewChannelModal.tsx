@@ -78,13 +78,11 @@ const NewChannelModal = () => {
   const onSubmit: SubmitHandler<NewChannelFormData> = async (formData) => {
     await setValue('members', [{ id: userId || 1 }]);
     setValue('workspace.id', workspaceId);
-    console.log('formdata', formData);
 
     const { data: dataChannel, status: statusChannel } =
       await fetchPostChannels(formData);
 
     if (statusChannel === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
-      console.log('error', dataChannel, statusChannel);
       (
         Object.keys(dataChannel.errors) as Array<keyof NewChannelFormData>
       ).forEach((key) => {
@@ -100,7 +98,6 @@ const NewChannelModal = () => {
       setOpen(false);
       // setStep(3);
     } else {
-      console.log('error');
     }
   };
 

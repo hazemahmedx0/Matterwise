@@ -58,6 +58,7 @@ const WorkspacesList = () => {
     }
   }, [workspacesListData]);
 
+  console.log('workspacesList', workspacesList);
   const handleScroll = useCallback(() => {
     if (!hasNextPage || isFetchingNextPage) return;
     fetchNextPage();
@@ -91,7 +92,7 @@ const WorkspacesList = () => {
             />
             <Text as="p" size="large" leading="compact">
               {isFetching && !currentWorkspaceData ? (
-                <div className=" h-3 w-11 animate-pulse rounded-md bg-ui-bg-switch-off" />
+                <span className=" h-3 w-11 animate-pulse rounded-md bg-ui-bg-switch-off" />
               ) : (
                 ''
               )}
@@ -110,7 +111,7 @@ const WorkspacesList = () => {
           <DropdownMenu.Separator />
           <div id="style-1" className=" max-h-48 overflow-auto">
             {workspacesList?.map((workspace) => (
-              <Link href={`/workspaces/${workspace.id}`} key={workspace.id}>
+              <a href={`/workspaces/${workspace.id}`} key={workspace.id}>
                 <DropdownMenu.Item key={workspace.id}>
                   <Avatar
                     variant="squared"
@@ -121,7 +122,7 @@ const WorkspacesList = () => {
                   />
                   {workspace.title}
                 </DropdownMenu.Item>
-              </Link>
+              </a>
             ))}
             <div
               ref={loadMoreRef}

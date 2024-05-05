@@ -46,7 +46,6 @@ export const NewWorkspaceStep2 = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   let workspaceId = Number(searchParams.get('workspace'));
-  console.log('workspaceId', workspaceId);
   const UserData = useAuth();
   const userId = UserData.user?.id;
 

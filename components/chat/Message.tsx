@@ -29,14 +29,10 @@ const Message = ({ socketMsg }: { socketMsg: any }) => {
     }
   }, [data]);
 
-  console.log('socketMsg', socketMsg);
-
   const handleScroll = useCallback(() => {
     if (!hasNextPage || isFetchingNextPage) return;
-    // console.log('fetching next page');
     fetchNextPage();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
-  console.log('Channelsresult', Channelsresult);
 
   const bottomRef = React.useRef<HTMLDivElement>(null);
   const chatRef = React.useRef<HTMLDivElement>(null);
@@ -47,7 +43,6 @@ const Message = ({ socketMsg }: { socketMsg: any }) => {
     count: data?.pages?.[0]?.data?.length + socketMsg.length ?? 0,
   });
 
-  console.log('data', socketMsg.length);
   return (
     <div ref={chatRef} className="flex flex-col-reverse">
       <div ref={bottomRef}></div>

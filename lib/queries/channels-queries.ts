@@ -74,7 +74,6 @@ export const useChannelMessagesListQuery = ({
         limit: 40,
       });
       if (status === HTTP_CODES_ENUM.OK) {
-        console.log('data', data);
         return {
           data: data.messages,
           nextPageParam: data.nextCursor ? { cursor: data.nextCursor } : null, // Prepare the next cursor

@@ -1,5 +1,5 @@
 'use client';
-import React, { useMemo, useState } from 'react';
+import React, { use, useEffect, useMemo, useState } from 'react';
 
 // TYEPS
 import { Channel } from '@/types/channels-types';
@@ -18,13 +18,42 @@ import { useParams, useRouter } from 'next/navigation';
 import withPageRequiredAuth from '@/services/auth/with-page-required-auth';
 import { Button } from '@medusajs/ui';
 import { useSocket } from '@/providers/socket-provider';
+import { Message as MsgType } from '@/types/message-types';
 
 const page = () => {
   const { channelId } = useParams();
-  const socket = useSocket();
+  const { socket, isConnected } = useSocket();
   const fetchGetChannel = useGetChannelService();
   const [channel, setChannel] = useState<Channel>();
   const router = useRouter();
+  const params = useParams();
+  const [socketMsg, setSocketMsg] = React.useState<MsgType[]>([]);
+  const handelsend = (content: string) => {
+    socket.emit(
+      'message_sent',
+      {
+        seq: 4,
+        event: 'message_sent',
+        data: {
+          content: content,
+          draft: false,
+          channel: {
+            id: params.channelId,
+          },
+          workspace: {
+            id: params.workspaceId,
+          },
+        },
+      },
+      (response: any) => {
+        const tempmsg = socketMsg;
+        setSocketMsg([response.data.message, ...tempmsg]);
+      },
+    );
+
+    console.log('send');
+  };
+
   const getChannel = useMemo(async () => {
     const { status, data } = await fetchGetChannel({ id: Number(channelId) });
     if (status) {
@@ -40,35 +69,26 @@ const page = () => {
     }
   }, [channelId]);
 
-  const sendsend = () => {
-    socket.socket.emit('subscribe', {
+  useEffect(() => {
+    console.log('useEffect');
+    socket.emit('subscribe', {
       seq: 3,
       event: 'subscribe',
       data: {
-        room_id: 1,
+        room_id: Number(channelId),
         room_type: 'channel',
       },
     });
+  }, []);
 
-    socket.socket.emit('message_sent', {
-      seq: 4,
-      event: 'message_sent',
-      data: {
-        content: 'test sending message on socket',
-        draft: false,
-        channel: {
-          id: 1,
-        },
-        workspace: {
-          id: 1,
-        },
-      },
-    });
-    console.log('send');
-  };
+  socket.on('message_sent', (data: any) => {
+    console.log('message_sent', data);
+    const tempmsg = socketMsg;
+    setSocketMsg([data, ...tempmsg]);
+  });
 
   return (
-    <div className=" flex min-h-screen flex-col justify-between">
+    <div className=" flex max-h-screen flex-col justify-between">
       <ChatHeader>
         <ChannelDataSettingsModal channelData={channel}>
           <ChatHeader.Title>
@@ -78,14 +98,12 @@ const page = () => {
         </ChannelDataSettingsModal>
         <ChatHeader.Actions workspaceMembers={channel?.members} />
       </ChatHeader>
-      <div className=" h-full flex-1 ">
-        <Message />
-        <Button onClick={sendsend}>Send</Button>
-        <p>{socket.isConnected ? 'ss' : 'no'}</p>
+      <div id="style-1" className=" flex-1 overflow-auto ">
+        <Message socketMsg={socketMsg} />
       </div>
       <div className="  px-5 py-2">
         <div className=" rounded-xl border border-ui-border-base bg-ui-bg-field p-1.5">
-          <Tiptap />
+          <Tiptap handelsend={handelsend} />
         </div>
       </div>
     </div>

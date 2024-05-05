@@ -23,7 +23,7 @@ const Home = () => {
       ([] as Workspace[]);
     setLoading(false);
     if (result && result.length > 0 && !isLoading) {
-      console.log('result___', result);
+      // console.log('result___', result);
       router.push(`/workspaces/${result[0]?.id}`);
     } else if (!isLoading) {
       router.push(`/welcome/new-workspace`);

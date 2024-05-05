@@ -25,13 +25,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <QueryClientProvider client={queryClient}>
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-            <ModalsProvider>
-              <Toaster />
-              <SocketProvider>{children}</SocketProvider>
-            </ModalsProvider>
-          </QueryClientProvider>
+          <SocketProvider>
+            <QueryClientProvider client={queryClient}>
+              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+              <ModalsProvider>
+                <Toaster />
+                {children}
+              </ModalsProvider>
+            </QueryClientProvider>
+          </SocketProvider>
         </AuthProvider>
       </body>
     </html>

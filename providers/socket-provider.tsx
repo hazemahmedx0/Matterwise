@@ -26,12 +26,15 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketInstance = ClientIO('http://localhost:3000/events', {
-      //   addTrailingSlash: false,
-      extraHeaders: {
-        authorization: `Bearer ${tokens?.token}`,
+    const socketInstance = new (ClientIO as any)(
+      'http://localhost:3000/events',
+      {
+        //   addTrailingSlash: false,
+        extraHeaders: {
+          authorization: `Bearer ${tokens?.token}`,
+        },
       },
-    });
+    );
 
     socketInstance.on('connect', () => {
       setIsConnected(true);

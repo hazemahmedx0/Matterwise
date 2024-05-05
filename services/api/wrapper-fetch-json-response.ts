@@ -5,8 +5,6 @@ async function wrapperFetchJsonResponse<T>(
   response: Response,
 ): Promise<FetchJsonResponse<T>> {
   const status = response.status as FetchJsonResponse<T>['status'];
-  console.log('status', status);
-  console.log('response', response);
   return {
     status,
     data: [

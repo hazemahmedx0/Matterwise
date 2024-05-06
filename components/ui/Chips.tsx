@@ -59,7 +59,7 @@ const Chips = ({ save }: chipsPropsTypes) => {
 
   return (
     <>
-      <div className=" txt-compact-small relative flex h-52 w-full appearance-none flex-wrap content-start  items-start justify-start  gap-2 rounded-md bg-ui-bg-field px-2 py-1.5 text-ui-fg-base placeholder-ui-fg-muted caret-ui-fg-base shadow-borders-base outline-none transition-fg invalid:!shadow-borders-error hover:bg-ui-bg-field-hover focus-visible:shadow-borders-interactive-with-active disabled:cursor-not-allowed disabled:!bg-ui-bg-disabled disabled:text-ui-fg-disabled disabled:placeholder-ui-fg-disabled aria-[invalid=true]:!shadow-borders-error [&::--webkit-search-cancel-button]:hidden [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden">
+      <div className=" txt-compact-small relative flex h-52 w-full appearance-none flex-wrap content-start  items-start justify-start  gap-2 rounded-md bg-ui-bg-field px-2 py-1.5 text-ui-fg-base placeholder-ui-fg-muted caret-ui-fg-base shadow-borders-base outline-none transition-fg invalid:!shadow-borders-error hover:bg-ui-bg-field-hover focus-visible:shadow-borders-interactive-with-active disabled:cursor-not-allowed disabled:!bg-ui-bg-disabled disabled:text-ui-fg-disabled disabled:placeholder-ui-fg-disabled aria-[invalid=true]:!shadow-borders-error  [&::-webkit-search-decoration]:hidden">
         <ChipsList
           chipsList={chips}
           onChipClick={(event, chip) => {

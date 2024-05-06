@@ -3,7 +3,7 @@ import SideNav from '@/components/sideNav/SideNav';
 
 import { RiDraggable } from '@remixicon/react';
 
-import React, { Children, useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
 const MainLayout = ({

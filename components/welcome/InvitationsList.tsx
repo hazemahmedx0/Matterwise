@@ -19,8 +19,6 @@ const InvitationsList = () => {
     fetchNextPage,
   } = useInvitesListQuery();
 
-  //   console.log(InvitesListData);
-
   const InvitesList = useMemo(() => {
     const result =
       (InvitesListData?.pages.flatMap(
@@ -28,12 +26,10 @@ const InvitationsList = () => {
       ) as unknown as Invitation[]) ?? ([] as Invitation[]);
 
     if (result) {
-      //   console.log('res', result);
       return removeDuplicatesFromArrayObjects(result, 'id');
     }
   }, [InvitesListData]);
 
-  console.log(InvitesList);
   const [isAccepting, setIsAccepting] = useState(false);
 
   const acceptInvite = (workspaceId: number, inviteId: number) => async () => {
@@ -44,7 +40,6 @@ const InvitationsList = () => {
     });
 
     if (status === HTTP_CODES_ENUM.NO_CONTENT) {
-      console.log('Invitation accepted', status);
       setIsAccepting(false);
       window.location.replace(`/workspaces/${workspaceId}`);
     }

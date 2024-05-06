@@ -7,12 +7,11 @@ import {
   RiStrikethrough2,
 } from '@remixicon/react';
 import './styles.css';
-import Code from '@tiptap/extension-code';
 
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import React, { useRef } from 'react';
-import { IconButton, Input } from '@medusajs/ui';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { IconButton } from '@medusajs/ui';
 
 export default ({
   handelsend,
@@ -25,10 +24,9 @@ export default ({
 }) => {
   const textareaRef = useRef<HTMLDivElement>(null);
 
-  // console.log('dasdsd', textareaRef?.current?.clientHeight);
   const editor = useEditor({
-    autofocus: isEditable ? true : false,
-    extensions: [StarterKit, Code],
+    autofocus: 'end',
+    extensions: [StarterKit],
     content:
       content ??
       `
@@ -36,15 +34,20 @@ export default ({
     `,
   });
 
-  if (editor && !isEditable) {
-    editor.setEditable(false);
-  }
+  // if (editor && !isEditable) {
+  //   editor.setEditable(false);
+  // }
+  useEffect(() => {
+    if (editor) {
+      editor.commands.focus();
+      // editor.view.dom.focus();
+    }
+  }, [editor]);
 
   const sendMsg = () => {
-    console.log('editor', editor);
     if (editor) {
-      console.log('editor.getHTML()', editor.getHTML());
       handelsend && handelsend(editor.getHTML());
+      editor.commands.clearContent();
     }
   };
 
@@ -106,6 +109,7 @@ export default ({
         placeholder="Start typing..."
         className=" h-max max-h-80 min-h-14 overflow-auto px-1.5 pb-3 text-base !font-light  leading-snug focus:outline-none "
         ref={textareaRef}
+        autoFocus={true}
         contentEditable={false}
       />
 

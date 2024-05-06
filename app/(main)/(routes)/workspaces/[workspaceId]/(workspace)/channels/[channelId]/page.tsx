@@ -1,5 +1,5 @@
 'use client';
-import React, { use, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 // TYEPS
 import { Channel } from '@/types/channels-types';
@@ -7,27 +7,32 @@ import HTTP_CODES_ENUM from '@/services/api/types/http-codes';
 
 // COMPONENTS
 import ChatHeader from '@/components/chat/ChatHeader';
-import Message from '@/components/chat/Message';
+import ChatMessages from '@/components/chat/ChatMessages';
 import ChannelDataSettingsModal from '@/components/modals/ChannelDataSettingsModal';
 import Tiptap from '@/components/tiptap/Tiptap';
 
 // HOOKS
 import { useGetChannelService } from '@/services/api/services/channels';
 import { useParams, useRouter } from 'next/navigation';
+import { useSocket } from '@/providers/socket-provider';
 
 import withPageRequiredAuth from '@/services/auth/with-page-required-auth';
-import { Button } from '@medusajs/ui';
-import { useSocket } from '@/providers/socket-provider';
-import { Message as MsgType } from '@/types/message-types';
+
+// Types
+import { Message } from '@/types/message-types';
 
 const page = () => {
-  const { channelId } = useParams();
-  const { socket, isConnected } = useSocket();
-  const fetchGetChannel = useGetChannelService();
-  const [channel, setChannel] = useState<Channel>();
+  const { channelId, workspaceId } = useParams();
   const router = useRouter();
-  const params = useParams();
-  const [socketMsg, setSocketMsg] = React.useState<MsgType[]>([]);
+  const { socket } = useSocket();
+
+  const [channel, setChannel] = useState<Channel>();
+  const [messageSocketList, setMessageSocketList] = React.useState<Message[]>(
+    [],
+  );
+
+  const fetchGetChannel = useGetChannelService();
+
   const handelsend = (content: string) => {
     socket.emit(
       'message_sent',
@@ -38,21 +43,21 @@ const page = () => {
           content: content,
           draft: false,
           channel: {
-            id: params.channelId,
+            id: channelId,
           },
           workspace: {
-            id: params.workspaceId,
+            id: workspaceId,
           },
         },
       },
       (response: any) => {
-        const tempmsg = socketMsg;
-        setSocketMsg([response.data.message, ...tempmsg]);
+        const tempmsg = messageSocketList;
+        setMessageSocketList([response.data.message, ...tempmsg]);
       },
     );
-
-    console.log('send');
   };
+
+  // Get the channel data
 
   const getChannel = useMemo(async () => {
     const { status, data } = await fetchGetChannel({ id: Number(channelId) });
@@ -69,8 +74,9 @@ const page = () => {
     }
   }, [channelId]);
 
+  // Subscrice/Join the channel room
+
   useEffect(() => {
-    console.log('useEffect');
     socket.emit('subscribe', {
       seq: 3,
       event: 'subscribe',
@@ -81,14 +87,16 @@ const page = () => {
     });
   }, []);
 
+  // Revice the message from the socket server
+
   socket.on('message_sent', (data: any) => {
-    console.log('message_sent', data);
-    const tempmsg = socketMsg;
-    setSocketMsg([data, ...tempmsg]);
+    const tempmsg = messageSocketList;
+    setMessageSocketList([data, ...tempmsg]);
   });
 
   return (
-    <div className=" flex max-h-screen flex-col justify-between">
+    <div className=" flex max-h-screen min-h-screen max-w-full flex-col justify-between overflow-hidden">
+      {/* Header */}
       <ChatHeader>
         <ChannelDataSettingsModal channelData={channel}>
           <ChatHeader.Title>
@@ -98,9 +106,16 @@ const page = () => {
         </ChannelDataSettingsModal>
         <ChatHeader.Actions workspaceMembers={channel?.members} />
       </ChatHeader>
-      <div id="style-1" className=" flex-1 overflow-auto ">
-        <Message socketMsg={socketMsg} />
+
+      {/* Messages */}
+      <div
+        id="style-1"
+        className="flex w-full flex-1 grow items-end overflow-hidden "
+      >
+        <ChatMessages messageSocketList={messageSocketList} />
       </div>
+
+      {/* Input */}
       <div className="  px-5 py-2">
         <div className=" rounded-xl border border-ui-border-base bg-ui-bg-field p-1.5">
           <Tiptap handelsend={handelsend} />

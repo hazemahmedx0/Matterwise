@@ -42,8 +42,6 @@ const InviteUsersModal = ({
 
   const onSubmit = async (formData: Chip[]) => {
     setLoading(true);
-    console.log('fsdfds');
-    console.log('fsdfds', formData);
 
     const hasInvalidResult = hasInvalid(formData);
 
@@ -60,7 +58,6 @@ const InviteUsersModal = ({
     }
     const EmailsList = getEmails(formData);
 
-    console.log(EmailsList);
     const { data: invitationData, status: statusInvite } =
       await fetchPostUserInvite({
         id: workspaceId,
@@ -86,7 +83,6 @@ const InviteUsersModal = ({
         duration: 5000,
       });
 
-      console.log(invitationData);
       setChips([]);
       setLoading(false);
       setOpen(false);

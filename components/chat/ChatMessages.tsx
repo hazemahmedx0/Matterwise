@@ -77,8 +77,12 @@ const ChatMessages = ({
   }, [Channelsresult, entry?.isIntersecting, hasNextPage]);
 
   return (
-    <div ref={chatRef} className="mt-32 flex flex-col-reverse">
+    <div
+      ref={chatRef}
+      className="mt-32 flex grow flex-col-reverse content-end items-end justify-end overflow-hidden"
+    >
       {/* To snap to the end bottom of the chat list */}
+
       <div ref={bottomRef}></div>
 
       {/* Messages list */}

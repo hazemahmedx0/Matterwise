@@ -95,7 +95,7 @@ const page = () => {
   });
 
   return (
-    <div className=" flex max-h-screen min-h-screen flex-col justify-between">
+    <div className=" flex max-h-screen min-h-screen max-w-full flex-col justify-between overflow-hidden">
       {/* Header */}
       <ChatHeader>
         <ChannelDataSettingsModal channelData={channel}>
@@ -108,7 +108,10 @@ const page = () => {
       </ChatHeader>
 
       {/* Messages */}
-      <div id="style-1" className="  flex-1 grow overflow-auto ">
+      <div
+        id="style-1"
+        className="flex w-full flex-1 grow items-end overflow-hidden "
+      >
         <ChatMessages messageSocketList={messageSocketList} />
       </div>
 

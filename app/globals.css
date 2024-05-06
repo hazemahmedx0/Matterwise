@@ -27,6 +27,10 @@ body {
   .nav-list-item:hover {
     @apply bg-ui-bg-field-hover transition-all;
   }
+
+  .nav-list-item-active {
+    @apply bg-ui-bg-switch-off text-ui-fg-base;
+  }
 }
 
 #style-1::-webkit-scrollbar-track {

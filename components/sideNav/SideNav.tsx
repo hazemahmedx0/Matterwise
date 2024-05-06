@@ -1,13 +1,13 @@
 'use client';
 import Link from 'next/link';
-import React, { useMemo, useState } from 'react';
+import React,  from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
 // Components
 import WorkspacesList from './Workspaces-List';
 import SideNavMainSections from './SideNav-mainSections';
 import SideNavChannelsSection from './SideNav-channelsSection';
-import SideNavMembersSection from './SideNav-MembersSection';
+import SideNavMembersSection from './SideNav-membersSection';
 
 //Modals
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useParams } from 'next/navigation';
 
 // Hooks
@@ -76,10 +76,12 @@ const ChatMessages = ({
     }
   }, [Channelsresult, entry?.isIntersecting, hasNextPage]);
 
+  console.log('Channelsresult', Channelsresult);
   return (
     <div
       ref={chatRef}
-      className="mt-32 flex grow flex-col-reverse content-end items-end justify-end overflow-hidden"
+      // className="mt-32 flex grow flex-col-reverse content-end items-end  overflow-x-hidden "
+      className="mt-32 flex max-h-full w-full grow flex-col-reverse items-end "
     >
       {/* To snap to the end bottom of the chat list */}
 

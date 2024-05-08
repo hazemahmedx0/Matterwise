@@ -1,9 +1,8 @@
-import { Fragment, useCallback, useEffect, useMemo, useRef } from 'react';
+import { ElementRef, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useParams } from 'next/navigation';
 
 // Hooks
 import { useChannelMessagesListQuery } from '@/lib/queries/channels-queries';
-import { useSocket } from '@/providers/socket-provider';
 import { useChatScroll } from '@/hooks/use-chat-scroll';
 import { useIntersectionObserver } from '@uidotdev/usehooks';
 
@@ -23,8 +22,8 @@ const ChatMessages = ({
 }) => {
   const { channelId } = useParams();
   // Refs
-  const bottomRef = useRef<HTMLDivElement>(null);
-  const chatRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<ElementRef<'div'>>(null);
+  const chatRef = useRef<ElementRef<'div'>>(null);
 
   const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } =
     useChannelMessagesListQuery({
@@ -76,7 +75,6 @@ const ChatMessages = ({
     }
   }, [Channelsresult, entry?.isIntersecting, hasNextPage]);
 
-  console.log('Channelsresult', Channelsresult);
   return (
     <div
       ref={chatRef}

@@ -36,7 +36,7 @@ const MessageItem = ({ message }: { message: Message }) => {
               .replace(',', '')}{' '}
           </Text>
         </div>
-        <div className="max-w-full overflow-hidden ">
+        <div className="w-full overflow-hidden ">
           <TiptapReadOnly content={message?.content} />
           {message.childsCount > 0 && (
             <Text

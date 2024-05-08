@@ -75,8 +75,10 @@ export const useChannelMessagesListQuery = ({
       });
       if (status === HTTP_CODES_ENUM.OK) {
         return {
-          data: data.messages,
-          nextPageParam: data.nextCursor ? { cursor: data.nextCursor } : null, // Prepare the next cursor
+          // @ts-ignore
+          data: data?.messages,
+          // @ts-ignore
+          nextPageParam: data?.nextCursor ? { cursor: data.nextCursor } : null, // Prepare the next cursor
         };
       }
     },

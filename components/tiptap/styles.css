@@ -41,3 +41,7 @@
 .tiptap code {
   @apply rounded-[0.25em] bg-ui-bg-switch-off box-decoration-clone p-1 text-[0.9rem] text-ui-fg-base;
 }
+
+.ProseMirror {
+  height: fit-content;
+}

@@ -1,6 +1,7 @@
 'use client';
 import { useGetWorkspaceService } from '@/services/api/services/workspaces';
 import useAuth from '@/services/auth/use-auth';
+import { Workspace } from '@/types/workspace-types';
 import { useState, useEffect } from 'react';
 
 const useIsAdmin = (workspaceId: string | undefined): boolean => {
@@ -14,6 +15,7 @@ const useIsAdmin = (workspaceId: string | undefined): boolean => {
           const { data, status } = await fetchGetWorkspace({
             id: Number(workspaceId),
           });
+          // @ts-ignore
           setIsAdmin(data?.owner?.id === userData?.user?.id);
         } catch (error) {}
       }

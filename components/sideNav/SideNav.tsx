@@ -7,6 +7,14 @@ import WorkspacesList from './Workspaces-List';
 import SideNavMainSections from './SideNav-mainSections';
 import SideNavChannelsSection from './SideNav-channelsSection';
 import SideNavMembersSection from './SideNav-membersSection';
+import { Avatar, Button, DropdownMenu } from '@medusajs/ui';
+import { useWorkspaceQuery } from '@/lib/queries/workspaces-queries';
+import {
+  RiArrowDropDownLine,
+  RiGroupLine,
+  RiSettings2Line,
+  RiUser2Line,
+} from '@remixicon/react';
 
 //Modals
 
@@ -21,10 +29,37 @@ import SideNavMembersSection from './SideNav-membersSection';
 const SideNav = ({ workspaceId }: { workspaceId: string }) => {
   const router = useRouter();
   const params = useParams();
-
+  const {
+    data: currentWorkspaceData,
+    isLoading: currentWorkspaceLoading,
+    isFetching,
+  } = useWorkspaceQuery({
+    id: Number(workspaceId),
+  });
   return (
     <nav className="relative min-h-screen bg-ui-bg-subtle">
-      <WorkspacesList />
+      <DropdownMenu>
+        <DropdownMenu.Trigger>
+          <Button variant="transparent" size="base" className="mx-2 mt-3">
+            {currentWorkspaceData?.title}
+            <RiArrowDropDownLine />
+          </Button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content align="start" className="ml-2">
+          <Link href={`/workspaces/${workspaceId}/settings/workspace`}>
+            <DropdownMenu.Item className=" gap-x-2">
+              <RiSettings2Line className="text-ui-fg-subtle" size={20} />
+              Settings
+            </DropdownMenu.Item>
+          </Link>
+          <Link href={`/workspaces/${workspaceId}/settings/members`}>
+            <DropdownMenu.Item className=" gap-x-2">
+              <RiGroupLine className="text-ui-fg-subtle" size={20} />
+              People
+            </DropdownMenu.Item>
+          </Link>{' '}
+        </DropdownMenu.Content>
+      </DropdownMenu>
 
       <div
         id="style-1"

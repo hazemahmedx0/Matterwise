@@ -1,4 +1,4 @@
 export type InfinityPaginationType<T> = {
-  hasNextPage: boolean;
+  hasNextPage?: boolean;
   data: T[];
 };

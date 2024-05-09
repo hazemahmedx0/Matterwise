@@ -45,8 +45,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     setSocket(socketInstance);
-
-    socketInstance.on('exception', (data) => {
+    // TODO
+    socketInstance.on('exception', (data: any) => {
       console.log(data);
     });
 

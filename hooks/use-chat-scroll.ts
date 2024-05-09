@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react';
-
-export const useChatScroll = ({ chatRef, bottomRef, count }) => {
+type ChatScrollProps = {
+  chatRef: React.RefObject<HTMLDivElement>;
+  bottomRef: React.RefObject<HTMLDivElement>;
+  count: number;
+};
+export const useChatScroll = ({
+  chatRef,
+  bottomRef,
+  count,
+}: ChatScrollProps) => {
   const [hasInitialised, setHasInitialised] = useState(false);
 
   useEffect(() => {
@@ -20,10 +28,10 @@ export const useChatScroll = ({ chatRef, bottomRef, count }) => {
     };
     if (shouldAutoScroll()) {
       setTimeout(() => {
-        bottomRef?.current.scrollIntoView({
-          behaviour: 'smooth',
+        bottomRef?.current?.scrollIntoView({
+          behavior: hasInitialised ? 'smooth' : 'auto',
         });
-      }, 100);
+      }, 300);
     }
   }, [bottomRef, chatRef, hasInitialised, count]);
 };

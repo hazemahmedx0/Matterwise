@@ -110,7 +110,9 @@ const page = () => {
       {/* Messages */}
       <div
         id="style-1"
-        className="flex w-full flex-1 grow items-end overflow-hidden "
+        // className="flex max-h-full w-full grow flex-col items-end overflow-x-hidden overflow-y-hidden"
+        // className="flex max-h-full w-full grow flex-col items-end overflow-x-hidden overflow-y-hidden"
+        className="flex max-h-full w-full grow flex-col items-end overflow-auto"
       >
         <ChatMessages messageSocketList={messageSocketList} />
       </div>

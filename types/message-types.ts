@@ -4,6 +4,7 @@ export type Message = {
   id: number;
   content: string;
   createdAt: string;
+  childsCount: number;
   sender: User;
   channel: {
     id: number;

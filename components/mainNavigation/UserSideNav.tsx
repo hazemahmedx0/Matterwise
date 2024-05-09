@@ -20,10 +20,12 @@ import {
 import Link from 'next/link';
 import useAuthActions from '@/services/auth/use-auth-actions';
 import { useIntersectionObserver } from '@uidotdev/usehooks';
+import useAuth from '@/services/auth/use-auth';
+import { undefined } from 'zod';
 
-const WorkspacesList = () => {
+const UserSideNav = () => {
   const { logOut } = useAuthActions();
-
+  const { user } = useAuth();
   const {
     data: workspacesListData,
     isLoading,
@@ -74,8 +76,8 @@ const WorkspacesList = () => {
         <DropdownMenu.Trigger asChild>
           <Avatar
             variant="squared"
-            fallback={currentWorkspaceData?.title[0] || 'o'}
-            src={currentWorkspaceData?.photo?.path || ''}
+            fallback={user?.firstName || 'o'}
+            src={user?.photo?.path || ''}
             size="large"
             className="cursor-pointer"
           />
@@ -90,41 +92,14 @@ const WorkspacesList = () => {
           {/* <RiArrowDownSLine className=" ml-auto" size={16} /> */}
         </DropdownMenu.Trigger>
         <DropdownMenu.Content align="end" side="right">
-          {/* <Link href={`/workspaces/${workspaceId}/settings`}>
+          <Link href={`/workspaces/${workspaceId}/settings/account`}>
             <DropdownMenu.Item className=" gap-x-2">
               <RiSettings2Line className="text-ui-fg-subtle" size={20} />
               Settings
             </DropdownMenu.Item>
-          </Link> */}
-          {/* <DropdownMenu.Separator /> */}
-          <div id="style-1" className=" max-h-48 overflow-auto">
-            {workspacesList?.map((workspace) => (
-              <a href={`/workspaces/${workspace.id}`} key={workspace.id}>
-                <DropdownMenu.Item key={workspace.id}>
-                  <Avatar
-                    variant="squared"
-                    fallback={workspace.title[0] || 'o'}
-                    src={workspace.photo?.path || ''}
-                    className="mr-2"
-                    size="xsmall"
-                  />
-                  {workspace.title}
-                </DropdownMenu.Item>
-              </a>
-            ))}
-            <div
-              ref={loadMoreRef}
-              className={`h-4 ${!hasNextPage ? 'hidden' : null}`}
-            />
-          </div>
-          <DropdownMenu.Separator />
-          <Link href="/welcome/new-workspace">
-            <DropdownMenu.Item className=" gap-x-2">
-              <RiAddLine className="text-ui-fg-subtle" size={20} />
-              Add a Workspace
-            </DropdownMenu.Item>
           </Link>
-          {/* <DropdownMenu.Item
+
+          <DropdownMenu.Item
             className=" gap-x-2 text-ui-fg-error"
             onClick={() => {
               logOut();
@@ -132,11 +107,11 @@ const WorkspacesList = () => {
           >
             <RiLogoutBoxRLine size={20} />
             Log out
-          </DropdownMenu.Item> */}
+          </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu>
     </>
   );
 };
 
-export default WorkspacesList;
+export default UserSideNav;

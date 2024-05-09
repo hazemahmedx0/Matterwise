@@ -4,7 +4,6 @@ import React from 'react';
 import TiptapReadOnly from '../tiptap/TiptapReadOnly';
 import {
   RiArrowDropRightLine,
-  RiArrowLeftLine,
   RiReplyAllFill,
   RiReplyFill,
 } from '@remixicon/react';

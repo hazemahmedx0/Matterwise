@@ -44,12 +44,6 @@ const ChatMessages = ({
     fetchNextPage();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  useChatScroll({
-    chatRef,
-    bottomRef,
-    count: data?.pages?.[0]?.data?.length + messageSocketList.length ?? 0,
-  });
-
   const [loadMoreRef, entry] = useIntersectionObserver({
     threshold: 0,
     root: null,
@@ -75,11 +69,16 @@ const ChatMessages = ({
     }
   }, [Channelsresult, entry?.isIntersecting, hasNextPage]);
 
+  useChatScroll({
+    chatRef,
+    bottomRef,
+    count: data?.pages?.[0]?.data?.length + messageSocketList.length ?? 0,
+  });
   return (
     <div
       ref={chatRef}
       // className="mt-32 flex grow flex-col-reverse content-end items-end  overflow-x-hidden "
-      className="mt-32 flex max-h-full w-full grow flex-col-reverse items-end "
+      className="mt-32 flex max-h-full w-full grow flex-col-reverse items-end  justify-end"
     >
       {/* To snap to the end bottom of the chat list */}
 

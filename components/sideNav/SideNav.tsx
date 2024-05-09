@@ -39,7 +39,7 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
   return (
     <nav className="relative min-h-screen bg-ui-bg-subtle">
       <DropdownMenu>
-        <DropdownMenu.Trigger>
+        <DropdownMenu.Trigger asChild className=" text-left">
           <Button variant="transparent" size="base" className="mx-2 mt-3">
             {currentWorkspaceData?.title}
             <RiArrowDropDownLine />

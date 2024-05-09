@@ -2,6 +2,7 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
   presets: [require('@medusajs/ui-preset')],
+  darkMode: 'class',
 
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',

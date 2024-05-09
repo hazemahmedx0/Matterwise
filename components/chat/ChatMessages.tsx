@@ -64,7 +64,6 @@ const ChatMessages = ({
       entry?.isIntersecting &&
       hasNextPage
     ) {
-      console.log('fetching next page', hasNextPage);
       handleScroll();
     }
   }, [Channelsresult, entry?.isIntersecting, hasNextPage]);

@@ -63,7 +63,6 @@ const ThreadReplies = ({
       entry?.isIntersecting &&
       hasNextPage
     ) {
-      console.log('fetching next page', hasNextPage);
       handleScroll();
     }
   }, [threadMsgs, entry?.isIntersecting, hasNextPage]);

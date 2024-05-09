@@ -44,6 +44,7 @@ const page = () => {
   const fetchAuthPatchMe = useAuthPatchMeService();
 
   const [fething, setFething] = useState(false);
+  const { toast } = useToast();
 
   const method = useForm<ProfileData>({
     resolver: zodResolver(schema),
@@ -72,6 +73,12 @@ const page = () => {
     }
 
     if (status === HTTP_CODES_ENUM.OK) {
+      toast({
+        title: 'Success',
+        description: 'Profile updated successfully',
+        variant: 'success',
+        duration: 5000,
+      });
     }
   };
 

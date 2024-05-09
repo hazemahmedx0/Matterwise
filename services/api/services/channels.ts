@@ -152,11 +152,13 @@ export function useGetChannelMessagesService() {
       const requestUrl = new URL(
         `${API_URL}/v1/channels/${data.channelId}/messages`,
       );
+      console.log('datainFetch', data);
       if (data.cursor) {
         requestUrl.searchParams.append('cursor', data.cursor?.toString() ?? '');
       }
       requestUrl.searchParams.append('limit', data.limit.toString());
       if (data.filters) {
+        console.log('data.filters', data.filters);
         requestUrl.searchParams.append('filters', JSON.stringify(data.filters));
       }
       if (data.sort) {

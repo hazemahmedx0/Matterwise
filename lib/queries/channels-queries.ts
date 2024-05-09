@@ -48,32 +48,45 @@ export const useChannelListQuery = ({
 // Channel Messages
 
 export const channelMessagesQueryKeys = createQueryKeys(['channelMessages'], {
-  list: () => ({
-    key: ['channels'],
+  list: (
+    messageId: string,
+    channelId: string,
+    filters: { draft: boolean; parentMessageId: number },
+  ) => ({
+    key: [
+      'channels',
+      channelId,
+      filters?.draft ? 'draft' : 'published',
+      `parentMessageId:${messageId ?? ''}`,
+    ],
   }),
 });
-
 export const useChannelMessagesListQuery = ({
+  messageId,
   channelId,
   sort,
   filter,
 }: {
+  messageId?: string;
   channelId: string;
   sort?: string;
-  filter?: string;
+  filter?: any;
 }) => {
   const fetch = useGetChannelMessagesService();
-
+  console.log('filterss', filter);
   const query = useInfiniteQuery({
-    queryKey: channelMessagesQueryKeys.list().key,
+    queryKey: channelMessagesQueryKeys.list(messageId ?? '', channelId, filter)
+      .key,
     initialPageParam: { cursor: null }, // Start with a cursor set to null
     queryFn: async ({ pageParam, signal }) => {
       const { status, data } = await fetch({
         channelId,
         cursor: pageParam.cursor, // Use cursor from pageParam
         limit: 5,
+        filters: filter,
       });
       if (status === HTTP_CODES_ENUM.OK) {
+        console.log('data nextCurso', data?.nextCursor);
         return {
           // @ts-ignore
           data: data?.messages,

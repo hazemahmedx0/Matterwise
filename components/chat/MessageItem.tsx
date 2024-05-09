@@ -7,8 +7,15 @@ import {
   RiReplyAllFill,
   RiReplyFill,
 } from '@remixicon/react';
+import ThreadBar from './ThreadBar';
 
-const MessageItem = ({ message }: { message: Message }) => {
+type MessageItemProps = {
+  message: Message | null | undefined;
+  isThread?: boolean;
+};
+
+const MessageItem = ({ message, isThread }: MessageItemProps) => {
+  if (!message) return null;
   return (
     <div className="flex w-full max-w-full gap-4  px-5 py-2 hover:bg-ui-bg-base-hover">
       <Avatar
@@ -20,7 +27,8 @@ const MessageItem = ({ message }: { message: Message }) => {
       <div className="max-w-full overflow-hidden">
         <div>
           <Text as="span" size="large" weight="plus" className="mr-2">
-            {message?.sender?.firstName ?? 'Unknown'}
+            {message?.sender?.firstName ?? 'Unknown'}{' '}
+            {message?.sender?.lastName}
           </Text>
           <Text as="span" size="small" className="text-ui-fg-muted">
             {new Date(message?.createdAt)
@@ -37,24 +45,9 @@ const MessageItem = ({ message }: { message: Message }) => {
         </div>
         <div className="w-full overflow-hidden ">
           <TiptapReadOnly content={message?.content} />
-          {message.childsCount > 0 && (
-            <Text
-              as="div"
-              size="small"
-              className="group flex max-w-72 items-center gap-2 rounded-lg border border-transparent px-3 py-1 text-ui-fg-interactive hover:border hover:border-ui-border-base hover:bg-ui-bg-base hover:text-ui-fg-interactive-hover"
-            >
-              {message.childsCount > 1 ? (
-                <RiReplyAllFill size={16} className="my-auto inline" />
-              ) : (
-                <RiReplyFill size={16} className="my-auto inline" />
-              )}
-              {message.childsCount}{' '}
-              {message.childsCount > 1 ? 'replies' : 'reply'}
-              <RiArrowDropRightLine
-                size={18}
-                className=" ml-auto  text-ui-fg-disabled opacity-0  group-hover:opacity-100"
-              />
-            </Text>
+
+          {message.childsCount > 0 && !isThread && (
+            <ThreadBar message={message} />
           )}
         </div>
       </div>

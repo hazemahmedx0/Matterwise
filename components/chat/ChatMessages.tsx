@@ -78,7 +78,7 @@ const ChatMessages = ({
     <div
       ref={chatRef}
       // className="mt-32 flex grow flex-col-reverse content-end items-end  overflow-x-hidden "
-      className="mt-32 flex max-h-full w-full grow flex-col-reverse items-end  justify-end"
+      className="mt-32 flex max-h-full w-full grow flex-col-reverse items-end  justify-start"
     >
       {/* To snap to the end bottom of the chat list */}
 
@@ -95,7 +95,7 @@ const ChatMessages = ({
       {/* Load more div */}
       <div
         ref={loadMoreRef}
-        className={`h-12 w-4  ${!hasNextPage ? 'hidden' : null} translate-y-80`}
+        className={`h-12 w-4  ${!hasNextPage || isLoading || isFetchingNextPage ? 'hidden' : null} translate-y-80`}
       ></div>
     </div>
   );

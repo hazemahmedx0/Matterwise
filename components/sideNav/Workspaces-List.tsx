@@ -89,9 +89,9 @@ const WorkspacesList = () => {
               className="mr-3"
               size="small"
             />
-            <Text as="p" size="large" leading="compact">
+            <Text as="p" size="large" leading="compact" className="truncate">
               {isFetching && !currentWorkspaceData ? (
-                <span className=" h-3 w-11 animate-pulse rounded-md bg-ui-bg-switch-off" />
+                <span className=" h-3 w-11 animate-pulse truncate rounded-md bg-ui-bg-switch-off" />
               ) : (
                 ''
               )}

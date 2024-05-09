@@ -24,7 +24,7 @@ const ThreadReplies = ({
   fetchNextPage,
 }: {
   messageSocketList: Message[];
-  threadMsgs: Message[] | undefined;
+  threadMsgs: Message[];
   isLoading: boolean;
   hasNextPage: boolean;
   isFetchingNextPage: boolean;

@@ -98,9 +98,10 @@ const Threads = () => {
             Thread
           </Text>
           <RiCloseFill
+            tabIndex={0}
             onClick={closeThread}
             size={20}
-            className="cursor-pointer text-green-100"
+            className="cursor-pointer text-ui-fg-muted"
           />
         </div>
 

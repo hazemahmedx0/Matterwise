@@ -82,11 +82,10 @@ export const useChannelMessagesListQuery = ({
       const { status, data } = await fetch({
         channelId,
         cursor: pageParam.cursor, // Use cursor from pageParam
-        limit: 5,
+        limit: 20,
         filters: filter,
       });
       if (status === HTTP_CODES_ENUM.OK) {
-        console.log('data nextCurso', data?.nextCursor);
         return {
           // @ts-ignore
           data: data?.messages,

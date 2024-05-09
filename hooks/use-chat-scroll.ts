@@ -31,7 +31,7 @@ export const useChatScroll = ({
         bottomRef?.current?.scrollIntoView({
           behavior: hasInitialised ? 'smooth' : 'auto',
         });
-      }, 100);
+      }, 300);
     }
   }, [bottomRef, chatRef, hasInitialised, count]);
 };

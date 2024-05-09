@@ -12,7 +12,17 @@ import { useSocket } from '@/providers/socket-provider';
 import Tiptap from '../tiptap/Tiptap';
 
 const Threads = () => {
-  const { message: ThreadMsg, setMessage } = useThreadStore();
+  const {
+    message: ThreadMsg,
+    setMessage,
+    setIsVisible,
+    isVisible,
+  } = useThreadStore();
+
+  const closeThread = () => {
+    console.log('close thread', isVisible);
+    setIsVisible();
+  };
   const { channelId, workspaceId } = useParams();
   const { socket } = useSocket();
 
@@ -71,7 +81,8 @@ const Threads = () => {
   };
 
   socket.on('message_sent', (data: any) => {
-    if (data.data.parentMessage !== ThreadMsg?.id) return;
+    console.log('New socket msg on', data);
+    if (data.data.parentMessage.id !== ThreadMsg?.id) return;
     console.log('New socket msg on', data);
     const tempmsg = messageSocketList;
     setMessageSocketList([data, ...tempmsg]);
@@ -80,40 +91,46 @@ const Threads = () => {
   if (!ThreadMsg) return null;
 
   return (
-    <div id="style-1" className=" flex h-screen flex-col overflow-auto">
-      <div className="flex justify-between px-4 pb-3 pt-5">
-        <Text as="span" size="large" leading="normal">
-          Thread
-        </Text>
-        <RiCloseFill size={20} className="text-green-100" />
-      </div>
+    <div id="style-1" className="h-screen overflow-auto">
+      <div className=" flex  flex-col ">
+        <div className="flex justify-between px-4 pb-3 pt-5">
+          <Text as="span" size="large" leading="normal">
+            Thread
+          </Text>
+          <RiCloseFill
+            onClick={closeThread}
+            size={20}
+            className="cursor-pointer text-green-100"
+          />
+        </div>
 
-      <MessageItem message={ThreadMsg} isThread={true} />
-      <div className="flex items-center gap-3 pl-3 text-ui-fg-subtle ">
-        <Text
-          as="span"
-          size="small"
-          leading="compact"
-          className=" inline min-w-fit grow"
-        >
-          {ThreadMsg?.childsCount}{' '}
-          {ThreadMsg?.childsCount > 1 ? 'replies' : 'reply'}
-        </Text>
-        <div className="h-0.5 w-full grow bg-ui-bg-base-pressed"></div>
-      </div>
-      {/* TODO */}
-      <ThreadReplies
-        threadMsgs={Threadsresult as any}
-        messageSocketList={messageSocketList as any}
-        isLoading={isLoading}
-        hasNextPage={hasNextPage}
-        isFetchingNextPage={isFetchingNextPage}
-        fetchNextPage={fetchNextPage}
-      />
+        <MessageItem message={ThreadMsg} isThread={true} />
+        <div className="flex items-center gap-3 pl-3 text-ui-fg-subtle ">
+          <Text
+            as="span"
+            size="small"
+            leading="compact"
+            className=" inline min-w-fit grow"
+          >
+            {ThreadMsg?.childsCount}{' '}
+            {ThreadMsg?.childsCount > 1 ? 'replies' : 'reply'}
+          </Text>
+          <div className="h-0.5 w-full grow bg-ui-bg-base-pressed"></div>
+        </div>
+        {/* TODO */}
+        <ThreadReplies
+          threadMsgs={Threadsresult as any}
+          messageSocketList={messageSocketList as any}
+          isLoading={isLoading}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          fetchNextPage={fetchNextPage}
+        />
 
-      <div className="  px-5 py-2">
-        <div className=" rounded-xl border border-ui-border-base bg-ui-bg-field p-1.5">
-          <Tiptap handelsend={handelsend} />
+        <div className="  px-5 py-2">
+          <div className=" rounded-xl border border-ui-border-base bg-ui-bg-field p-1.5">
+            <Tiptap handelsend={handelsend} />
+          </div>
         </div>
       </div>
     </div>

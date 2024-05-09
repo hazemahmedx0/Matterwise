@@ -9,11 +9,12 @@ import {
 import React from 'react';
 
 const ThreadBar = ({ message }: { message: Message }) => {
-  const { message: ThreadMsg, setMessage } = useThreadStore();
+  const { message: ThreadMsg, setMessage, setIsVisible } = useThreadStore();
 
   console.log(ThreadMsg);
   const setThread = () => {
     setMessage(message);
+    setIsVisible();
   };
   return (
     <Text

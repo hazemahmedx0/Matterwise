@@ -73,7 +73,6 @@ export const useChannelMessagesListQuery = ({
   filter?: any;
 }) => {
   const fetch = useGetChannelMessagesService();
-  console.log('filterss', filter);
   const query = useInfiniteQuery({
     queryKey: channelMessagesQueryKeys.list(messageId ?? '', channelId, filter)
       .key,

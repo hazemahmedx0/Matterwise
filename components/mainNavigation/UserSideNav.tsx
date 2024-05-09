@@ -73,7 +73,7 @@ const UserSideNav = () => {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenu.Trigger asChild>
+        <DropdownMenu.Trigger>
           <Avatar
             variant="squared"
             fallback={user?.firstName || 'o'}

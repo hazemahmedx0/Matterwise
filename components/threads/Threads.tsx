@@ -1,10 +1,10 @@
 import { Text } from '@medusajs/ui';
 import { RiCloseFill } from '@remixicon/react';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import MessageItem from '../chat/MessageItem';
 import { useThreadStore } from '@/store/threadStore';
 import { useChannelMessagesListQuery } from '@/lib/queries/channels-queries';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { Message } from 'postcss';
 import removeDuplicatesFromArrayObjects from '@/services/helpers/remove-duplicates-from-array-of-objects';
 import ThreadReplies from './ThreadReplies';
@@ -18,13 +18,20 @@ const Threads = () => {
     setIsVisible,
     isVisible,
   } = useThreadStore();
+  const { channelId, workspaceId } = useParams();
+  const { socket } = useSocket();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (+channelId !== ThreadMsg?.channel?.id) {
+      setIsVisible(false);
+    }
+  }, [pathname]);
 
   const closeThread = () => {
     console.log('close thread', isVisible);
-    setIsVisible();
+    setIsVisible(false);
   };
-  const { channelId, workspaceId } = useParams();
-  const { socket } = useSocket();
 
   const [messageSocketList, setMessageSocketList] = React.useState<Message[]>(
     [],

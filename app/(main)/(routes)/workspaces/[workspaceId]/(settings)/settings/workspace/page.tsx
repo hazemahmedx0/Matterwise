@@ -11,6 +11,7 @@ import {
   Textarea,
   Prompt,
   FocusModal,
+  useToast,
 } from '@medusajs/ui';
 import SectionHeader from '@/components/settings/SectionHeader';
 import FormAvatarInput from '@/components/form/form-avatar-input';
@@ -49,6 +50,7 @@ const page = () => {
   const fetchPatchWorkspace = usePatchWorkspaceService();
 
   const searchParams = useParams();
+  const { toast } = useToast();
   const workspaceId = Number(searchParams.workspaceId);
 
   const [fething, setFething] = useState(false);
@@ -85,7 +87,12 @@ const page = () => {
     }
 
     if (status === HTTP_CODES_ENUM.OK) {
-      // TODO
+      toast({
+        title: 'Success',
+        description: 'Workspace updated successfully',
+        variant: 'success',
+        duration: 5000,
+      });
     }
   };
 

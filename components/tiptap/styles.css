@@ -15,7 +15,7 @@
   @apply flex rounded-lg  pb-2;
 }
 .bubble-menu button {
-  @apply border-[none] px-[0.2rem] py-0 text-[0.85rem] font-medium text-white opacity-60;
+  @apply border-[none] px-[0.2rem] py-0 text-[0.85rem] font-medium text-ui-fg-base opacity-60;
   background: none;
 }
 .bubble-menu button:hover,
@@ -23,7 +23,7 @@
   @apply bg-ui-bg-overlay opacity-100;
 }
 .floating-menu {
-  @apply flex rounded-lg bg-[#0d0d0d10] p-[0.2rem];
+  @apply flex rounded-lg bg-ui-bg-base-hover p-[0.2rem];
 }
 .floating-menu button {
   @apply border-[none] px-[0.2rem] py-0 text-[0.85rem] font-medium opacity-60;

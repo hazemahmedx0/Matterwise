@@ -20,6 +20,9 @@ body {
 }
 
 @layer utilities {
+  *:focus-visible {
+    /* @apply shadow-buttons-neutral-focus outline-none; */
+  }
   .text-balance {
     text-wrap: balance;
   }
@@ -47,7 +50,7 @@ body {
 #style-1::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
-  background-color: #ffffff2d;
+  background-color: #7b7b7b68;
 }
 
 .def-modal {

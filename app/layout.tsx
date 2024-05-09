@@ -8,6 +8,7 @@ import queryClient from '@/services/react-query/query-client';
 import ModalsProvider from '@/hooks/modals-provider';
 import { Toaster } from '@medusajs/ui';
 import { SocketProvider } from '@/providers/socket-provider';
+import { Providers } from '@/providers/theme-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,8 +30,10 @@ export default function RootLayout({
             <QueryClientProvider client={queryClient}>
               {/* <ReactQueryDevtools initialIsOpen={false} /> */}
               <ModalsProvider>
-                <Toaster />
-                {children}
+                <Providers>
+                  <Toaster />
+                  {children}
+                </Providers>
               </ModalsProvider>
             </QueryClientProvider>
           </SocketProvider>

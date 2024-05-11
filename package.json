@@ -40,6 +40,7 @@
     "react-record-webcam": "^1.1.5",
     "react-resizable-panels": "^0.0.63",
     "react-use-infinite-loader": "^1.0.0",
+    "recordrtc": "^5.6.2",
     "socket.io-client": "^4.7.5",
     "zod": "^3.22.4",
     "zustand": "^4.5.2"
@@ -50,6 +51,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/recordrtc": "^5.6.14",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",

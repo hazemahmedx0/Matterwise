@@ -91,6 +91,7 @@ const page = () => {
 
   socket.on('message_sent', (data: any) => {
     const tempmsg = messageSocketList;
+    if (data?.parentMessage) return;
     setMessageSocketList([data, ...tempmsg]);
   });
 

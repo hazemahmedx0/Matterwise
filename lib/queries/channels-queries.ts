@@ -73,6 +73,11 @@ export const useChannelMessagesListQuery = ({
   filter?: any;
 }) => {
   const fetch = useGetChannelMessagesService();
+  console.log(
+    'dsdas',
+    channelMessagesQueryKeys.list(messageId ?? '', channelId, filter).key,
+  );
+
   const query = useInfiniteQuery({
     queryKey: channelMessagesQueryKeys.list(messageId ?? '', channelId, filter)
       .key,

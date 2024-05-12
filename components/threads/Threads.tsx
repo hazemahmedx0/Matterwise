@@ -10,6 +10,7 @@ import removeDuplicatesFromArrayObjects from '@/services/helpers/remove-duplicat
 import ThreadReplies from './ThreadReplies';
 import { useSocket } from '@/providers/socket-provider';
 import Tiptap from '../tiptap/Tiptap';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Threads = () => {
   const {
@@ -48,7 +49,8 @@ const Threads = () => {
     channelId: channelId?.toString(),
     filter: { draft: false, parentMessageId: ThreadMsg?.id },
   });
-
+  console.log('Inside thread');
+  console.log(threadMsgs);
   const Threadsresult = useMemo(() => {
     const result =
       (threadMsgs?.pages.flatMap(
@@ -57,7 +59,24 @@ const Threads = () => {
     if (result.at(0) !== undefined && result.length > 0) {
       return removeDuplicatesFromArrayObjects(result, 'id');
     }
-  }, [threadMsgs]);
+  }, [threadMsgs, isVisible]);
+
+  const queryClient = useQueryClient();
+  const invalidateChannelMessagesListQuery = () => {
+    queryClient.invalidateQueries({
+      queryKey: [
+        'channelMessages',
+        'list',
+        'channels',
+        channelId?.toString(),
+        'published',
+        `parentMessageId:${ThreadMsg?.id?.toString()}`,
+      ],
+    });
+  };
+  useEffect(() => {
+    invalidateChannelMessagesListQuery();
+  }, [isVisible]);
 
   const handelsend = (content: string) => {
     socket.emit(
@@ -89,7 +108,8 @@ const Threads = () => {
 
   socket.on('message_sent', (data: any) => {
     console.log('New socket msg on', data);
-    if (data.data.parentMessage.id !== ThreadMsg?.id) return;
+    if (!data?.parentMessage && data?.parentMessage?.id !== ThreadMsg?.id)
+      return;
     console.log('New socket msg on', data);
     const tempmsg = messageSocketList;
     setMessageSocketList([data, ...tempmsg]);

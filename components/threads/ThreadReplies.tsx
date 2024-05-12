@@ -84,10 +84,10 @@ const ThreadReplies = ({
 
       {/* Messages list */}
       {messageSocketList?.map((message: any) => (
-        <MessageItem key={message.id} message={message} />
+        <MessageItem key={message.id} message={message} isThread={true} />
       ))}
       {threadMsgs?.map((message) => (
-        <MessageItem key={message.id} message={message} />
+        <MessageItem key={message.id} message={message} isThread={true} />
       ))}
 
       {/* Load more div */}

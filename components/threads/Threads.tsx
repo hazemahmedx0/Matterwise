@@ -83,7 +83,7 @@ const Threads = () => {
   };
   useEffect(() => {
     invalidateChannelMessagesListQuery();
-  }, [isVisible]);
+  }, [isVisible, ThreadMsg]);
 
   const handelsend = (content: string) => {
     socket.emit(

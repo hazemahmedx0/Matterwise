@@ -89,7 +89,11 @@ const WorkspacesList = () => {
             </Text> */}
           {/* <RiArrowDownSLine className=" ml-auto" size={16} /> */}
         </DropdownMenu.Trigger>
-        <DropdownMenu.Content align="end" side="right">
+        <DropdownMenu.Content
+          align="end"
+          side="right"
+          className=" flex max-h-72 flex-col"
+        >
           {/* <Link href={`/workspaces/${workspaceId}/settings`}>
             <DropdownMenu.Item className=" gap-x-2">
               <RiSettings2Line className="text-ui-fg-subtle" size={20} />
@@ -97,7 +101,7 @@ const WorkspacesList = () => {
             </DropdownMenu.Item>
           </Link> */}
           {/* <DropdownMenu.Separator /> */}
-          <div id="style-1" className=" max-h-48 overflow-auto">
+          <div id="style-1" className="h-full  overflow-auto">
             {workspacesList?.map((workspace) => (
               <a href={`/workspaces/${workspace.id}`} key={workspace.id}>
                 <DropdownMenu.Item key={workspace.id}>

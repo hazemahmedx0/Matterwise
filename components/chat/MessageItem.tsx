@@ -28,14 +28,14 @@ const MessageItem = ({ message, isThread }: MessageItemProps) => {
   if (!message) return null;
   return (
     <div className="group relative flex w-full max-w-full gap-4  px-5 py-2 hover:bg-ui-bg-base-hover">
-      {!isThread && (
-        <div className="absolute -top-2.5 right-3 hidden rounded-lg border border-ui-border-base bg-ui-bg-overlay p-1 transition-all group-hover:block">
+      {!isThread ? (
+        <div className="absolute -top-2.5 right-3 hidden rounded-lg border border-ui-border-base bg-ui-bg-subtle p-1 transition-all group-hover:block">
           <Button variant="transparent" size="small" onClick={OpenThread}>
             <RiReplyFill size={12} />
             Reply
           </Button>
         </div>
-      )}
+      ) : null}
 
       <Avatar
         src={message?.sender?.photo?.path ?? undefined}

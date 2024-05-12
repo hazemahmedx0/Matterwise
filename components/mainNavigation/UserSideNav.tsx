@@ -22,6 +22,7 @@ import useAuthActions from '@/services/auth/use-auth-actions';
 import { useIntersectionObserver } from '@uidotdev/usehooks';
 import useAuth from '@/services/auth/use-auth';
 import { undefined } from 'zod';
+import { useSocket } from '@/providers/socket-provider';
 
 const UserSideNav = () => {
   const { logOut } = useAuthActions();
@@ -35,6 +36,7 @@ const UserSideNav = () => {
   } = useWorkspacesListQuery();
   const params = useParams<{ workspaceId: string }>();
   const workspaceId = parseInt(params.workspaceId);
+  const { socket, isConnected } = useSocket();
 
   const {
     data: currentWorkspaceData,
@@ -73,14 +75,18 @@ const UserSideNav = () => {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenu.Trigger>
+        <DropdownMenu.Trigger className="relative">
+          <div
+            className={`absolute -bottom-0.5 -right-0.5 z-20 h-2 w-2 rounded-full ${isConnected ? 'bg-green-500 ring ring-green-700' : 'bg-red-500 ring ring-red-700'}`}
+          ></div>
+
           <Avatar
             variant="squared"
             fallback={user?.firstName || 'o'}
             src={user?.photo?.path || ''}
             size="large"
-            className="cursor-pointer"
-          />
+            className="relative cursor-pointer"
+          ></Avatar>
           {/* <Text as="p" size="large" leading="compact" className="truncate">
               {isFetching && !currentWorkspaceData ? (
                 <span className=" h-3 w-11 animate-pulse truncate rounded-md bg-ui-bg-switch-off" />

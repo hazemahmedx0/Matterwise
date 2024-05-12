@@ -66,17 +66,21 @@ export const useChannelMessagesListQuery = ({
   channelId,
   sort,
   filter,
+  cursor,
+  limit,
 }: {
   messageId?: string;
   channelId: string;
   sort?: string;
   filter?: any;
+  cursor?: any;
+  limit?: number;
 }) => {
   const fetch = useGetChannelMessagesService();
-  console.log(
-    'dsdas',
-    channelMessagesQueryKeys.list(messageId ?? '', channelId, filter).key,
-  );
+  // console.log(
+  //   'dsdas',
+  //   channelMessagesQueryKeys.list(messageId ?? '', channelId, filter).key,
+  // );
 
   const query = useInfiniteQuery({
     queryKey: channelMessagesQueryKeys.list(messageId ?? '', channelId, filter)
@@ -85,8 +89,8 @@ export const useChannelMessagesListQuery = ({
     queryFn: async ({ pageParam, signal }) => {
       const { status, data } = await fetch({
         channelId,
-        cursor: pageParam.cursor, // Use cursor from pageParam
-        limit: 20,
+        cursor: cursor ?? pageParam.cursor, // Use cursor from pageParam
+        limit: limit ?? 20,
         filters: filter,
       });
       if (status === HTTP_CODES_ENUM.OK) {

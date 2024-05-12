@@ -20,6 +20,8 @@ import withPageRequiredAuth from '@/services/auth/with-page-required-auth';
 
 // Types
 import { Message } from '@/types/message-types';
+import { useChannelMessagesListQuery } from '@/lib/queries/channels-queries';
+import useIncreaseReply from '@/hooks/use-increase-replies';
 
 const page = () => {
   const { channelId, workspaceId } = useParams();
@@ -30,6 +32,10 @@ const page = () => {
   const [messageSocketList, setMessageSocketList] = React.useState<Message[]>(
     [],
   );
+
+  const { incrementChildCountOfMessage } = useIncreaseReply({
+    channelId: Number(channelId),
+  });
 
   const fetchGetChannel = useGetChannelService();
 
@@ -52,6 +58,7 @@ const page = () => {
       },
       (response: any) => {
         const tempmsg = messageSocketList;
+
         setMessageSocketList([response.data.message, ...tempmsg]);
       },
     );
@@ -74,6 +81,11 @@ const page = () => {
     }
   }, [channelId]);
 
+  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } =
+    useChannelMessagesListQuery({
+      channelId: channelId?.toString(),
+    });
+
   // Subscrice/Join the channel room
 
   useEffect(() => {
@@ -91,7 +103,11 @@ const page = () => {
 
   socket.on('message_sent', (data: any) => {
     const tempmsg = messageSocketList;
-    if (data?.parentMessage) return;
+    if (data?.parentMessage) {
+      incrementChildCountOfMessage(data.parentMessage.id);
+
+      return;
+    }
     setMessageSocketList([data, ...tempmsg]);
   });
 

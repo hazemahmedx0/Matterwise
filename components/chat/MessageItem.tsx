@@ -1,13 +1,10 @@
 import { Message } from '@/types/message-types';
-import { Avatar, Text } from '@medusajs/ui';
+import { Avatar, Button, Text } from '@medusajs/ui';
 import React from 'react';
 import TiptapReadOnly from '../tiptap/TiptapReadOnly';
-import {
-  RiArrowDropRightLine,
-  RiReplyAllFill,
-  RiReplyFill,
-} from '@remixicon/react';
+import { RiReplyFill } from '@remixicon/react';
 import ThreadBar from './ThreadBar';
+import { useThreadStore } from '@/store/threadStore';
 
 type MessageItemProps = {
   message: Message | null | undefined;
@@ -15,9 +12,31 @@ type MessageItemProps = {
 };
 
 const MessageItem = ({ message, isThread }: MessageItemProps) => {
+  const {
+    message: ThreadMsg,
+    setMessage,
+    setIsVisible,
+    isVisible,
+  } = useThreadStore();
+  const OpenThread = () => {
+    if (message) {
+      setMessage(message);
+      setIsVisible(true);
+    }
+    console.log('Open Thread');
+  };
   if (!message) return null;
   return (
-    <div className="flex w-full max-w-full gap-4  px-5 py-2 hover:bg-ui-bg-base-hover">
+    <div className="group relative flex w-full max-w-full gap-4  px-5 py-2 hover:bg-ui-bg-base-hover">
+      {!isThread && (
+        <div className="absolute -top-2.5 right-3 hidden rounded-lg border border-ui-border-base bg-ui-bg-overlay p-1 transition-all group-hover:block">
+          <Button variant="transparent" size="small" onClick={OpenThread}>
+            <RiReplyFill size={12} />
+            Reply
+          </Button>
+        </div>
+      )}
+
       <Avatar
         src={message?.sender?.photo?.path ?? undefined}
         fallback={message?.sender?.firstName?.charAt(0) ?? 'U'}

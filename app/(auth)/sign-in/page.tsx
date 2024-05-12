@@ -61,7 +61,7 @@ const page = () => {
   return (
     <div className="w-[420px] min-w-20">
       <Heading
-        className=" mb-10 text-center text-3xl text-ui-fg-on-color"
+        className=" mb-10 text-center text-3xl text-ui-fg-base"
         level="h2"
       >
         Sign In
@@ -71,7 +71,7 @@ const page = () => {
         className="flex flex-col items-stretch gap-6"
       >
         <div>
-          <Label className=" text-ui-fg-on-color" htmlFor="email">
+          <Label className=" text-ui-fg-base" htmlFor="email">
             Email
           </Label>
           <Input
@@ -92,7 +92,7 @@ const page = () => {
           </Text>
         </div>
         <div>
-          <Label className=" text-ui-fg-on-color" htmlFor="password">
+          <Label className=" text-ui-fg-base" htmlFor="password">
             Password
           </Label>
           <Input

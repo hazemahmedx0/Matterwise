@@ -110,7 +110,7 @@ const NewWorkspaceStep1 = ({ setStep }: { setStep: (arg: number) => void }) => {
 
         <div className="flex flex-col gap-4">
           <div>
-            <Label className=" text-ui-fg-on-color" htmlFor="title">
+            <Label className=" text-ui-fg-base" htmlFor="title">
               Company name
             </Label>
             <Input
@@ -131,7 +131,7 @@ const NewWorkspaceStep1 = ({ setStep }: { setStep: (arg: number) => void }) => {
             </Text>
           </div>
           <div>
-            <Label className=" text-ui-fg-on-color" htmlFor="description">
+            <Label className=" text-ui-fg-base" htmlFor="description">
               Description
             </Label>
             <Textarea

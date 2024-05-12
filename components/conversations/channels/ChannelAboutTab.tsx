@@ -73,7 +73,7 @@ const ChannelAboutTab = ({
 
         <div className="flex w-full flex-col gap-3">
           <div>
-            <Label className=" text-ui-fg-on-color" htmlFor="title">
+            <Label className=" text-ui-fg-base" htmlFor="title">
               Channel name
             </Label>
             <Input
@@ -94,7 +94,7 @@ const ChannelAboutTab = ({
             </Text>
           </div>
           <div>
-            <Label className=" text-ui-fg-on-color" htmlFor="description">
+            <Label className="text-ui-fg-base" htmlFor="description">
               Description
             </Label>
             <Textarea

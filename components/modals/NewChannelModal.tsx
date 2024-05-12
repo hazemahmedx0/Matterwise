@@ -133,11 +133,9 @@ const NewChannelModal = () => {
           >
             {/* Inputs */}
 
-            <div className="flex w-full flex-col gap-3">
+            <div className="flex w-full flex-col gap-3 text-ui-fg-base">
               <div>
-                <Label className=" text-ui-fg-on-color" htmlFor="title">
-                  Channel name
-                </Label>
+                <Label htmlFor="title">Channel name</Label>
                 <Input
                   type="text"
                   placeholder="Enter your channel name..."
@@ -156,9 +154,7 @@ const NewChannelModal = () => {
                 </Text>
               </div>
               <div>
-                <Label className=" text-ui-fg-on-color" htmlFor="description">
-                  Description
-                </Label>
+                <Label htmlFor="description">Description</Label>
                 <Textarea
                   placeholder="Enter your channel description..."
                   id="description"
@@ -177,9 +173,7 @@ const NewChannelModal = () => {
               </div>
 
               <div>
-                <Label className=" text-ui-fg-on-color" htmlFor="description">
-                  Channel type
-                </Label>
+                <Label htmlFor="description">Channel type</Label>
                 <Select
                   defaultValue="1"
                   onValueChange={(e) => TypeValueChanged(e)}

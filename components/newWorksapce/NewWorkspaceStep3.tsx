@@ -118,7 +118,7 @@ export const NewWorkspaceStep3 = ({
 
       <div className="flex w-full flex-col gap-6">
         <div>
-          <Label className=" text-ui-fg-on-color" htmlFor="title">
+          <Label className=" text-ui-fg-base" htmlFor="title">
             Channel name
           </Label>
           <Input
@@ -139,7 +139,7 @@ export const NewWorkspaceStep3 = ({
           </Text>
         </div>
         <div>
-          <Label className=" text-ui-fg-on-color" htmlFor="description">
+          <Label className=" text-ui-fg-base" htmlFor="description">
             Description
           </Label>
           <Textarea

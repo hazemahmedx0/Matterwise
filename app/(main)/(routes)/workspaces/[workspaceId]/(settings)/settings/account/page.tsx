@@ -102,7 +102,7 @@ const page = () => {
   }
 
   return (
-    <div className=" flex w-full flex-col gap-6">
+    <div className=" flex w-full flex-col gap-6 text-ui-fg-base">
       <SectionHeader title="Profile">
         <Alert className="mt-2">
           Changes to your profile will apply to all of your workspaces.
@@ -122,9 +122,7 @@ const page = () => {
 
             <div className="flex w-full gap-3">
               <div className="w-full">
-                <Label className="text-ui-fg-on-color" htmlFor="firstName">
-                  First name
-                </Label>
+                <Label htmlFor="firstName">First name</Label>
                 <Input
                   type="firstName"
                   placeholder="Enter your First name"
@@ -143,9 +141,7 @@ const page = () => {
                 </Text>
               </div>
               <div className="w-full">
-                <Label className="text-ui-fg-on-color" htmlFor="lastName">
-                  Last name
-                </Label>
+                <Label htmlFor="lastName">Last name</Label>
                 <Input
                   type="lastName"
                   placeholder="Enter your Last name"
@@ -236,11 +232,9 @@ const ChangePaswword = () => {
   };
 
   return (
-    <div className=" flex flex-col items-end gap-3 align-middle">
+    <div className=" flex flex-col items-end gap-3 align-middle text-ui-fg-base">
       <div className="w-full">
-        <Label className="text-ui-fg-on-color" htmlFor="password">
-          Password
-        </Label>
+        <Label htmlFor="password">Password</Label>
         <Input
           placeholder="•••••••"
           defaultValue={'•••••••'}
@@ -274,9 +268,7 @@ const ChangePaswword = () => {
               className="flex flex-col items-stretch gap-6"
             >
               <div className="w-full">
-                <Label className="text-ui-fg-on-color" htmlFor="password">
-                  New Password
-                </Label>
+                <Label htmlFor="password">New Password</Label>
                 <Input
                   placeholder="•••••••"
                   type="password"
@@ -295,9 +287,7 @@ const ChangePaswword = () => {
                 </Text>
               </div>
               <div className="w-full">
-                <Label className="text-ui-fg-on-color" htmlFor="oldPassword">
-                  Old password
-                </Label>
+                <Label htmlFor="oldPassword">Old password</Label>
                 <Input
                   placeholder="•••••••"
                   type="password"

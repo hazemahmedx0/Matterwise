@@ -114,7 +114,7 @@ export const ChipsList: React.FC<ChipsListProps> = ({
       {chipsList.map((chip) => (
         <span
           key={chip.key}
-          className={`flex h-min grow-0  gap-1.5 rounded-md border px-2 py-1 text-ui-fg-on-color ${chip.valid ? 'bg-ui-bg-switch-off' : 'border border-dotted border-ui-border-error bg-ui-tag-red-bg'} `}
+          className={`flex h-min grow-0  gap-1.5 rounded-md border px-2 py-1 text-ui-fg-base ${chip.valid ? 'bg-ui-bg-switch-off' : 'border border-dotted border-ui-border-error bg-ui-tag-red-bg'} `}
         >
           <span className="chip-value">{chip.email}</span>
           <button

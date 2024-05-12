@@ -10,6 +10,8 @@ import removeDuplicatesFromArrayObjects from '@/services/helpers/remove-duplicat
 import ThreadReplies from './ThreadReplies';
 import { useSocket } from '@/providers/socket-provider';
 import Tiptap from '../tiptap/Tiptap';
+import { useQueryClient } from '@tanstack/react-query';
+import useIncreaseReply from '@/hooks/use-increase-replies';
 
 const Threads = () => {
   const {
@@ -37,6 +39,14 @@ const Threads = () => {
     [],
   );
 
+  useEffect(() => {
+    setMessageSocketList([]);
+  }, [ThreadMsg]);
+
+  const { incrementChildCountOfMessage } = useIncreaseReply({
+    channelId: Number(channelId),
+  });
+
   const {
     data: threadMsgs,
     isLoading,
@@ -48,7 +58,6 @@ const Threads = () => {
     channelId: channelId?.toString(),
     filter: { draft: false, parentMessageId: ThreadMsg?.id },
   });
-
   const Threadsresult = useMemo(() => {
     const result =
       (threadMsgs?.pages.flatMap(
@@ -57,7 +66,24 @@ const Threads = () => {
     if (result.at(0) !== undefined && result.length > 0) {
       return removeDuplicatesFromArrayObjects(result, 'id');
     }
-  }, [threadMsgs]);
+  }, [threadMsgs, isVisible]);
+
+  const queryClient = useQueryClient();
+  const invalidateChannelMessagesListQuery = () => {
+    queryClient.invalidateQueries({
+      queryKey: [
+        'channelMessages',
+        'list',
+        'channels',
+        channelId?.toString(),
+        'published',
+        `parentMessageId:${ThreadMsg?.id?.toString()}`,
+      ],
+    });
+  };
+  useEffect(() => {
+    invalidateChannelMessagesListQuery();
+  }, [isVisible, ThreadMsg]);
 
   const handelsend = (content: string) => {
     socket.emit(
@@ -82,6 +108,10 @@ const Threads = () => {
       (response: any) => {
         console.log('New socket msg emit', response);
         const tempmsg = messageSocketList;
+        incrementChildCountOfMessage(
+          response?.data?.message?.parentMessage?.id,
+        );
+
         setMessageSocketList([response.data.message, ...tempmsg]);
       },
     );
@@ -89,10 +119,13 @@ const Threads = () => {
 
   socket.on('message_sent', (data: any) => {
     console.log('New socket msg on', data);
-    if (data.data.parentMessage.id !== ThreadMsg?.id) return;
+    if (data?.parentMessage?.id !== ThreadMsg?.id) {
+      return;
+    }
     console.log('New socket msg on', data);
     const tempmsg = messageSocketList;
     setMessageSocketList([data, ...tempmsg]);
+    console.log('messageSocketList', messageSocketList);
   });
 
   if (!ThreadMsg) return null;

@@ -21,6 +21,7 @@ const ChatMessages = ({
   messageSocketList: Message[];
 }) => {
   const { channelId } = useParams();
+
   // Refs
   const bottomRef = useRef<ElementRef<'div'>>(null);
   const chatRef = useRef<ElementRef<'div'>>(null);

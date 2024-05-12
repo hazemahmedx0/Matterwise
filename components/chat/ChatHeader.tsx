@@ -6,11 +6,9 @@ import { RiHashtag } from '@remixicon/react';
 import React, { Children, ReactNode } from 'react';
 
 const ChatHeader = ({ children }: { children?: ReactNode }) => {
-  const { socket, isConnected } = useSocket();
   return (
     <div className="flex !h-12 min-h-12 items-center justify-between border-b border-ui-border-base px-5 ">
       {children}
-      <Badge color="green">{isConnected ? 'Online' : 'Offline'}</Badge>
     </div>
   );
 };

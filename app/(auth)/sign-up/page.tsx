@@ -75,9 +75,9 @@ const page = () => {
   };
 
   return (
-    <div className="w-[420px] min-w-20">
+    <div className="w-[420px] min-w-20 text-ui-fg-base">
       <Heading
-        className=" mb-10 text-center text-3xl text-ui-fg-on-color"
+        className=" mb-10 text-center text-3xl text-ui-fg-base"
         level="h2"
       >
         Sign Up
@@ -86,9 +86,9 @@ const page = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col items-stretch gap-6"
       >
-        <div className="flex w-full  flex-row items-stretch gap-4">
+        <div className="flex w-full flex-row items-stretch gap-4 text-ui-fg-base">
           <div className="w-full ">
-            <Label className=" text-ui-fg-on-color" htmlFor="firstName">
+            <Label className=" text-ui-fg-base" htmlFor="firstName">
               First name
             </Label>
             <Input
@@ -108,9 +108,7 @@ const page = () => {
             </Text>
           </div>
           <div className="w-full">
-            <Label className=" text-ui-fg-on-color" htmlFor="lastName">
-              Last name
-            </Label>
+            <Label htmlFor="lastName">Last name</Label>
             <Input
               {...register('lastName')}
               placeholder="Doe"
@@ -129,9 +127,7 @@ const page = () => {
           </div>
         </div>
         <div>
-          <Label className=" text-ui-fg-on-color" htmlFor="email">
-            Email
-          </Label>
+          <Label htmlFor="email">Email</Label>
           <Input
             type="email"
             placeholder="Enter your email"
@@ -150,9 +146,7 @@ const page = () => {
           </Text>
         </div>
         <div>
-          <Label className=" text-ui-fg-on-color" htmlFor="username">
-            User name
-          </Label>
+          <Label htmlFor="username">User name</Label>
           <Input
             type="text"
             placeholder="Enter your email"
@@ -171,9 +165,7 @@ const page = () => {
           </Text>
         </div>
         <div>
-          <Label className=" text-ui-fg-on-color" htmlFor="password">
-            Password
-          </Label>
+          <Label htmlFor="password">Password</Label>
           <Input
             placeholder="•••••••"
             id="password"

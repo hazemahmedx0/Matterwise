@@ -133,10 +133,8 @@ const page = () => {
           >
             <FormAvatarInput {...register('photo')} />
 
-            <div>
-              <Label className=" text-ui-fg-on-color" htmlFor="title">
-                Title
-              </Label>
+            <div className="text-ui-fg-base">
+              <Label htmlFor="title">Title</Label>
               <Input
                 type="title"
                 placeholder="Enter your title"
@@ -156,9 +154,7 @@ const page = () => {
             </div>
 
             <div>
-              <Label className=" text-ui-fg-on-color" htmlFor="description">
-                Description
-              </Label>
+              <Label htmlFor="description">Description</Label>
               <Textarea
                 placeholder="Enter your company description..."
                 id="description"
@@ -250,8 +246,8 @@ const DeleteWorkspace = () => {
               Are you sure you want to delete this workspace? This action cannot
               be undone.
             </Text>
-            <div className="mt-3">
-              <Label className=" text-ui-fg-on-color" htmlFor="slug">
+            <div className="mt-3 ">
+              <Label className=" text-ui-fg-base" htmlFor="slug">
                 Please type your workspace slug '{workspaceId}' below to confirm
                 deletion.
               </Label>

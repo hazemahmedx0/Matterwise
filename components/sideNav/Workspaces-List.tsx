@@ -71,7 +71,7 @@ const WorkspacesList = () => {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenu.Trigger>
+        <DropdownMenu.Trigger className="a11y-1-workspace-button">
           <Avatar
             variant="squared"
             fallback={currentWorkspaceData?.title[0] || 'o'}

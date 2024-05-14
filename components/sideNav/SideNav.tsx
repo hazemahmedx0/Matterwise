@@ -15,6 +15,7 @@ import {
   RiSettings2Line,
   RiUser2Line,
 } from '@remixicon/react';
+import { useArrowKeyFocus } from '@/lib/actions/useOnKeyDown';
 
 //Modals
 
@@ -27,8 +28,7 @@ import {
 // Constants
 
 const SideNav = ({ workspaceId }: { workspaceId: string }) => {
-  const router = useRouter();
-  const params = useParams();
+  const onKeyDown = useArrowKeyFocus();
   const {
     data: currentWorkspaceData,
     isLoading: currentWorkspaceLoading,
@@ -38,6 +38,11 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
   });
   return (
     <nav className="relative min-h-screen bg-ui-bg-subtle">
+      {/* <button className="x1 focus:bg-green-400">X111111</button> */}
+
+      {/* <button onKeyDown={onKeyDown}>sdsdsds </button>
+      <button onKeyDown={onKeyDown}>sdsdsds </button>
+      <button onKeyDown={onKeyDown}>sdsdsds </button> */}
       <DropdownMenu>
         <DropdownMenu.Trigger asChild className=" text-left">
           <Button variant="transparent" size="base" className="mx-2 mt-3">
@@ -60,6 +65,7 @@ const SideNav = ({ workspaceId }: { workspaceId: string }) => {
           </Link>{' '}
         </DropdownMenu.Content>
       </DropdownMenu>
+      {/* <button onKeyDown={onKeyDown}>sdss </button> */}
 
       <div
         id="style-1"

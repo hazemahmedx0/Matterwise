@@ -44,8 +44,12 @@ const SideNavChannelsSection = () => {
       <ul
         className={`mt-2 truncate text-ui-fg-subtle ${!showChannels ? 'hidden' : null}`}
       >
-        {Channelsresult?.map((channel) => (
-          <li key={channel.id} className="nav-list-item">
+        {Channelsresult?.map((channel, index) => (
+          <li
+            tabIndex={0}
+            key={channel.id}
+            className={`nav-list-item ${index === 0 ? 'a11y-2-workspace-button focus:bg-red-500' : ''} `}
+          >
             <Link
               replace={true}
               prefetch={false}

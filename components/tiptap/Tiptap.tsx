@@ -38,10 +38,25 @@ export default ({
   //   editor.setEditable(false);
   // }
   useEffect(() => {
-    if (editor) {
-      editor.commands.focus();
-      // editor.view.dom.focus();
-    }
+    const handleFocus = () => {
+      if (editor) {
+        editor.commands.focus();
+      }
+    };
+    handleFocus();
+    const elements = document.querySelectorAll('.a11y-3-workspace-button');
+    elements.forEach((element) => {
+      element.addEventListener('focus', () => {
+        handleFocus();
+        console.log('focus');
+      });
+    });
+
+    return () => {
+      elements.forEach((element) => {
+        element.removeEventListener('focus', handleFocus);
+      });
+    };
   }, [editor]);
 
   const sendMsg = () => {
@@ -107,14 +122,15 @@ export default ({
         editor={editor}
         id="style-1"
         placeholder="Start typing..."
-        className=" h-max max-h-80 min-h-14 overflow-auto px-1.5 pb-3 text-base !font-light  leading-snug focus:outline-none "
+        tabIndex={0}
+        className="  a11y-3-workspace-button h-max max-h-80 min-h-14 overflow-auto px-1.5 pb-3 text-base  !font-light leading-snug focus:outline-none"
         ref={textareaRef}
         autoFocus={true}
         contentEditable={false}
       />
 
       {editor && isEditable && (
-        <div className=" flex items-center justify-between border-t border-ui-border-strong pt-1.5">
+        <div className=" flex items-center justify-between border-t border-ui-border-strong pt-1.5 ">
           <div>
             {/* <IconButton
               onClick={() => editor.chain().focus().toggleBold().run()}

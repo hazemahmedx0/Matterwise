@@ -10,11 +10,11 @@ export function useArrowKeyFocus() {
       return;
     }
 
-    switch (event.key) {
-      case 'ArrowRight':
+    switch (true) {
+      case event.metaKey && event.ctrlKey && event.key === 'ArrowRight':
         focusManager.focusNext({ wrap: true });
         break;
-      case 'ArrowLeft':
+      case event.metaKey && event.ctrlKey && event.key === 'ArrowLeft':
         focusManager.focusPrevious({ wrap: true });
         break;
     }

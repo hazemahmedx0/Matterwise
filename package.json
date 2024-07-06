@@ -21,6 +21,7 @@
     "@tiptap/react": "^2.2.5",
     "@tiptap/starter-kit": "^2.2.5",
     "@uidotdev/usehooks": "^2.4.1",
+    "@vis.gl/react-google-maps": "^1.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-tailwindcss": "^3.14.3",
@@ -51,7 +52,7 @@
     "postcss": "^8",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "sass": "^1.74.1",
+    "sass": "^1.77.6",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }

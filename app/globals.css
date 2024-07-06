@@ -16,7 +16,11 @@
   }
 }
 
-body {
+body,
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizelegibility;
+  text-size-adjust: none;
 }
 
 @layer utilities {
